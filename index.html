@@ -112,15 +112,32 @@ tailwind.config = {
   .rv.on .imgwrap img{ transform:scale(1); }
   .imgwrap img{ transform:scale(1.06); }
 
-  .cert:hover img{ filter:none; opacity:1; transform:translateY(-2px); }
-  .cert img{ filter:grayscale(1); opacity:.62; transition:filter .3s, opacity .3s, transform .3s; }
+  .cert img{ transition:transform .3s; }
+  .cert:hover img{ transform:translateY(-2px); }
 
   /* ───────── cycling logo carousel (affiliations) ───────── */
-  .aff-carousel{ display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; }
+  .aff-carousel{
+    display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%;
+    --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E");
+  }
   .aff-slot{ position:relative; flex:1 1 0; min-width:0; height:72px; display:flex; align-items:center; justify-content:center; }
-  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; will-change:transform,opacity,filter; }
-  .aff-logo img{ max-height:48px; max-width:88%; width:auto; object-fit:contain; filter:grayscale(1); opacity:.5; transition:filter .3s ease, opacity .3s ease; }
-  .aff-logo:hover img{ filter:grayscale(0); opacity:1; }
+  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:alias; will-change:transform,opacity,filter; }
+  /* first/last logos hug the container edge so the strip aligns with the nav's max-width */
+  .aff-slot:first-child .aff-logo{ justify-content:flex-start; }
+  .aff-slot:last-child  .aff-logo{ justify-content:flex-end; }
+  /* inner wrapper shrinks to the logo so the ↗ badge sits on the logo, not the slot */
+  .aff-logo-in{ position:relative; display:inline-flex; max-width:88%; }
+  .aff-logo img{ max-height:48px; max-width:100%; width:auto; object-fit:contain; transition:transform .35s cubic-bezier(.22,1,.36,1); }
+  .aff-logo:hover img{ transform:translateY(-3px) scale(1.04); }
+  /* external-link affordance: ↗ badge fades in on hover, hugging the logo's top-right */
+  .aff-logo-in::after{
+    content:''; position:absolute; top:-9px; right:-13px; width:12px; height:12px;
+    background:#7C3AED; opacity:0; transform:translate(-3px,3px);
+    transition:opacity .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
+    -webkit-mask:var(--ext-icon) center/contain no-repeat; mask:var(--ext-icon) center/contain no-repeat;
+  }
+  .aff-logo:hover .aff-logo-in::after{ opacity:.9; transform:translate(0,-2px); }
+  .aff-logo:focus-visible{ outline:2px solid #7C3AED; outline-offset:6px; border-radius:.5rem; }
 
   /* ───────── circular testimonials (vanilla port) ───────── */
   .ctst{ width:100%; max-width:62rem; margin:0 auto; }
@@ -259,27 +276,27 @@ tailwind.config = {
     <p class="rv mt-14 mb-4 text-xs font-semibold uppercase tracking-widest text-violet flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet"></span> Mathematics</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
       <!-- tile factory: math (violet) -->
-      <div class="rv subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 9h16M4 15h16M10 4L8 20M16 4l-2 16"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Algebra <span class="text-violet">1 &amp; 2</span></p>
       </div>
-      <div class="rv rv-d1 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d1 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M3 20c4-14 14-14 18 0M3 20h18"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Precalculus</p>
       </div>
-      <div class="rv rv-d2 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d2 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 4v16h16M8 16c3 0 3-8 6-8s3 4 6 4"/><text x="3" y="8" font-size="6" fill="currentColor" stroke="none">∫</text></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Calculus</p>
       </div>
-      <div class="rv rv-d3 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d3 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linejoin="round" d="M12 3l9 16H3z"/><circle cx="12" cy="12" r="5"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Geometry</p>
       </div>
-      <div class="rv rv-d4 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d4 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M5 20V10M10 20V4M15 20v-8M20 20V7"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Statistics</p>
       </div>
-      <div class="rv rv-d5 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d5 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><rect x="5" y="3" width="14" height="18" rx="2"/><path stroke-linecap="round" d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Desmos Calculator</p>
       </div>
@@ -288,19 +305,19 @@ tailwind.config = {
     <!-- SCIENCE -->
     <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-sky2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky2"></span> Science</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-      <div class="rv subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v6l-5 9a2 2 0 002 3h12a2 2 0 002-3l-5-9V3M8 3h8"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Chemistry</p>
       </div>
-      <div class="rv rv-d1 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d1 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M7 3c0 6 10 12 10 18M17 3c0 6-10 12-10 18M8 7h8M8 17h8"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Biology</p>
       </div>
-      <div class="rv rv-d2 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d2 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><rect x="5" y="4" width="14" height="16" rx="2"/><path stroke-linecap="round" d="M8 9h8M8 12h8M8 15h5"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Lab Reports</p>
       </div>
-      <div class="rv rv-d3 subj rounded-2xl border border-ink/8 bg-mist/40 p-5 h-32 flex flex-col justify-end cursor-pointer">
+      <div class="rv rv-d3 subj rounded-2xl border border-ink/8 bg-mist/40 p-5 h-32 flex flex-col justify-end">
         <svg class="motif w-24 h-24 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink/45">Physics</p>
         <p class="relative text-[10px] uppercase tracking-wide text-ink/35">Coming soon</p>
@@ -312,11 +329,11 @@ tailwind.config = {
       <div>
         <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-peach flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-peach"></span> Language</p>
         <div class="grid grid-cols-2 gap-3.5">
-          <div class="rv subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end cursor-pointer">
+          <div class="rv subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end">
             <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 20L10 4l6 16M6 14h8"/><path d="M14 8h6M17 5v6"/></svg>
             <p class="relative font-display font-bold text-lg leading-tight text-ink">Latin <span class="text-peach">1 &amp; 2</span></p>
           </div>
-          <div class="rv rv-d1 subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end cursor-pointer">
+          <div class="rv rv-d1 subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end">
             <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4L8 20H4v-4zM13 7l4 4"/></svg>
             <p class="relative font-display font-bold text-lg leading-tight text-ink">Creative &amp; Technical Writing</p>
           </div>
@@ -325,15 +342,15 @@ tailwind.config = {
       <div>
         <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-indigo2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo2"></span> Other</p>
         <div class="grid grid-cols-3 gap-3.5">
-          <div class="rv subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end cursor-pointer">
+          <div class="rv subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
             <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M4 6h16v12H4z"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">SAT &amp; ACT Prep</p>
           </div>
-          <div class="rv rv-d1 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end cursor-pointer">
+          <div class="rv rv-d1 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
             <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l9 5-9 5-9-5zM7 10v5l5 3 5-3v-5"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">US &amp; World History</p>
           </div>
-          <div class="rv rv-d2 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end cursor-pointer">
+          <div class="rv rv-d2 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
             <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.2.9-5.5-4-3.9 5.5-.8z"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">Select AP Courses</p>
           </div>
@@ -684,9 +701,11 @@ function makeLogo(l){
   const a = document.createElement('a');
   a.href = l.url; a.target = '_blank'; a.rel = 'noopener'; a.title = l.alt;
   a.className = 'aff-logo'; a.setAttribute('aria-label', l.alt + ' (opens in new tab)');
+  const inner = document.createElement('span');
+  inner.className = 'aff-logo-in';
   const img = document.createElement('img');
   img.src = l.src; img.alt = l.alt; img.loading = 'lazy';
-  a.appendChild(img); return a;
+  inner.appendChild(img); a.appendChild(inner); return a;
 }
 function slotCount(){
   if (window.matchMedia('(min-width:1024px)').matches) return 5;
@@ -703,11 +722,12 @@ function cycle(slot){
   const outgoing = [...slot.el.children];
   const next = makeLogo(slot.logos[slot.idx]);
   slot.el.appendChild(next);
-  animate(next, { opacity:[0,1], y:[20,0], filter:['blur(8px)','blur(0px)'] }, { duration:.55, ease:EASE });
+  // Slow, settled cadence — shorter travel + longer duration reads as premium rather than busy.
+  animate(next, { opacity:[0,1], y:[14,0], filter:['blur(6px)','blur(0px)'] }, { duration:.9, ease:EASE });
   outgoing.forEach(prev => {
     prev.style.pointerEvents = 'none';
-    animate(prev, { opacity:[1,0], y:[0,-20], filter:['blur(0px)','blur(8px)'] }, { duration:.55, ease:EASE });
-    setTimeout(() => prev.remove(), 600);
+    animate(prev, { opacity:[1,0], y:[0,-14], filter:['blur(0px)','blur(6px)'] }, { duration:.9, ease:EASE });
+    setTimeout(() => prev.remove(), 1000);
   });
 }
 function buildCarousel(){
@@ -727,7 +747,7 @@ function buildCarousel(){
   }
   if (reduce) return;
   slots.forEach((slot, i) => {
-    setTimeout(() => { cycle(slot); timers.push(setInterval(() => cycle(slot), 3200)); }, 2500 + i * 180);
+    setTimeout(() => { cycle(slot); timers.push(setInterval(() => cycle(slot), 6000)); }, 3600 + i * 380);
   });
 }
 if (carousel){
@@ -781,7 +801,7 @@ document.querySelectorAll('[data-count]').forEach(el => {
 
 /* ─── Circular testimonials (vanilla port of CircularTestimonials) ─── */
 const CTST = [
-  { name:"Lakshmi Jayaram, Ph.D.", designation:"Executive Director, Prep & Me", src:"assets/logo-prep-and-me.png", logo:true,
+  { name:"Lakshmi Jayaram, Ph.D.", designation:"Executive Director, Prep & Me", src:"assets/testimonial-lakshmi.png",
     quote:"Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!" },
   { name:"Eva T.",       designation:"SAT / ACT Prep", src:"assets/testimonial-eva.jpg", pos:"center 15%",
     quote:"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max." },
@@ -830,6 +850,8 @@ if (ctstRoot){
       const isLeft  = (active - 1 + N) % N === i;
       const isRight = (active + 1) % N === i;
       img.style.transition = 'all .8s cubic-bezier(.4,2,.3,1)';
+      // the front card isn't clickable (clicking it is a no-op) — don't offer a pointer for it
+      img.style.cursor = isActive ? 'default' : 'pointer';
       if (isActive){ img.style.zIndex = 3; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = 'translateX(0) translateY(0) scale(1) rotateY(0deg)'; }
       else if (isLeft){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(-${gap}px) translateY(-${up}px) scale(.85) rotateY(15deg)`; }
       else if (isRight){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(${gap}px) translateY(-${up}px) scale(.85) rotateY(-15deg)`; }
