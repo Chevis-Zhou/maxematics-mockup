@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maxematics — Identity Study · AethrDesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#140E1F; --plum:#1B1230; --violet:#7C3AED; --violet-deep:#5B21B6; --violet-soft:#A78BFA;
+  --paper:#FAF8FF; --mist:#F1ECFB; --line:#E7E0F6; --muted:#6B6480; --faint:#9B93B2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans-serif;
+     -webkit-font-smoothing:antialiased;font-size:16px;line-height:1.7}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+h2,h3,h4{font-family:'Sora';letter-spacing:-.022em;line-height:1.2;margin:0}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+em{font-style:italic;color:#4A4360}
+strong{font-weight:600;color:var(--ink)}
+a{color:var(--violet)}
+
+/* ── masthead ── */
+.top{background:var(--plum);color:#fff;padding:64px 0 72px;position:relative;overflow:hidden}
+.top::after{content:'';position:absolute;width:760px;height:760px;right:-240px;top:-380px;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%,rgba(124,58,237,.55),transparent 66%);filter:blur(50px)}
+.top .wrap{position:relative;z-index:1}
+.crumb{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet-soft);font-weight:600;margin-bottom:22px}
+.top h1{font-family:'Sora';font-weight:800;font-size:clamp(34px,5vw,54px);letter-spacing:-.035em;line-height:1.04;margin:0 0 20px;max-width:17ch}
+.top .lede{font-size:17px;line-height:1.72;color:rgba(255,255,255,.72);max-width:60ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:24px 44px;margin-top:40px;padding-top:26px;border-top:1px solid rgba(255,255,255,.14)}
+.meta div{font-size:13px}
+.meta dt{color:rgba(255,255,255,.4);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;font-weight:600}
+.meta dd{margin:0;color:#fff;font-weight:500;font-family:'Sora';font-size:13.5px}
+
+/* ── sections ── */
+section{padding:76px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.shd{display:flex;align-items:baseline;gap:16px;margin-bottom:14px}
+.shd .n{font-family:'Sora';font-weight:700;font-size:12px;color:var(--violet);letter-spacing:.1em;flex:none;
+        padding-top:6px}
+.shd h2{font-size:clamp(24px,3.2vw,32px);font-weight:700}
+.intro{max-width:66ch;color:var(--muted);margin-left:44px}
+.intro .big{font-size:17.5px;color:#3C3552;line-height:1.72}
+.body{margin-left:44px;max-width:70ch;color:var(--muted)}
+@media(max-width:680px){.intro,.body{margin-left:0}}
+
+/* ── finding blocks ── */
+.finds{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;
+       overflow:hidden;margin:36px 0 0}
+.find{background:#fff;padding:28px 30px;display:grid;grid-template-columns:38px 1fr;gap:0 18px}
+.find .k{font-family:'Sora';font-weight:700;font-size:13px;color:var(--violet);padding-top:2px}
+.find h4{font-size:16px;font-weight:600;margin-bottom:8px}
+.find p{font-size:14.5px;line-height:1.68;color:var(--muted);margin:0}
+.find .demo{grid-column:2;margin-top:18px}
+
+/* ── generic demo surfaces ── */
+.surf{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;display:flex;
+      align-items:center;gap:14px;flex-wrap:wrap}
+.surf.dark{background:var(--plum);border-color:var(--plum)}
+.surf.dark .mark{color:#fff}.surf.dark .dot{color:var(--violet-soft)}
+.surf.dark .gx.vio{color:var(--violet-soft)}
+.surf .lbl{margin-left:auto;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);flex:none}
+.surf.dark .lbl{color:rgba(255,255,255,.3)}
+
+/* ── THE WORDMARK ── */
+.mark{font-family:'Sora';font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1;
+      white-space:nowrap;display:inline-flex;align-items:baseline;font-size:22px}
+.dot{color:var(--violet)}
+.gx{position:relative;display:inline-block;width:.50em;height:.50em;margin:0 .055em}
+.gx::before,.gx::after{content:'';position:absolute;left:50%;top:-20.7%;height:141.4%;width:.128em;
+      margin-left:-.064em;background:currentColor;border-radius:.015em}
+.gx::before{transform:rotate(45deg)}
+.gx::after{transform:rotate(-45deg)}
+.gx.vio{color:var(--violet)}
+.gi{position:relative;display:inline-block;width:.30em;height:.72em;margin:0 .03em}
+.gi::before{content:'';position:absolute;left:50%;top:0;height:100%;width:.125em;margin-left:-.0625em;
+      background:currentColor;transform:rotate(-15deg);border-radius:.015em}
+.gd{position:relative;display:inline-block;width:.78em;height:.78em;margin:0 .04em -.11em;
+    background:var(--violet);border-radius:50%;color:#fff}
+.gd::before,.gd::after{content:'';position:absolute;left:50%;top:24%;height:52%;width:.115em;
+    margin-left:-.0575em;background:#fff;border-radius:.02em}
+.gd::before{transform:rotate(45deg)}
+.gd::after{transform:rotate(-45deg)}
+.w800{font-weight:800}.w700{font-weight:700}.w600{font-weight:600}.w500{font-weight:500}.w400{font-weight:400}
+.vio{color:var(--violet)}
+.surf.dark .vio{color:var(--violet-soft)}
+.caps{text-transform:uppercase;letter-spacing:-.008em}
+.lm{height:1.55em;width:auto;flex:none;font-size:22px}
+
+/* ── family + option cards ── */
+.fam{margin-top:52px}
+.famhd{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.famhd h3{font-size:19px;font-weight:700}
+.pill{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:99px;
+      background:var(--mist);color:var(--violet-deep)}
+.pill.warn{background:#FFF1E8;color:#B4501C}
+.pill.good{background:#E9F9EF;color:#1B7A45}
+.famsub{color:var(--muted);font-size:14.5px;max-width:72ch;margin:0 0 24px;line-height:1.68}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:18px}
+@media(max-width:960px){.opts{grid-template-columns:1fr}}
+.opt{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+     box-shadow:0 1px 2px rgba(20,14,31,.03),0 10px 30px -24px rgba(20,14,31,.3)}
+.opt.win{border-color:var(--violet);box-shadow:0 0 0 1.5px var(--violet),0 16px 40px -26px rgba(124,58,237,.6)}
+.opt .oh{display:flex;align-items:center;gap:10px;padding:16px 20px 0}
+.opt .on{font-family:'Sora';font-weight:700;font-size:11px;color:var(--violet);letter-spacing:.08em}
+.opt .ot{font-family:'Sora';font-weight:600;font-size:14.5px;letter-spacing:-.012em}
+.opt .obadge{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+     color:#fff;background:var(--violet);padding:4px 9px;border-radius:99px}
+.stage{padding:20px;border-top:1px solid var(--line);margin-top:16px;display:flex;align-items:center;gap:12px}
+.stage.dk{background:var(--plum);border-top-color:var(--plum)}
+.stage.dk .mark{color:#fff}.stage.dk .dot{color:var(--violet-soft)}
+.stage.dk .gx.vio,.stage.dk .vio{color:var(--violet-soft)}
+.stage .cap{margin-left:auto;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.stage.dk .cap{color:rgba(255,255,255,.3)}
+.stage .mark{font-size:20px}
+.stage .lm{font-size:20px}
+.stage.big{padding:26px 20px 30px}
+.stage.big .mark{font-size:46px}
+.rows{border-top:1px solid var(--line);padding:16px 20px 18px;display:grid;gap:9px}
+.row{display:grid;grid-template-columns:74px 1fr;gap:12px;font-size:13.2px;line-height:1.6;align-items:start}
+.row .rl{font-family:'Sora';font-weight:600;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+         color:var(--faint);padding-top:4px}
+.row.does .rl{color:var(--violet)}
+.row p{margin:0;color:var(--muted)}
+
+/* ── recommendation ── */
+.rec{background:var(--plum);color:#fff;border-radius:22px;padding:44px;margin-top:8px;position:relative;overflow:hidden}
+.rec::after{content:'';position:absolute;width:560px;height:560px;left:-180px;bottom:-340px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,rgba(124,58,237,.5),transparent 68%);filter:blur(46px)}
+.rec>*{position:relative;z-index:1}
+.rec em,.top em{color:rgba(255,255,255,.86)}
+.rec .rt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet-soft);font-weight:600;margin-bottom:20px}
+.rec .showcase{background:#fff;border-radius:14px;padding:34px 30px;display:flex;align-items:center;gap:16px;margin-bottom:32px}
+.rec .showcase .mark{font-size:clamp(30px,5vw,52px)}
+.rec .showcase .lm{font-size:clamp(30px,5vw,52px)}
+.why4{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:26px;margin-top:6px}
+.why4 h4{font-size:14.5px;font-weight:600;color:#fff;margin-bottom:7px}
+.why4 p{font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.62);margin:0}
+.why4 .wn{font-family:'Sora';font-weight:700;font-size:11px;color:var(--violet-soft);letter-spacing:.1em;margin-bottom:10px}
+
+/* ── usage / system ── */
+.usegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:34px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column}
+.tile .tl{font-family:'Sora';font-weight:600;font-size:13px;margin-bottom:4px}
+.tile .td{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.tile .canvas{flex:1;display:flex;align-items:center;justify-content:center;background:var(--paper);
+     border-radius:10px;padding:26px 18px;min-height:118px}
+.tile .canvas.dk{background:var(--plum)}
+.tile .canvas.dk .mark{color:#fff}.tile .canvas.dk .dot{color:var(--violet-soft)}
+.tile .canvas.dk .gx.vio{color:var(--violet-soft)}
+.tile .canvas.mono .mark{color:var(--ink)}
+.stack{display:flex;flex-direction:column;align-items:center;gap:10px}
+.stack .lm{font-size:34px}
+.stack .mark{font-size:22px}
+
+/* size ladder */
+.ladder{display:flex;flex-direction:column;gap:16px;margin-top:14px}
+.rung{display:flex;align-items:center;gap:16px;padding:14px 18px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.rung .px{font-family:'Sora';font-weight:700;font-size:10.5px;color:var(--faint);width:52px;flex:none;letter-spacing:.06em}
+.rung .note{margin-left:auto;font-size:12px;color:var(--muted);text-align:right;max-width:34ch;line-height:1.5}
+
+/* favicon row */
+.favs{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
+.fav{display:flex;flex-direction:column;align-items:center;gap:8px}
+.fav .sq{background:var(--violet);border-radius:22%;display:flex;align-items:center;justify-content:center;color:#fff}
+.fav .sq .fx{position:relative;display:block;width:52%;height:52%}
+.fav .sq .fx::before,.fav .sq .fx::after{content:'';position:absolute;left:50%;top:-20.7%;height:141.4%;
+   width:19%;margin-left:-9.5%;background:#fff;border-radius:1px}
+.fav .sq .fx::before{transform:rotate(45deg)}
+.fav .sq .fx::after{transform:rotate(-45deg)}
+.fav small{font-size:10px;color:var(--faint);font-family:'Sora';letter-spacing:.05em}
+
+/* clear space */
+.clear{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:46px;display:flex;justify-content:center}
+.clearbox{position:relative;padding:34px;outline:1.5px dashed var(--violet-soft);border-radius:6px}
+.clearbox::before{content:'x';position:absolute;left:-1px;top:-26px;font-family:'Sora';font-size:11px;color:var(--violet);letter-spacing:.1em}
+
+/* do / dont */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+@media(max-width:760px){.dd{grid-template-columns:1fr}}
+.ddcol h4{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.ddcol.do h4{color:#1B7A45}.ddcol.dont h4{color:#B4501C}
+.ddcol ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.ddcol li{font-size:13.5px;line-height:1.6;color:var(--muted);padding-left:24px;position:relative}
+.ddcol li::before{position:absolute;left:0;top:0;font-weight:700;font-family:'Sora'}
+.ddcol.do li::before{content:'✓';color:#1B7A45}
+.ddcol.dont li::before{content:'×';color:#B4501C}
+
+/* next steps */
+.steps{display:grid;gap:12px;margin-top:30px;counter-reset:s}
+.step{display:grid;grid-template-columns:34px 1fr;gap:16px;background:#fff;border:1px solid var(--line);
+      border-radius:12px;padding:18px 20px;align-items:start}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:'Sora';font-weight:700;
+      font-size:12px;color:var(--violet);padding-top:2px}
+.step h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.step p{font-size:13.3px;color:var(--muted);margin:0;line-height:1.6}
+
+/* footer */
+footer{background:var(--plum);color:rgba(255,255,255,.5);padding:44px 0;font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+footer .mark{font-size:19px;color:#fff}
+footer a{color:var(--violet-soft);text-decoration:none}
+.sig{font-size:12.5px;line-height:1.6}
+.sig b{color:#fff;font-weight:600;font-family:'Sora'}
+</style>
+</head>
+<body>
+
+<!-- ══════ MASTHEAD ══════ -->
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">Maxematics · Identity study · July 2026</p>
+    <h1>Making the logotype work as hard as the logomark.</h1>
+    <p class="lede">A focused study of the Maxematics wordmark — how it reads at real sizes, why the
+      name needs its first three letters to stand apart, and ten treatments tested against that goal.
+      Ends with one recommendation and the system for using it everywhere else.</p>
+    <dl class="meta">
+      <div><dt>Client</dt><dd>Maxematics — Max Schwarzkopf</dd></div>
+      <div><dt>Scope</dt><dd>Logotype refinement &amp; usage system</dd></div>
+      <div><dt>Prepared by</dt><dd>Chevis Zhou &amp; Sophie · AethrDesign</dd></div>
+      <div><dt>Status</dt><dd>For review</dd></div>
+    </dl>
+  </div>
+</header>
+
+<!-- ══════ 01 · THE QUESTION ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">01</span><h2>The question on the table</h2></div>
+    <div class="intro">
+      <p class="big">You asked whether <em>max</em> should be visually separated from <em>ematics</em>. It's the right
+        question, and it's worth answering carefully — this is the one asset that appears on every page, every
+        email signature, every flyer, and every browser tab for the next several years.</p>
+      <p>Our answer is <strong>yes, separate it — but not by making it bigger</strong>. The first instinct is to set
+        MAX in capitals. We built that version, put it next to the logomark, and it confirmed exactly what you
+        noticed on your own: it collides. Below is why that happens, and what we did instead.</p>
+    </div>
+
+    <div class="finds">
+      <div class="find">
+        <span class="k">A</span>
+        <div>
+          <h4>The name is a portmanteau, and portmanteaus fail silently</h4>
+          <p>"Maxematics" only works if a reader catches <em>max</em> inside it. If they don't, the eye
+            auto-corrects to "mathematics" and the joke — along with the founder's name — disappears. A visitor
+            who never notices Max is in the name has lost the single most personal thing about this practice.
+            That's the actual problem worth solving; it isn't decoration.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="k">B</span>
+        <div>
+          <h4>The wordmark has one x-height. Capitals introduce a second.</h4>
+          <p>Set entirely in lowercase, the logotype has a single horizontal band of weight — calm, and a quiet
+            partner to a logomark that is deliberately loud. Capitalising MAX raises three letters to cap height
+            and puts a second stack of mass directly beside the mark's tallest point. Two loud elements, 8px apart,
+            competing. Your read was correct.</p>
+          <div class="demo">
+            <div class="surf">
+              <img class="lm" src="assets/logomark.png" alt="">
+              <span class="mark"><span class="caps">max</span>ematics<span class="dot">.</span></span>
+              <span class="lbl">Collision</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="find">
+        <span class="k">C</span>
+        <div>
+          <h4>Whatever we choose has to survive at 20 pixels</h4>
+          <p>The navigation bar renders the logotype at roughly 20px tall. At that size, contrast in
+            <em>weight</em> loses most of its effect and contrast in <em>colour</em> loses more still — and both
+            vanish entirely in a black-and-white flyer, an embroidered polo, or a fax-quality PDF. Any solution
+            that depends on being able to see a subtle difference is a solution that only works on your monitor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 02 · THE PRINCIPLE ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">02</span><h2>The principle we worked to</h2></div>
+    <div class="intro">
+      <p class="big">Emphasise nothing. Substitute one glyph.</p>
+      <p>There are only two ways to make part of a word stand apart, and they behave very differently.</p>
+    </div>
+
+    <div class="fam">
+      <div class="famhd"><h3>Family A — Emphasis</h3><span class="pill warn">Adds mass</span></div>
+      <p class="famsub">Change the case, the weight, or the colour of <em>max</em>. Everyone understands it
+        instantly; it's how SS&amp;C Blue Prism, FedEx and hundreds of others handle a two-part name. The cost is
+        that all three levers work by adding visual weight — the exact resource already spent on the logomark.
+        These are legitimate options, and we've built them properly rather than dismissing them.</p>
+    </div>
+
+    <div class="fam">
+      <div class="famhd"><h3>Family B — Substitution</h3><span class="pill good">Adds meaning, not mass</span></div>
+      <p class="famsub">Leave every letter at the same size, weight and colour — and replace <em>one</em> of them
+        with a different form. This is the move behind the Anthropic wordmark you pointed us to: the final
+        <em>i</em> is stripped of its dot and tilted into a backslash. Nothing is emphasised, nothing is enlarged,
+        and yet the mark becomes unmistakable and impossible to set by accident in a default font. It costs no
+        space and no ink. For a wordmark that has to sit beside a busy logomark, this is the more disciplined tool
+        — and Maxematics happens to contain the perfect candidate letter.</p>
+    </div>
+
+    <div class="body" style="margin-top:34px">
+      <p><strong>The candidate is the x.</strong> In <em>max</em>, the x is both the last letter of the name and,
+        in mathematics, the multiplication sign and the universal symbol for the unknown quantity — the thing a
+        student is here to solve for. It is also already drawn inside your logomark, as one of the four operators.
+        Replacing the letter x with a true <em>×</em> changes nothing about the wordmark's size, weight, case or
+        colour, and yet it marks where <em>max</em> ends, states the category without a tagline, and ties the
+        logotype to the mark beside it. One glyph, three jobs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 03 · THE EXPLORATIONS ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">03</span><h2>Ten treatments, tested</h2></div>
+    <div class="intro">
+      <p>Each is shown at true navigation size on both light and dark, since the site uses both. For every option
+        we've recorded what it achieves and what it costs — including for the ones we don't recommend, because the
+        trade-off is the useful part.</p>
+    </div>
+    <div class="opts" id="opts"></div>
+  </div>
+</section>
+
+<!-- ══════ 04 · RECOMMENDATION ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">04</span><h2>What we recommend</h2></div>
+    <div class="intro" style="margin-bottom:32px">
+      <p>Option 06 — the <em>×</em> substitution, set in the brand violet. It is the only treatment that separates
+        <em>max</em> without spending any visual weight, and the only one that gets stronger rather than weaker
+        as the logo gets smaller.</p>
+    </div>
+
+    <div class="rec">
+      <p class="rt">Recommended logotype</p>
+      <div class="showcase">
+        <img class="lm" src="assets/logomark.png" alt="Maxematics logomark">
+        <span class="mark">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+      </div>
+      <div class="why4">
+        <div><p class="wn">01</p><h4>It separates without shouting</h4>
+          <p>Same case, same weight, same x-height as every other letter. The eye stops on <em>max</em> because
+            the form changed, not because it got heavier — so the logomark keeps its role as the loud element.</p></div>
+        <div><p class="wn">02</p><h4>It says "maths" with no tagline</h4>
+          <p>A multiplication sign inside the name states the category before anyone reads a word of copy. That
+            work is currently being done by the logomark alone; now the two share it.</p></div>
+        <div><p class="wn">03</p><h4>It survives every size and every ink</h4>
+          <p>The × is a bolder, simpler shape than a lowercase x, so it holds at 16px and in a single colour. In
+            black-and-white print the differentiation is still fully intact — weight and colour options are not.</p></div>
+        <div><p class="wn">04</p><h4>It can't be typed by accident</h4>
+          <p>The logotype is now a drawn asset rather than a word set in a font. That is what makes a wordmark
+            defensible, recognisable, and worth protecting.</p></div>
+      </div>
+    </div>
+
+    <div class="body" style="margin-top:34px">
+      <p><strong>If you'd prefer it quieter:</strong> Option 05 is the same substitution in the standard ink
+        colour — all of the structural benefit, none of the accent. <strong>If you'd prefer it more
+        conventional:</strong> Option 03 (weight split, 700/500) is the safest boardroom answer and remains a
+        perfectly good mark; we'd simply be trading distinctiveness for familiarity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 05 · THE SYSTEM ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">05</span><h2>Beyond the navigation bar</h2></div>
+    <div class="intro">
+      <p>A logo isn't one image — it's a small family of arrangements, each built for a different space. Here is
+        the recommended mark rendered in every configuration the practice is likely to need, so nothing has to be
+        improvised later by whoever is making the next flyer.</p>
+    </div>
+
+    <div class="usegrid">
+      <div class="tile">
+        <p class="tl">Primary lockup — horizontal</p>
+        <p class="td">Website header, email signature, letterhead. The default in almost every case.</p>
+        <div class="canvas"><span style="display:flex;align-items:center;gap:11px">
+          <img class="lm" src="assets/logomark.png" alt="" style="font-size:26px">
+          <span class="mark" style="font-size:26px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        </span></div>
+      </div>
+
+      <div class="tile">
+        <p class="tl">Stacked lockup</p>
+        <p class="td">Narrow columns, flyer footers, tote bags, anywhere width is short and height is free.</p>
+        <div class="canvas"><span class="stack">
+          <img class="lm" src="assets/logomark.png" alt="">
+          <span class="mark">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        </span></div>
+      </div>
+
+      <div class="tile">
+        <p class="tl">Reversed — dark backgrounds</p>
+        <p class="td">Site footer, dark flyers, presentation covers. The × lifts to the soft violet to hold contrast.</p>
+        <div class="canvas dk"><span style="display:flex;align-items:center;gap:11px">
+          <img class="lm" src="assets/logomark.png" alt="" style="font-size:26px">
+          <span class="mark" style="font-size:26px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        </span></div>
+      </div>
+
+      <div class="tile">
+        <p class="tl">Single colour</p>
+        <p class="td">Photocopies, stamps, embroidery, faxed forms, one-colour print. The differentiation survives.</p>
+        <div class="canvas mono"><span class="mark" style="font-size:26px">ma<span class="gx"></span>ematics<span class="dot" style="color:inherit">.</span></span></div>
+      </div>
+
+      <div class="tile">
+        <p class="tl">Wordmark alone</p>
+        <p class="td">Where the logomark would be redundant — invoice headers, document footers, watermarks.</p>
+        <div class="canvas"><span class="mark" style="font-size:26px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span></div>
+      </div>
+
+      <div class="tile">
+        <p class="tl">Clear space</p>
+        <p class="td">Keep a margin equal to the height of one lowercase <em>x</em> on all four sides. Nothing
+          crosses that boundary.</p>
+        <div class="canvas" style="padding:14px">
+          <div class="clearbox"><span style="display:flex;align-items:center;gap:9px">
+            <img class="lm" src="assets/logomark.png" alt="" style="font-size:19px">
+            <span class="mark" style="font-size:19px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+          </span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin:56px 0 6px;font-size:19px">The size ladder</h3>
+    <p class="famsub" style="margin-bottom:0">The real test of a logotype is the smallest place it has to live.
+      Below is the recommended mark at every size it will actually be used at.</p>
+    <div class="ladder">
+      <div class="rung"><span class="px">16 PX</span>
+        <span class="mark" style="font-size:16px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        <span class="note">Mobile header, smallest permitted use.</span></div>
+      <div class="rung"><span class="px">20 PX</span>
+        <img class="lm" src="assets/logomark.png" alt="" style="font-size:20px">
+        <span class="mark" style="font-size:20px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        <span class="note">Desktop navigation — the everyday size.</span></div>
+      <div class="rung"><span class="px">32 PX</span>
+        <img class="lm" src="assets/logomark.png" alt="" style="font-size:32px">
+        <span class="mark" style="font-size:32px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        <span class="note">Email signature, document header.</span></div>
+      <div class="rung"><span class="px">64 PX</span>
+        <img class="lm" src="assets/logomark.png" alt="" style="font-size:64px">
+        <span class="mark" style="font-size:64px">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+        <span class="note">Flyer masthead, presentation cover, banner.</span></div>
+    </div>
+
+    <h3 style="margin:56px 0 6px;font-size:19px">Favicon &amp; social avatar</h3>
+    <p class="famsub">In a browser tab or a profile circle there is no room for a wordmark at all — but the ×
+      now carries the brand on its own. Shown at true pixel size.</p>
+    <div class="surf" style="padding:30px 26px">
+      <div class="favs">
+        <div class="fav"><div class="sq" style="width:16px;height:16px;border-radius:3px"><span class="fx"></span></div><small>16</small></div>
+        <div class="fav"><div class="sq" style="width:32px;height:32px;border-radius:7px"><span class="fx"></span></div><small>32</small></div>
+        <div class="fav"><div class="sq" style="width:48px;height:48px;border-radius:11px"><span class="fx"></span></div><small>48</small></div>
+        <div class="fav"><div class="sq" style="width:72px;height:72px;border-radius:16px"><span class="fx"></span></div><small>72</small></div>
+        <div class="fav"><div class="sq" style="width:104px;height:104px;border-radius:50%"><span class="fx"></span></div><small>Avatar</small></div>
+      </div>
+    </div>
+
+    <div class="dd">
+      <div class="ddcol do">
+        <h4>Do</h4>
+        <ul>
+          <li>Use the horizontal lockup wherever there is room for it.</li>
+          <li>Keep one x-height of clear space on all four sides.</li>
+          <li>Switch the × to the soft violet on dark backgrounds.</li>
+          <li>Drop to a single ink colour when printing one-colour — the mark is built for it.</li>
+          <li>Use the × alone as the avatar and favicon.</li>
+        </ul>
+      </div>
+      <div class="ddcol dont">
+        <h4>Don't</h4>
+        <ul>
+          <li>Re-type the logotype in Sora — the × is a drawn form, not a keyboard character.</li>
+          <li>Capitalise, italicise, outline, or add a shadow to the wordmark.</li>
+          <li>Stretch or compress the lockup; scale both parts together.</li>
+          <li>Place the mark on a busy photograph without a solid panel behind it.</li>
+          <li>Recolour the × to anything outside the brand violet range.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 06 · NEXT ══════ -->
+<section>
+  <div class="wrap">
+    <div class="shd"><span class="n">06</span><h2>What happens on sign-off</h2></div>
+    <div class="intro">
+      <p>Reply with the option number you'd like to proceed with — or ask us to push any of the alternates
+        further. On approval we produce the following, and the site is updated the same day.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div><h4>Vector masters</h4><p>The approved lockups drawn as SVG and PDF — horizontal, stacked, wordmark-only and mark-only, in full colour, reversed and single ink.</p></div></div>
+      <div class="step"><div><h4>Favicon &amp; avatar set</h4><p>16, 32, 48, 180 and 512px, plus the rounded social avatar, correctly optimised so the × stays sharp in a browser tab.</p></div></div>
+      <div class="step"><div><h4>Site implementation</h4><p>Header and footer updated across every page, with the mark rendered as vector so it stays crisp on any screen.</p></div></div>
+      <div class="step"><div><h4>One-page usage sheet</h4><p>Clear space, minimum sizes, colour values and the do/don't list — the single page you hand to a printer, a school, or anyone making a flyer on your behalf.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mark">ma<span class="gx vio"></span>ematics<span class="dot">.</span></span>
+    <p class="sig">Identity study prepared by <b>Chevis Zhou</b> &amp; <b>Sophie</b> · AethrDesign<br>
+      Private preview — not indexed. Questions or revisions: just reply to the thread.</p>
+  </div>
+</footer>
+
+<script>
+const OPTS = [
+  { t:'No differentiation', badge:'Current', html:`maxematics<span class="dot">.</span>`,
+    does:'Reads cleanly and sets calmly beside the logomark. Nothing is wrong with it.',
+    costs:'"max" dissolves into the word. Most first-time visitors will read "mathematics" and never learn that the founder\'s name is in the brand.' },
+
+  { t:'Capitalised — MAXematics', badge:'Your test', html:`<span class="caps">max</span>ematics<span class="dot">.</span>`,
+    does:'The separation is unmissable and needs no explanation at all.',
+    costs:'Introduces a second cap-height immediately beside the logomark\'s tallest point, so two elements compete for the same attention. It also makes the logotype meaningfully wider, which is felt most on mobile.' },
+
+  { t:'Weight split — 800 / 400', badge:'', html:`<span class="w800">max</span><span class="w400">ematics</span><span class="dot">.</span>`,
+    does:'The familiar corporate solution — brand first, category second, exactly as SS&C Blue Prism handles it. Instantly legible to any audience.',
+    costs:'The light "ematics" thins out below about 18px and disappears first in print. The strong contrast also makes the single word start to read as two.' },
+
+  { t:'Weight split — 700 / 500', badge:'Safe pick', html:`<span class="w700">max</span><span class="w500">ematics</span><span class="dot">.</span>`,
+    does:'The same idea one stop softer. Holds together as one word, survives small sizes, and is the most conservative option we would actually put our name to.',
+    costs:'Still spends weight next to the logomark, and the effect is subtle enough that in reverse print it may not register at all.' },
+
+  { t:'Colour split — max in violet', badge:'', html:`<span class="vio">max</span>ematics<span class="dot">.</span>`,
+    does:'Costs nothing in space or weight and reads clearly on a light background.',
+    costs:'Fails in one-colour print, on dark backgrounds it loses contrast, and it spends the brand accent that the closing period currently owns — leaving the mark with two competing violet moments.' },
+
+  { t:'× substitution — ink', badge:'', html:`ma<span class="gx"></span>ematics<span class="dot">.</span>`,
+    does:'The x becomes a true multiplication sign at identical weight, height and colour. Marks the break, states the category, and adds no mass whatsoever.',
+    costs:'The quietest of the substitutions — some viewers will register it as a detail rather than a division. That restraint is a feature in print, a limitation on screen.' },
+
+  { t:'× substitution — violet', badge:'Recommended', win:true, html:`ma<span class="gx vio"></span>ematics<span class="dot">.</span>`,
+    does:'Everything option 05 does, with the accent placing the eye exactly at the seam between the two halves of the name. Echoes the × already drawn inside the logomark, so mark and logotype finally share a vocabulary.',
+    costs:'The violet accent now appears twice — at the × and at the closing period. We consider that a rhythm rather than a conflict, but it is a deliberate call worth naming.' },
+
+  { t:'Slashed i — the Anthropic move, literally', badge:'Reference', html:`maxemat<span class="gi"></span>cs<span class="dot">.</span>`,
+    does:'The exact device you referenced: dot removed, stem tilted. Distinctive and impossible to reproduce by accident.',
+    costs:'The i sits in the suffix, so it decorates the word without separating "max" — it solves a different problem than the one you raised. Included so the comparison is complete.' },
+
+  { t:'Violet × plus slashed i', badge:'Combined', html:`ma<span class="gx vio"></span>emat<span class="gi"></span>cs<span class="dot">.</span>`,
+    does:'Two substitutions, still no added weight. The most singular mark in the set.',
+    costs:'Two altered glyphs plus a coloured period gives the eye three things to resolve in one short word. It begins to read as a puzzle, and puzzles slow down recognition.' },
+
+  { t:'× inside a violet dot', badge:'Boldest', html:`ma<span class="gd"></span>ematics<span class="dot">.</span>`,
+    does:'Turns the x into a miniature of the logomark itself. Genuinely striking on a flyer masthead or a presentation cover.',
+    costs:'At navigation size it fills in and reads as a blob, and it sits eight pixels from a logomark made of the same circular forms — the two start to look like a repeat rather than a pair.' },
+];
+
+document.getElementById('opts').innerHTML = OPTS.map((o,i)=>`
+  <div class="opt ${o.win?'win':''}">
+    <div class="oh"><span class="on">${String(i).padStart(2,'0')}</span><span class="ot">${o.t}</span>
+      ${o.badge?`<span class="obadge" style="${o.win?'':'background:#EFE9FE;color:#5B21B6'}">${o.badge}</span>`:''}</div>
+    <div class="stage"><img class="lm" src="assets/logomark.png" alt="">
+      <span class="mark">${o.html}</span><span class="cap">Nav · light</span></div>
+    <div class="stage dk"><img class="lm" src="assets/logomark.png" alt="">
+      <span class="mark">${o.html}</span><span class="cap">Nav · dark</span></div>
+    <div class="rows">
+      <div class="row does"><span class="rl">What it does</span><p>${o.does}</p></div>
+      <div class="row"><span class="rl">What it costs</span><p>${o.costs}</p></div>
+    </div>
+  </div>`).join('');
+</script>
+</body>
+</html>
