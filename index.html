@@ -38,8 +38,8 @@ tailwind.config = {
   .font-display { font-family:'Sora',sans-serif; }
 
   /* ───────── scroll reveal ───────── */
-  .rv { opacity:0; transform:translateY(26px); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-  .rv.on { opacity:1; transform:none; }
+  .rv { opacity:0; transform:translateY(26px); filter:blur(6px); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1), filter .7s cubic-bezier(.22,1,.36,1); }
+  .rv.on { opacity:1; transform:none; filter:blur(0); }
   .rv-d1{transition-delay:.07s}.rv-d2{transition-delay:.14s}.rv-d3{transition-delay:.21s}
   .rv-d4{transition-delay:.28s}.rv-d5{transition-delay:.35s}.rv-d6{transition-delay:.42s}
 
@@ -60,6 +60,33 @@ tailwind.config = {
   @keyframes drift1{ 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(6%,8%) scale(1.12)} 66%{transform:translate(-5%,4%) scale(.95)} }
   @keyframes drift2{ 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-8%,6%) scale(1.15)} }
   @keyframes drift3{ 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(7%,-6%) scale(1.1)} 75%{transform:translate(-4%,5%) scale(.96)} }
+
+  /* ───────── HERO — premium layered background (replaces muddy blob mesh) ───────── */
+  .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  /* two clean auroras — violet + indigo only, no screen-blend browning */
+  .aurora{ position:absolute; border-radius:50%; filter:blur(90px); will-change:transform; }
+  .a1{ width:62vw; height:62vw; left:-12%; top:-28%; opacity:.55; background:radial-gradient(circle at 50% 50%, #7C3AED, transparent 62%); animation:auroraA 24s ease-in-out infinite; }
+  .a2{ width:54vw; height:54vw; right:-14%; top:-12%; opacity:.5;  background:radial-gradient(circle at 50% 50%, #4F46E5, transparent 62%); animation:auroraB 30s ease-in-out infinite; }
+  .a3{ width:40vw; height:40vw; left:30%; bottom:-30%; opacity:.4; background:radial-gradient(circle at 50% 50%, #C026D3, transparent 64%); animation:auroraA 34s ease-in-out infinite reverse; }
+  @keyframes auroraA{ 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(5%,6%,0) scale(1.1)} }
+  @keyframes auroraB{ 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(-6%,4%,0) scale(1.08)} }
+  /* animated fine grid, radial-masked */
+  .hero-grid{ position:absolute; inset:-2px;
+    background-image:linear-gradient(rgba(167,139,250,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.07) 1px,transparent 1px);
+    background-size:54px 54px;
+    mask-image:radial-gradient(ellipse 72% 62% at 60% 38%,#000 28%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 72% 62% at 60% 38%,#000 28%,transparent 80%);
+    animation:gridPan 44s linear infinite; }
+  @keyframes gridPan{ from{background-position:0 0} to{background-position:54px 54px} }
+  /* drifting math/science glyphs — on-brand depth */
+  .glyphs{ position:absolute; inset:0; }
+  .glyph{ position:absolute; font-family:'Sora',sans-serif; font-weight:600; color:#A78BFA; opacity:.15; user-select:none; will-change:transform; animation:floaty var(--fd,18s) ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(var(--rot,0deg))} 50%{transform:translateY(-22px) rotate(var(--rot,0deg))} }
+  /* cursor-tracking spotlight */
+  .spotlight{ position:absolute; width:620px; height:620px; left:0; top:0; margin:-310px 0 0 -310px; border-radius:50%;
+    background:radial-gradient(circle, rgba(124,58,237,.22), transparent 60%); will-change:transform; opacity:0; transition:opacity .5s ease; }
+  /* cinematic scholarship portrait */
+  .schwarzkopf-img{ opacity:.55; filter:contrast(1.05) saturate(.92); will-change:transform; }
 
   /* subtle science grid — much lighter than v1, dark sections only */
   .grid-faint::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -88,10 +115,48 @@ tailwind.config = {
   .cert:hover img{ filter:none; opacity:1; transform:translateY(-2px); }
   .cert img{ filter:grayscale(1); opacity:.62; transition:filter .3s, opacity .3s, transform .3s; }
 
+  /* ───────── cycling logo carousel (affiliations) ───────── */
+  .aff-carousel{ display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%; }
+  .aff-slot{ position:relative; flex:1 1 0; min-width:0; height:72px; display:flex; align-items:center; justify-content:center; }
+  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; will-change:transform,opacity,filter; }
+  .aff-logo img{ max-height:48px; max-width:88%; width:auto; object-fit:contain; filter:grayscale(1); opacity:.5; transition:filter .3s ease, opacity .3s ease; }
+  .aff-logo:hover img{ filter:grayscale(0); opacity:1; }
+
+  /* ───────── circular testimonials (vanilla port) ───────── */
+  .ctst{ width:100%; max-width:62rem; margin:0 auto; }
+  .ctst-grid{ display:grid; gap:2.5rem; align-items:center; }
+  @media(min-width:768px){ .ctst-grid{ grid-template-columns:minmax(0,.85fr) minmax(0,1fr); gap:5.5rem; } }
+  /* portrait frame — taller than wide so faces read properly */
+  .ctst-imgs{ position:relative; width:100%; max-width:21rem; margin:0 auto; aspect-ratio:4/5; perspective:1200px; }
+  .ctst-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 18%; border-radius:1.5rem; box-shadow:0 24px 50px -16px rgba(20,14,31,.45); cursor:pointer; }
+  /* org endorsements: show the logo whole on a tile instead of cropping it */
+  .ctst-img.is-logo{ object-fit:contain; object-position:center; padding:22%; background:#fff; }
+  .ctst-content{ display:flex; flex-direction:column; }
+  .ctst-name{ font-weight:700; margin-bottom:.2rem; letter-spacing:-.01em; }
+  .ctst-desig{ margin-bottom:1.6rem; font-weight:600; }
+  .ctst-quote{ line-height:1.75; }
+  .ctst-word{ display:inline-block; animation:ctstWord .5s ease both; }
+  @keyframes ctstWord{ from{filter:blur(10px);opacity:0;transform:translateY(6px)} to{filter:blur(0);opacity:1;transform:none} }
+  .ctst-arrows{ display:flex; gap:1.1rem; padding-top:2.25rem; }
+  .ctst-arrow{ width:2.7rem; height:2.7rem; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; color:#fff; transition:background-color .3s, transform .2s; }
+  .ctst-arrow:hover{ transform:translateY(-2px); }
+
+  /* framed print collateral (résumé + flyers) */
+  .poster{ transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; box-shadow:0 22px 50px -22px rgba(20,14,31,.5); }
+  .poster:hover{ transform:translateY(-6px) rotate(0deg)!important; box-shadow:0 30px 60px -24px rgba(20,14,31,.55); }
+
+  /* ───────── Lenis smooth scroll ───────── */
+  html.lenis,html.lenis body{ height:auto; }
+  .lenis.lenis-smooth{ scroll-behavior:auto!important; }
+  .lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
+  .lenis.lenis-stopped{ overflow:hidden; }
+
   @media (prefers-reduced-motion: reduce){
-    .rv,.hero-in{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
-    .blob{animation:none!important}
-    .imgwrap img{transform:none!important}
+    .rv,.hero-in{opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important}
+    .blob,.aurora,.hero-grid,.glyph{animation:none!important}
+    .imgwrap img,.schwarzkopf-img{transform:none!important}
+    .ctst-word{animation:none!important}
+    .ctst-img{transition:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -121,11 +186,23 @@ tailwind.config = {
 
 <!-- ═══════════ 1 · HERO (tutoring-first, dynamic color) ═══════════ -->
 <section id="top" class="relative bg-ink text-white overflow-hidden">
-  <!-- animated gradient mesh -->
-  <div class="mesh" aria-hidden="true">
-    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><span class="blob b5"></span>
+  <!-- premium layered hero background -->
+  <div class="hero-bg" aria-hidden="true">
+    <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
+    <div class="hero-grid"></div>
+    <div class="glyphs" id="heroGlyphs">
+      <span class="glyph" style="left:8%;top:24%;font-size:64px;--fd:19s;--rot:-8deg" data-depth="26">∫</span>
+      <span class="glyph" style="left:20%;top:66%;font-size:44px;--fd:23s;--rot:6deg" data-depth="42">π</span>
+      <span class="glyph" style="left:44%;top:16%;font-size:52px;--fd:21s;--rot:4deg" data-depth="18">√</span>
+      <span class="glyph" style="left:60%;top:70%;font-size:72px;--fd:26s;--rot:-6deg" data-depth="34">Σ</span>
+      <span class="glyph" style="left:82%;top:30%;font-size:56px;--fd:24s;--rot:8deg" data-depth="22">∞</span>
+      <span class="glyph" style="left:72%;top:56%;font-size:40px;--fd:18s;--rot:-4deg" data-depth="48">Δ</span>
+      <span class="glyph" style="left:34%;top:82%;font-size:46px;--fd:22s;--rot:5deg" data-depth="30">θ</span>
+      <span class="glyph" style="left:90%;top:62%;font-size:50px;--fd:20s;--rot:-7deg" data-depth="38">×</span>
+    </div>
+    <div class="spotlight" id="heroSpot"></div>
   </div>
-  <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink/85 via-ink/45 to-ink/15" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink/90 via-ink/50 to-ink/10 pointer-events-none" aria-hidden="true"></div>
 
   <div class="max-w-6xl mx-auto px-6 pt-36 pb-24 md:pt-40 md:pb-28 grid md:grid-cols-12 gap-12 items-center relative z-10">
     <div class="md:col-span-7">
@@ -150,8 +227,8 @@ tailwind.config = {
         </a>
       </div>
       <div class="hero-in hd-6 mt-11 flex flex-wrap gap-x-8 gap-y-4">
-        <div><p class="font-display font-bold text-3xl text-white">14</p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Subjects</p></div>
-        <div class="pl-8 border-l border-white/15"><p class="font-display font-bold text-3xl text-white">10<span class="text-white/45">+</span></p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Weekly students</p></div>
+        <div><p class="font-display font-bold text-3xl text-white"><span data-count="14">14</span></p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Subjects</p></div>
+        <div class="pl-8 border-l border-white/15"><p class="font-display font-bold text-3xl text-white"><span data-count="10">10</span><span class="text-white/45">+</span></p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Weekly students</p></div>
         <div class="pl-8 border-l border-white/15"><p class="font-display font-bold text-3xl text-white">2022</p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Tutoring since</p></div>
         <div class="pl-8 border-l border-white/15"><p class="font-display font-bold text-3xl text-white">1:1</p><p class="text-xs uppercase tracking-widest text-white/50 mt-1">Every session</p></div>
       </div>
@@ -272,7 +349,7 @@ tailwind.config = {
   <div class="absolute inset-0 bg-ink/55 z-[1]" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10 grid md:grid-cols-12 gap-14 items-center">
     <div class="md:col-span-6 rv imgwrap">
-      <div class="relative max-w-md">
+      <div class="relative max-w-md" data-parallax="46">
         <img src="assets/max-3.jpg" alt="Max Schwarzkopf" class="rounded-[1.5rem] w-full object-cover shadow-2xl border border-white/10">
         <div class="absolute -top-5 -right-5 bg-violet text-white rounded-2xl px-5 py-3 shadow-xl font-display font-semibold text-sm">Tutoring since 2022</div>
       </div>
@@ -304,43 +381,9 @@ tailwind.config = {
       <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">What families say</p>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Results students feel.</h2>
     </div>
-    <div class="mt-12 grid md:grid-cols-2 gap-5">
-      <figure class="rv md:col-span-2 cardlift rounded-3xl bg-white border border-ink/6 p-9 md:p-11 shadow-sm">
-        <svg class="w-8 h-8 text-violet/40" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
-        <blockquote class="mt-5 text-xl md:text-2xl leading-relaxed text-ink/90 font-display font-medium">Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!</blockquote>
-        <figcaption class="mt-7 flex items-center gap-4">
-          <div class="w-12 h-12 rounded-full bg-mist flex items-center justify-center p-1.5 border border-ink/5"><img src="assets/logo-prep-and-me.png" alt="Prep & Me" class="max-h-full w-auto object-contain"></div>
-          <div><p class="font-semibold">Lakshmi Jayaram, Ph.D.</p><p class="text-ink/50 text-sm">Executive Director, Prep &amp; Me</p></div>
-        </figcaption>
-      </figure>
-      <figure class="rv cardlift rounded-3xl bg-white border border-ink/6 p-8 shadow-sm">
-        <blockquote class="text-ink/75 leading-relaxed">"I was struggling in Geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-violet/12 border border-violet/20 flex items-center justify-center font-display font-bold text-sm text-violet">KM</div>
-          <div><p class="font-semibold text-sm">Ker'Varis M.</p><p class="text-ink/45 text-xs">Geometry</p></div>
-        </figcaption>
-      </figure>
-      <figure class="rv rv-d1 cardlift rounded-3xl bg-white border border-ink/6 p-8 shadow-sm">
-        <blockquote class="text-ink/75 leading-relaxed">"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-violet/12 border border-violet/20 flex items-center justify-center font-display font-bold text-sm text-violet">ET</div>
-          <div><p class="font-semibold text-sm">Eva T.</p><p class="text-ink/45 text-xs">SAT / ACT Prep</p></div>
-        </figcaption>
-      </figure>
-      <figure class="rv cardlift rounded-3xl bg-white border border-ink/6 p-8 shadow-sm">
-        <blockquote class="text-ink/75 leading-relaxed">"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-violet/12 border border-violet/20 flex items-center justify-center font-display font-bold text-sm text-violet">AH</div>
-          <div><p class="font-semibold text-sm">Alice H.</p><p class="text-ink/45 text-xs">Parent</p></div>
-        </figcaption>
-      </figure>
-      <figure class="rv rv-d1 cardlift rounded-3xl bg-white border border-ink/6 p-8 shadow-sm">
-        <blockquote class="text-ink/75 leading-relaxed">"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like Chemistry."</blockquote>
-        <figcaption class="mt-6 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-violet/12 border border-violet/20 flex items-center justify-center font-display font-bold text-sm text-violet">CJ</div>
-          <div><p class="font-semibold text-sm">Connor J.</p><p class="text-ink/45 text-xs">Chemistry</p></div>
-        </figcaption>
-      </figure>
+    <!-- Circular testimonial carousel — every voice, including the Prep & Me endorsement -->
+    <div class="rv rv-d1 mt-14 md:mt-16">
+      <div id="ctst" class="ctst"></div>
     </div>
   </div>
 </section>
@@ -390,7 +433,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-12 items-center">
       <div class="md:col-span-5 rv imgwrap">
-        <div class="relative max-w-sm">
+        <div class="relative max-w-sm" data-parallax="40">
           <div class="absolute -left-4 -top-4 w-full h-full rounded-[1.6rem] border-2 border-violet-soft/25" aria-hidden="true"></div>
           <img src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.6rem] w-full object-cover shadow-2xl">
         </div>
@@ -418,6 +461,28 @@ tailwind.config = {
       </div>
     </div>
 
+    <!-- résumé — the one-page source behind everything above -->
+    <div class="mt-16 grid md:grid-cols-12 gap-10 items-center">
+      <div class="md:col-span-5 rv imgwrap">
+        <a href="assets/max-resume.png" target="_blank" rel="noopener" class="poster block relative max-w-xs mx-auto md:mx-0 rounded-xl overflow-hidden bg-white border border-white/15" style="transform:rotate(-2deg)">
+          <img src="assets/max-resume.png" alt="Max Schwarzkopf — full résumé" class="w-full h-auto block">
+          <span class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 text-white text-[11px] font-semibold px-3 py-1.5 backdrop-blur-sm">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+            Open full résumé
+          </span>
+        </a>
+      </div>
+      <div class="md:col-span-7">
+        <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">The full picture</p>
+        <h3 class="rv rv-d1 font-display font-bold text-2xl md:text-3xl tracking-tight leading-tight">Everything, on a single page.</h3>
+        <p class="rv rv-d2 mt-5 text-white/75 leading-relaxed">From a 4.94 weighted GPA and a captaincy on varsity rowing to lab work at USF and the New Jersey State Police forensics lab — Max's résumé is the record behind the tutor. Have a look at the whole thing.</p>
+        <a href="assets/max-resume.png" target="_blank" rel="noopener" class="rv rv-d3 mt-7 inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-6 py-3 hover:bg-violet-soft transition-colors cursor-pointer">
+          View Max's résumé
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+
     <!-- awards — restyled as badges, NOT a report list -->
     <div class="mt-16">
       <h3 class="rv font-display font-bold text-2xl md:text-3xl tracking-tight">A record that speaks for itself.</h3>
@@ -438,8 +503,11 @@ tailwind.config = {
 
 <!-- ═══════════ 7 · SCHOLARSHIP (full narrative, softened) ═══════════ -->
 <section id="scholarship" class="relative bg-ink text-white py-24 md:py-32 overflow-hidden">
-  <img src="assets/general-portrait.jpg" alt="Gen. H. Norman Schwarzkopf" class="absolute right-0 top-0 h-full w-1/2 object-cover object-top opacity-25" aria-hidden="true">
-  <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/95 to-ink/50 z-[1]" aria-hidden="true"></div>
+  <div class="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden z-0" aria-hidden="true">
+    <img id="schwarzkopf" src="assets/general-portrait.jpg" alt="Gen. H. Norman Schwarzkopf" class="schwarzkopf-img absolute inset-x-0 -top-[14%] h-[128%] w-full object-cover object-top">
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/25 z-[1] pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-ink/70 to-transparent z-[1] pointer-events-none" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
       <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">Giving back</p>
@@ -463,6 +531,25 @@ tailwind.config = {
         </a>
         <p class="mt-3 text-xs text-white/40">Full scholarship story &amp; application form open on the next page in the coded build.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7.5 · FLYERS "IN CIRCULATION" ═══════════ -->
+<section id="flyers" class="bg-paper py-24 md:py-28 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">Out in the world</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Look for Maxematics around Tampa.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">From the annual scholarship to free exam-prep workshops — here's what's currently circulating.</p>
+    </div>
+    <div class="rv rv-d1 mt-14 flex flex-col sm:flex-row items-center justify-center gap-12 md:gap-16">
+      <a href="#scholarship" class="poster rounded-2xl bg-white p-2.5 border border-ink/8" style="transform:rotate(-2.5deg)" aria-label="Read about the Schwarzkopf Scholarship">
+        <img src="assets/flyer-scholarship.png" alt="The Gen. H. Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
+      </a>
+      <a href="#inquire" class="poster rounded-2xl bg-white p-2.5 border border-ink/8" style="transform:rotate(2.5deg)" aria-label="Inquire about SAT workshops">
+        <img src="assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
+      </a>
     </div>
   </div>
 </section>
@@ -500,20 +587,19 @@ tailwind.config = {
 <section id="affiliations" class="bg-paper py-16 border-t border-ink/5">
   <div class="max-w-6xl mx-auto px-6">
     <p class="rv text-center eyebrow text-xs font-semibold uppercase text-ink/40 mb-9">Affiliations, certifications &amp; recognition</p>
-    <div class="rv rv-d1 flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
-      <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" class="cert" title="Autodesk Certification"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
-      <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener" class="cert" title="Cum Laude Society"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.thefhm.org/" target="_blank" rel="noopener" class="cert" title="The Florida Holocaust Museum — Anne Frank Humanitarian Award"><img src="assets/logo-anne-frank-humanitarian.png" alt="The Florida Holocaust Museum" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener" class="cert" title="Reddy Lab"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.instagram.com/p/DOwNhn5E9Cx/" target="_blank" rel="noopener" class="cert" title="Award recognition"><img src="assets/logo-instagram-post-award.png" alt="Award recognition" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.instagram.com/pieandpi" target="_blank" rel="noopener" class="cert" title="Pie & Pi Club"><img src="assets/logo-pie-and-pi-club.png" alt="Pie & Pi Club" class="h-11 w-auto object-contain"></a>
-      <a href="https://hoby.org/" target="_blank" rel="noopener" class="cert" title="HOBY Leadership"><img src="assets/logo-hoby-leadership.png" alt="HOBY Leadership" class="h-11 w-auto object-contain"></a>
-      <a href="https://prepandme.org/" target="_blank" rel="noopener" class="cert" title="Prep & Me"><img src="assets/logo-prep-and-me.png" alt="Prep & Me" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.ntatutor.com/" target="_blank" rel="noopener" class="cert" title="National Tutoring Association"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association" class="h-11 w-auto object-contain"></a>
-      <a href="https://maa.org/" target="_blank" rel="noopener" class="cert" title="Mathematical Association of America"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-11 w-auto object-contain"></a>
-      <a href="https://usrowing.org/" target="_blank" rel="noopener" class="cert" title="US Rowing"><img src="assets/logo-us-rowing.png" alt="US Rowing" class="h-11 w-auto object-contain"></a>
-      <a href="https://www.instagram.com/tampa_prep" target="_blank" rel="noopener" class="cert" title="Tampa Preparatory School"><img src="assets/logo-tampa-prep-school.png" alt="Tampa Preparatory School" class="h-11 w-auto object-contain"></a>
-    </div>
+    <div class="rv rv-d1 aff-carousel" id="affCarousel" role="region" aria-roledescription="carousel" aria-label="Affiliations, certifications and recognition"></div>
+    <noscript>
+      <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
+        <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" class="cert"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
+        <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.thefhm.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-anne-frank-humanitarian.png" alt="The Florida Holocaust Museum" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-11 w-auto object-contain"></a>
+        <a href="https://prepandme.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-prep-and-me.png" alt="Prep & Me" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.ntatutor.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association" class="h-11 w-auto object-contain"></a>
+        <a href="https://maa.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-11 w-auto object-contain"></a>
+        <a href="https://usrowing.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-us-rowing.png" alt="US Rowing" class="h-11 w-auto object-contain"></a>
+      </div>
+    </noscript>
   </div>
 </section>
 
@@ -545,6 +631,242 @@ tailwind.config = {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+
+<!-- ═══════════ Motion (premium interactions) ═══════════ -->
+<script type="module">
+import { animate, scroll, inView } from "https://cdn.jsdelivr.net/npm/motion@12.38.0/+esm";
+import Lenis from "https://cdn.jsdelivr.net/npm/lenis@1.1.20/+esm";
+
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EASE = [0.22, 1, 0.36, 1];
+
+/* ─── Lenis smooth scroll (skipped when reduced-motion is on, or ?static screenshot mode) ─── */
+let lenis = null;
+if (!reduce && !location.search.includes('static')){
+  lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  window.lenis = lenis;
+  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+}
+/* route in-page anchor links through Lenis, offsetting the 64px fixed nav */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    if (id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { offset: -64 });
+    else target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ─── Affiliations: cycling logo carousel (fixed slots, staggered blur/slide) ─── */
+const AFF = [
+  { src:'assets/logo-autodesk-certification.png', alt:'Autodesk Certification',              url:'https://www.autodesk.com/certification/overview' },
+  { src:'assets/logo-cum-laude-society.png',      alt:'Cum Laude Society',                   url:'https://cumlaudesociety.org/' },
+  { src:'assets/logo-anne-frank-humanitarian.png',alt:'Florida Holocaust Museum — Anne Frank Humanitarian Award', url:'https://www.thefhm.org/' },
+  { src:'assets/logo-reddy-lab.png',              alt:'Reddy Lab',                           url:'https://www.reddy-lab.com/' },
+  { src:'assets/logo-instagram-post-award.png',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
+  { src:'assets/logo-pie-and-pi-club.png',        alt:'Pie & Pi Club',                       url:'https://www.instagram.com/pieandpi' },
+  { src:'assets/logo-hoby-leadership.png',        alt:'HOBY Leadership',                     url:'https://hoby.org/' },
+  { src:'assets/logo-prep-and-me.png',            alt:'Prep & Me',                           url:'https://prepandme.org/' },
+  { src:'assets/logo-nta-tutor.png',              alt:'National Tutoring Association',        url:'https://www.ntatutor.com/' },
+  { src:'assets/logo-maa-math.png',               alt:'Mathematical Association of America',  url:'https://maa.org/' },
+  { src:'assets/logo-us-rowing.png',              alt:'US Rowing',                           url:'https://usrowing.org/' },
+  { src:'assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.instagram.com/tampa_prep' },
+];
+const carousel = document.getElementById('affCarousel');
+let timers = [], curCount = 0;
+
+function makeLogo(l){
+  const a = document.createElement('a');
+  a.href = l.url; a.target = '_blank'; a.rel = 'noopener'; a.title = l.alt;
+  a.className = 'aff-logo'; a.setAttribute('aria-label', l.alt + ' (opens in new tab)');
+  const img = document.createElement('img');
+  img.src = l.src; img.alt = l.alt; img.loading = 'lazy';
+  a.appendChild(img); return a;
+}
+function slotCount(){
+  if (window.matchMedia('(min-width:1024px)').matches) return 5;
+  if (window.matchMedia('(min-width:640px)').matches) return 3;
+  return 2;
+}
+function cycle(slot){
+  if (document.hidden) return;
+  slot.idx = (slot.idx + 1) % slot.logos.length;
+  // Fade out EVERY outgoing logo (not just firstElementChild) and guarantee removal on a
+  // timer. The old version removed only the first child and relied on the exit animation's
+  // promise to fire — but a cancelled/interrupted animation (or a throttled background tab)
+  // leaves that promise unsettled, so the node was never removed and logos stacked up.
+  const outgoing = [...slot.el.children];
+  const next = makeLogo(slot.logos[slot.idx]);
+  slot.el.appendChild(next);
+  animate(next, { opacity:[0,1], y:[20,0], filter:['blur(8px)','blur(0px)'] }, { duration:.55, ease:EASE });
+  outgoing.forEach(prev => {
+    prev.style.pointerEvents = 'none';
+    animate(prev, { opacity:[1,0], y:[0,-20], filter:['blur(0px)','blur(8px)'] }, { duration:.55, ease:EASE });
+    setTimeout(() => prev.remove(), 600);
+  });
+}
+function buildCarousel(){
+  const n = slotCount();
+  if (n === curCount) return;
+  curCount = n;
+  timers.forEach(clearInterval); timers = [];
+  carousel.innerHTML = '';
+  const slots = [];
+  for (let s = 0; s < n; s++){
+    const el = document.createElement('div');
+    el.className = 'aff-slot'; el.setAttribute('role','group'); el.setAttribute('aria-roledescription','slide');
+    const logos = AFF.filter((_, i) => i % n === s);
+    el.appendChild(makeLogo(logos[0]));
+    carousel.appendChild(el);
+    slots.push({ el, logos, idx:0 });
+  }
+  if (reduce) return;
+  slots.forEach((slot, i) => {
+    setTimeout(() => { cycle(slot); timers.push(setInterval(() => cycle(slot), 3200)); }, 2500 + i * 180);
+  });
+}
+if (carousel){
+  buildCarousel();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(buildCarousel, 200); });
+}
+
+/* ─── Scroll-linked parallax ─── */
+if (!reduce){
+  document.querySelectorAll('[data-parallax]').forEach(el => {
+    const d = parseFloat(el.getAttribute('data-parallax')) || 40;
+    scroll(animate(el, { y:[d, -d] }, { ease:'linear' }), { target: el, offset:['start end','end start'] });
+  });
+  const sk = document.getElementById('schwarzkopf');
+  if (sk) scroll(animate(sk, { y:['-8%','8%'] }, { ease:'linear' }), { target: sk, offset:['start end','end start'] });
+
+  const hero = document.getElementById('top');
+  const glyphs = [...document.querySelectorAll('#heroGlyphs .glyph')];
+  if (hero && glyphs.length){
+    scroll((p) => {
+      glyphs.forEach(g => {
+        const depth = parseFloat(g.dataset.depth) || 24;
+        g.style.translate = '0 ' + (p * depth * 2.4).toFixed(1) + 'px';
+      });
+    }, { target: hero, offset:['start start','end start'] });
+  }
+}
+
+/* ─── Hero: cursor spotlight ─── */
+if (!reduce){
+  const hero = document.getElementById('top');
+  const spot = document.getElementById('heroSpot');
+  if (hero && spot){
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      spot.style.opacity = '1';
+      spot.style.transform = `translate(${e.clientX - r.left}px, ${e.clientY - r.top}px)`;
+    });
+    hero.addEventListener('pointerleave', () => { spot.style.opacity = '0'; });
+  }
+}
+
+/* ─── Stat count-up ─── */
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.getAttribute('data-count'), 10);
+  inView(el, () => {
+    if (reduce){ el.textContent = target; return; }
+    animate(0, target, { duration:1.4, ease:EASE, onUpdate:(v) => el.textContent = Math.round(v) });
+  }, { amount: 0.6 });
+});
+
+/* ─── Circular testimonials (vanilla port of CircularTestimonials) ─── */
+const CTST = [
+  { name:"Lakshmi Jayaram, Ph.D.", designation:"Executive Director, Prep & Me", src:"assets/logo-prep-and-me.png", logo:true,
+    quote:"Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!" },
+  { name:"Eva T.",       designation:"SAT / ACT Prep", src:"assets/testimonial-eva.jpg", pos:"center 15%",
+    quote:"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max." },
+  { name:"Ker'Varis M.", designation:"Geometry", src:"assets/testimonial-kervaris.jpg", pos:"center 12%",
+    quote:"I was struggling in Geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong." },
+  { name:"Alice H.",     designation:"Parent", src:"assets/testimonial-alice.jpg", pos:"center 22%",
+    quote:"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him." },
+  { name:"Connor J.",    designation:"Chemistry", src:"assets/testimonial-connor.jpg", pos:"38% center",
+    quote:"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like Chemistry." },
+];
+const ctstRoot = document.getElementById('ctst');
+if (ctstRoot){
+  const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  ctstRoot.innerHTML = `
+    <div class="ctst-grid">
+      <div class="ctst-imgs" id="ctstImgs"></div>
+      <div class="ctst-content">
+        <div id="ctstText"></div>
+        <div class="ctst-arrows">
+          <button class="ctst-arrow" id="ctstPrev" aria-label="Previous testimonial" style="background:#7C3AED">${ARROW('<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>')}</button>
+          <button class="ctst-arrow" id="ctstNext" aria-label="Next testimonial" style="background:#7C3AED">${ARROW('<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>')}</button>
+        </div>
+      </div>
+    </div>`;
+  const imgWrap = ctstRoot.querySelector('#ctstImgs');
+  const textEl  = ctstRoot.querySelector('#ctstText');
+  const prevBtn = ctstRoot.querySelector('#ctstPrev');
+  const nextBtn = ctstRoot.querySelector('#ctstNext');
+  const N = CTST.length;
+  let active = 0, timer = null;
+
+  CTST.forEach((t, i) => {
+    const img = document.createElement('img');
+    img.src = t.src; img.alt = t.name; img.dataset.index = i; img.loading = 'lazy';
+    img.className = 'ctst-img' + (t.logo ? ' is-logo' : '');
+    if (t.pos) img.style.objectPosition = t.pos;
+    imgWrap.appendChild(img);
+  });
+
+  function styleImgs(){
+    const cw = imgWrap.offsetWidth || 460;
+    const gap = Math.max(48, Math.min(96, cw * 0.2));
+    const up = gap * 0.8;
+    [...imgWrap.children].forEach((img, i) => {
+      const isActive = i === active;
+      const isLeft  = (active - 1 + N) % N === i;
+      const isRight = (active + 1) % N === i;
+      img.style.transition = 'all .8s cubic-bezier(.4,2,.3,1)';
+      if (isActive){ img.style.zIndex = 3; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = 'translateX(0) translateY(0) scale(1) rotateY(0deg)'; }
+      else if (isLeft){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(-${gap}px) translateY(-${up}px) scale(.85) rotateY(15deg)`; }
+      else if (isRight){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(${gap}px) translateY(-${up}px) scale(.85) rotateY(-15deg)`; }
+      else { img.style.zIndex = 1; img.style.opacity = 0; img.style.pointerEvents = 'none'; }
+    });
+  }
+  function renderText(){
+    const t = CTST[active];
+    const quote = reduce
+      ? t.quote
+      : t.quote.split(' ').map((w, i) => `<span class="ctst-word" style="animation-delay:${(0.022 * i).toFixed(3)}s">${w}&nbsp;</span>`).join('');
+    textEl.innerHTML = `
+      <h3 class="ctst-name font-display text-2xl md:text-[1.7rem] text-ink">${t.name}</h3>
+      <p class="ctst-desig text-violet text-sm">${t.designation}</p>
+      <p class="ctst-quote text-ink/70 text-[1.05rem]">${quote}</p>`;
+    if (!reduce) textEl.animate([{ opacity:0, transform:'translateY(12px)' }, { opacity:1, transform:'none' }], { duration:320, easing:'ease' });
+  }
+  function update(){ styleImgs(); renderText(); }
+  function resetAutoplay(){ if (timer) clearInterval(timer); if (!reduce) timer = setInterval(() => { active = (active + 1) % N; update(); }, 5000); }
+
+  prevBtn.addEventListener('click', () => { active = (active - 1 + N) % N; update(); resetAutoplay(); });
+  nextBtn.addEventListener('click', () => { active = (active + 1) % N; update(); resetAutoplay(); });
+  imgWrap.addEventListener('click', (e) => {
+    const img = e.target.closest('.ctst-img'); if (!img) return;
+    const i = +img.dataset.index; if (i === active) return;
+    active = i; update(); resetAutoplay();
+  });
+  window.addEventListener('resize', styleImgs);
+  update(); resetAutoplay();
+}
+
+/* ─── Nav: deepen shadow once scrolled ─── */
+const nav = document.querySelector('header');
+if (nav){
+  const onScroll = () => nav.classList.toggle('shadow-lg', window.scrollY > 24);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
+}
 </script>
 </body>
 </html>
