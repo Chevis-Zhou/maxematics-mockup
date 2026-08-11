@@ -5,9 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Maxematics — Private Tutoring in Math, Science &amp; Language · Max Schwarzkopf</title>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions in math, science &amp; language, from Algebra to AP prep and SAT/ACT, virtual or in person.">
+<meta name="theme-color" content="#140E1F">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/maxematics-favicon-violet-180.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maxematics — Private Tutoring in Math, Science &amp; Language">
+<meta property="og:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
+<meta property="og:image" content="assets/max-2.jpg">
+<meta property="og:url" content="https://chevis-zhou.github.io/maxematics-mockup/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maxematics — Private Tutoring in Math, Science &amp; Language">
+<meta name="twitter:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
+<meta name="twitter:image" content="assets/max-2.jpg">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,6 +195,8 @@ tailwind.config = {
 </head>
 <body class="bg-paper text-ink antialiased">
 
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
+
 <!-- ═══════════ NAV ═══════════ -->
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-paper/85 border-b border-ink/5">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -190,7 +204,7 @@ tailwind.config = {
       <img src="assets/logomark.png" alt="Maxematics logomark" class="h-8 w-auto">
       <span class="font-display font-bold text-xl tracking-tight text-ink">maxematics<span class="text-violet">.</span></span>
     </a>
-    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
       <a href="#subjects" class="hover:text-violet transition-colors">Subjects</a>
       <a href="#difference" class="hover:text-violet transition-colors">Approach</a>
       <a href="#rates" class="hover:text-violet transition-colors">Rates</a>
@@ -199,11 +213,12 @@ tailwind.config = {
     </nav>
     <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-violet text-white text-sm font-semibold px-5 py-2.5 hover:bg-violet-deep transition-colors cursor-pointer">
       Inquire
-      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
     </a>
   </div>
 </header>
 
+<main id="main">
 <!-- ═══════════ 1 · HERO (tutoring-first, dynamic color) ═══════════ -->
 <section id="top" class="relative bg-ink text-white overflow-hidden">
   <!-- premium layered hero background -->
@@ -240,7 +255,7 @@ tailwind.config = {
       <div class="hero-in hd-4 mt-9 flex flex-wrap items-center gap-4">
         <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
           Book a session
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
         <a href="#subjects" class="inline-flex items-center gap-2 rounded-full border border-white/25 text-white/85 font-semibold px-7 py-3.5 hover:border-violet-soft hover:text-white transition-colors cursor-pointer">
           See what Max teaches
@@ -280,27 +295,27 @@ tailwind.config = {
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
       <!-- tile factory: math (violet) -->
       <div class="rv subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 9h16M4 15h16M10 4L8 20M16 4l-2 16"/></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M4 9h16M4 15h16M10 4L8 20M16 4l-2 16"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Algebra <span class="text-violet">1 &amp; 2</span></p>
       </div>
       <div class="rv rv-d1 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M3 20c4-14 14-14 18 0M3 20h18"/></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M3 20c4-14 14-14 18 0M3 20h18"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Precalculus</p>
       </div>
       <div class="rv rv-d2 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 4v16h16M8 16c3 0 3-8 6-8s3 4 6 4"/><text x="3" y="8" font-size="6" fill="currentColor" stroke="none">∫</text></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M4 4v16h16M8 16c3 0 3-8 6-8s3 4 6 4"/><text x="3" y="8" font-size="6" fill="currentColor" stroke="none">∫</text></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Calculus</p>
       </div>
       <div class="rv rv-d3 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linejoin="round" d="M12 3l9 16H3z"/><circle cx="12" cy="12" r="5"/></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linejoin="round" d="M12 3l9 16H3z"/><circle cx="12" cy="12" r="5"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Geometry</p>
       </div>
       <div class="rv rv-d4 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M5 20V10M10 20V4M15 20v-8M20 20V7"/></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M5 20V10M10 20V4M15 20v-8M20 20V7"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Statistics</p>
       </div>
       <div class="rv rv-d5 subj rounded-2xl border border-violet/15 bg-gradient-to-br from-violet-faint to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><rect x="5" y="3" width="14" height="18" rx="2"/><path stroke-linecap="round" d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2"/></svg>
+        <svg class="motif w-24 h-24 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path stroke-linecap="round" d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Desmos Calculator</p>
       </div>
     </div>
@@ -309,19 +324,19 @@ tailwind.config = {
     <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-sky2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sky2"></span> Science</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
       <div class="rv subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v6l-5 9a2 2 0 002 3h12a2 2 0 002-3l-5-9V3M8 3h8"/></svg>
+        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v6l-5 9a2 2 0 002 3h12a2 2 0 002-3l-5-9V3M8 3h8"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Chemistry</p>
       </div>
       <div class="rv rv-d1 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M7 3c0 6 10 12 10 18M17 3c0 6-10 12-10 18M8 7h8M8 17h8"/></svg>
+        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M7 3c0 6 10 12 10 18M17 3c0 6-10 12-10 18M8 7h8M8 17h8"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Biology</p>
       </div>
       <div class="rv rv-d2 subj rounded-2xl border border-sky2/20 bg-gradient-to-br from-sky-50 to-white p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><rect x="5" y="4" width="14" height="16" rx="2"/><path stroke-linecap="round" d="M8 9h8M8 12h8M8 15h5"/></svg>
+        <svg class="motif w-24 h-24 text-sky2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2"/><path stroke-linecap="round" d="M8 9h8M8 12h8M8 15h5"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink">Lab Reports</p>
       </div>
       <div class="rv rv-d3 subj rounded-2xl border border-ink/8 bg-mist/40 p-5 h-32 flex flex-col justify-end">
-        <svg class="motif w-24 h-24 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg>
+        <svg class="motif w-24 h-24 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/></svg>
         <p class="relative font-display font-bold text-lg leading-tight text-ink/45">Physics</p>
         <p class="relative text-[10px] uppercase tracking-wide text-ink/35">Coming soon</p>
       </div>
@@ -333,11 +348,11 @@ tailwind.config = {
         <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-peach flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-peach"></span> Language</p>
         <div class="grid grid-cols-2 gap-3.5">
           <div class="rv subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end">
-            <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" d="M4 20L10 4l6 16M6 14h8"/><path d="M14 8h6M17 5v6"/></svg>
+            <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" d="M4 20L10 4l6 16M6 14h8"/><path d="M14 8h6M17 5v6"/></svg>
             <p class="relative font-display font-bold text-lg leading-tight text-ink">Latin <span class="text-peach">1 &amp; 2</span></p>
           </div>
           <div class="rv rv-d1 subj rounded-2xl border border-peach/25 bg-orange-50/60 p-5 h-32 flex flex-col justify-end">
-            <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4L8 20H4v-4zM13 7l4 4"/></svg>
+            <svg class="motif w-24 h-24 text-peach" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4L8 20H4v-4zM13 7l4 4"/></svg>
             <p class="relative font-display font-bold text-lg leading-tight text-ink">Creative &amp; Technical Writing</p>
           </div>
         </div>
@@ -346,15 +361,15 @@ tailwind.config = {
         <p class="rv mt-10 mb-4 text-xs font-semibold uppercase tracking-widest text-indigo2 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo2"></span> Other</p>
         <div class="grid grid-cols-3 gap-3.5">
           <div class="rv subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
-            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M4 6h16v12H4z"/></svg>
+            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M4 6h16v12H4z"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">SAT &amp; ACT Prep</p>
           </div>
           <div class="rv rv-d1 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
-            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l9 5-9 5-9-5zM7 10v5l5 3 5-3v-5"/></svg>
+            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l9 5-9 5-9-5zM7 10v5l5 3 5-3v-5"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">US &amp; World History</p>
           </div>
           <div class="rv rv-d2 subj rounded-2xl border border-indigo2/20 bg-indigo-50/60 p-5 h-32 flex flex-col justify-end">
-            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.2.9-5.5-4-3.9 5.5-.8z"/></svg>
+            <svg class="motif w-24 h-24 text-indigo2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.2.9-5.5-4-3.9 5.5-.8z"/></svg>
             <p class="relative font-display font-bold text-base leading-tight text-ink">Select AP Courses</p>
           </div>
         </div>
@@ -437,10 +452,10 @@ tailwind.config = {
         <div class="relative z-10">
           <h3 class="font-display font-bold text-xl">Virtual session checklist</h3>
           <ul class="mt-6 space-y-4">
-            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Tablet (preferred) or computer with internet</span></li>
-            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Access to Zoom</span></li>
-            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Paper &amp; pencil</span></li>
-            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Helpful, not required: Apple Pencil</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Tablet (preferred) or computer with internet</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Access to Zoom</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Paper &amp; pencil</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Helpful, not required: Apple Pencil</span></li>
           </ul>
         </div>
       </div>
@@ -487,7 +502,7 @@ tailwind.config = {
         <a href="assets/max-resume.png" target="_blank" rel="noopener" class="poster block relative max-w-xs mx-auto md:mx-0 rounded-xl overflow-hidden bg-white border border-white/15" style="transform:rotate(-2deg)">
           <img src="assets/max-resume.png" alt="Max Schwarzkopf — full résumé" class="w-full h-auto block">
           <span class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 text-white text-[11px] font-semibold px-3 py-1.5 backdrop-blur-sm">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
             Open full résumé
           </span>
         </a>
@@ -498,7 +513,7 @@ tailwind.config = {
         <p class="rv rv-d2 mt-5 text-white/75 leading-relaxed">From a 4.94 weighted GPA and a captaincy on varsity rowing to lab work at USF and the New Jersey State Police forensics lab — Max's résumé is the record behind the tutor. Have a look at the whole thing.</p>
         <a href="assets/max-resume.png" target="_blank" rel="noopener" class="rv rv-d3 mt-7 inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-6 py-3 hover:bg-violet-soft transition-colors cursor-pointer">
           View Max's résumé
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
       </div>
     </div>
@@ -547,7 +562,7 @@ tailwind.config = {
       <div class="rv rv-d5 mt-9">
         <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
           Learn more &amp; apply
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
         <p class="mt-3 text-xs text-white/40">Full scholarship story &amp; application form open on the next page in the coded build.</p>
       </div>
@@ -582,7 +597,7 @@ tailwind.config = {
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">Start the conversation.</h2>
       <p class="rv rv-d2 mt-6 text-ink/60 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
       <div class="rv rv-d3 mt-8 flex items-center gap-3 text-ink/70">
-        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
         <span class="font-medium">maxematics@icloud.com</span>
       </div>
     </div>
@@ -622,15 +637,16 @@ tailwind.config = {
     </noscript>
   </div>
 </section>
+</main>
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="bg-ink text-white py-14">
   <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
     <a href="#top" class="flex items-center gap-2.5">
-      <img src="assets/logomark-reversed.png" alt="Maxematics" class="h-8 w-auto">
+      <img src="assets/logomark.png" alt="Maxematics" class="h-8 w-auto">
       <span class="font-display font-bold text-xl tracking-tight">maxematics<span class="text-violet-soft">.</span></span>
     </a>
-    <nav class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/55">
+    <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/55">
       <a href="#subjects" class="hover:text-violet-soft transition-colors">Subjects</a>
       <a href="#difference" class="hover:text-violet-soft transition-colors">Approach</a>
       <a href="#rates" class="hover:text-violet-soft transition-colors">Rates</a>
@@ -817,12 +833,12 @@ const CTST = [
 ];
 const ctstRoot = document.getElementById('ctst');
 if (ctstRoot){
-  const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   ctstRoot.innerHTML = `
     <div class="ctst-grid">
-      <div class="ctst-imgs" id="ctstImgs"></div>
+      <div class="ctst-imgs" id="ctstImgs" role="group" aria-label="Testimonial portraits"></div>
       <div class="ctst-content">
-        <div id="ctstText"></div>
+        <div id="ctstText" aria-live="polite"></div>
         <div class="ctst-arrows">
           <button class="ctst-arrow" id="ctstPrev" aria-label="Previous testimonial" style="background:#7C3AED">${ARROW('<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>')}</button>
           <button class="ctst-arrow" id="ctstNext" aria-label="Next testimonial" style="background:#7C3AED">${ARROW('<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>')}</button>
