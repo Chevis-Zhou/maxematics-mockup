@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maxematics — Private Tutoring in Math, Science &amp; Language · Max Schwarzkopf</title>
+<meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions across 14 topics in math, science &amp; language, including SAT/ACT and Desmos support, virtual or in person.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/maxematics-favicon-violet-180.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink:    '#17141C',
+        page:   '#FFFFFF',
+        panel:  '#F7F6FA',
+        violet: { DEFAULT:'#7C3AED', deep:'#5B21B6', soft:'#A78BFA', faint:'#F3EEFD' },
+        line:   'rgba(23,20,28,.12)'
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"','sans-serif'],
+        body: ['"IBM Plex Sans"','sans-serif'],
+        mono: ['"IBM Plex Mono"','monospace']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior:smooth; }
+  body { font-family:'IBM Plex Sans',sans-serif; background:#fff; }
+  .font-display { font-family:'Space Grotesk',sans-serif; }
+  .font-mono { font-family:'IBM Plex Mono',monospace; }
+
+  /* reveal — fade only, no travel: quietest possible motion */
+  .rv { opacity:0; transition:opacity .8s ease; }
+  .rv.on { opacity:1; }
+  .rv-d1{transition-delay:.08s}.rv-d2{transition-delay:.16s}.rv-d3{transition-delay:.24s}
+  .rv-d4{transition-delay:.32s}.rv-d5{transition-delay:.4s}
+
+  @keyframes fadein { from{opacity:0} to{opacity:1} }
+  .hero-in{opacity:0;animation:fadein 1s ease forwards}
+  .hd-1{animation-delay:.08s}.hd-2{animation-delay:.2s}.hd-3{animation-delay:.32s}
+  .hd-4{animation-delay:.44s}.hd-5{animation-delay:.56s}
+
+  .eyebrow{ letter-spacing:.14em; }
+  .mono-tag{ font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:#7C3AED; }
+
+  /* faint engineering grid on the hero only */
+  .blueprint{ position:absolute; inset:0; pointer-events:none;
+    background-image:linear-gradient(rgba(23,20,28,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,20,28,.045) 1px,transparent 1px);
+    background-size:48px 48px;
+    mask-image:linear-gradient(to bottom,#000 60%,transparent);
+    -webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent); }
+
+  /* topic tiles — flat, square, hairline */
+  .topic{ position:relative; overflow:hidden; margin:0; border:1px solid rgba(23,20,28,.12); background:#fff; }
+  .topic img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover; filter:saturate(.85); transition:filter .3s; }
+  .topic:hover img{ filter:saturate(1); }
+  .topic figcaption{ display:flex; align-items:baseline; gap:.6rem; padding:.8rem .9rem; border-top:1px solid rgba(23,20,28,.12);
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:.92rem; color:#17141C; }
+  .topic figcaption .n{ font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:.7rem; color:#7C3AED; }
+
+  /* cards only where interaction demands it — otherwise hairline dividers */
+  .hair-t{ border-top:1px solid rgba(23,20,28,.12); }
+
+  .cert img{ filter:grayscale(1); opacity:.5; transition:filter .3s, opacity .3s; }
+  .cert:hover img{ filter:grayscale(0); opacity:1; }
+
+  .poster{ transition:transform .3s ease; box-shadow:0 14px 34px -18px rgba(23,20,28,.35); }
+  .poster:hover{ transform:translateY(-4px); }
+
+  /* direction switcher pill */
+  .dirbar{ position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:90;
+    display:flex; align-items:center; gap:.15rem; background:#17141C; color:#fff; border-radius:999px;
+    padding:.3rem .45rem; box-shadow:0 12px 30px -10px rgba(23,20,28,.5); font-size:.78rem; font-weight:600; }
+  .dirbar a{ padding:.42rem .8rem; border-radius:999px; color:rgba(255,255,255,.65); transition:color .2s, background .2s; }
+  .dirbar a:hover{ color:#fff; }
+  .dirbar a.cur{ background:#7C3AED; color:#fff; }
+  .dirbar .lbl{ padding:.42rem .55rem .42rem .8rem; color:rgba(255,255,255,.45); font-weight:500; letter-spacing:.08em; text-transform:uppercase; font-size:.66rem; }
+
+  @media (prefers-reduced-motion: reduce){
+    .rv,.hero-in{opacity:1!important;animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="bg-page text-ink antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
+
+<!-- ═══════════ NAV ═══════════ -->
+<header class="fixed top-0 inset-x-0 z-50 bg-page/95 backdrop-blur-sm border-b border-line">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center">
+      <img src="assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
+    </a>
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/65">
+      <a href="#max" class="hover:text-violet transition-colors">Max</a>
+      <a href="#topics" class="hover:text-violet transition-colors">Topics</a>
+      <a href="#rates" class="hover:text-violet transition-colors">Rates</a>
+      <a href="#scholarship" class="hover:text-violet transition-colors">Scholarship</a>
+    </nav>
+    <a href="#inquire" class="inline-flex items-center gap-2 bg-violet text-white text-sm font-semibold px-5 py-2.5 hover:bg-violet-deep transition-colors">
+      Inquire
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═══════════ 1 · HERO — light, blueprint grid, logo-led ═══════════ -->
+<section id="top" class="relative bg-page overflow-hidden">
+  <div class="blueprint" aria-hidden="true"></div>
+  <div class="max-w-6xl mx-auto px-6 pt-36 pb-16 md:pt-44 md:pb-20 grid md:grid-cols-12 gap-14 md:gap-10 items-center relative">
+    <div class="md:col-span-7">
+      <p class="hero-in hd-1 mono-tag mb-6">Private tutoring · Math · Science · Language</p>
+      <h1 class="hero-in hd-2 font-display font-700 font-bold leading-[1.05] text-[2.7rem] md:text-[4.1rem] tracking-tight">
+        Preparation<span class="text-violet">…</span>Mastery<span class="text-violet">…</span><br class="hidden sm:block">Success<span class="text-violet">…</span>Maxematics<span class="text-violet">.</span>
+      </h1>
+      <p class="hero-in hd-3 mt-7 max-w-xl text-ink/65 text-lg md:text-xl leading-relaxed">
+        Maxematics — pairing real subject mastery with a simple belief: the experts in anything were once
+        beginners too. With tailored programs for every student, Maxematics tackles concepts one at a time.
+      </p>
+      <div class="hero-in hd-4 mt-9">
+        <a href="#inquire" class="inline-flex items-center gap-2 bg-violet text-white font-semibold px-7 py-3.5 hover:bg-violet-deep transition-colors">
+          Book a session
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="md:col-span-5 hero-in hd-3">
+      <div class="mx-auto max-w-[15rem] md:max-w-[18rem] border border-line bg-white p-10">
+        <img src="assets/logo-stacked-color.svg" alt="Maxematics" class="w-full h-auto">
+      </div>
+    </div>
+  </div>
+  <!-- stats as a technical strip -->
+  <div class="hero-in hd-5 border-y border-line relative">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-line">
+      <div class="py-6 pr-6"><p class="font-display font-bold text-3xl"><span data-count="14">14</span></p><p class="font-mono text-[10px] uppercase tracking-[.14em] text-ink/45 mt-1">Topics</p></div>
+      <div class="py-6 px-6"><p class="font-display font-bold text-3xl"><span data-count="10">10</span>+</p><p class="font-mono text-[10px] uppercase tracking-[.14em] text-ink/45 mt-1">Weekly students</p></div>
+      <div class="py-6 px-6"><p class="font-display font-bold text-3xl">2022</p><p class="font-mono text-[10px] uppercase tracking-[.14em] text-ink/45 mt-1">Tutoring since</p></div>
+      <div class="py-6 pl-6"><p class="font-display font-bold text-3xl">1:1</p><p class="font-mono text-[10px] uppercase tracking-[.14em] text-ink/45 mt-1">Every session</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
+<section id="difference" class="bg-page py-20 md:py-24">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-10 md:gap-14">
+    <div class="md:col-span-4">
+      <p class="rv mono-tag mb-4">Why Maxematics</p>
+      <h2 class="rv rv-d1 font-display font-bold text-3xl md:text-[2.4rem] leading-tight tracking-tight">The Maxematics Difference</h2>
+    </div>
+    <div class="md:col-span-8">
+      <ul class="rv rv-d2 grid sm:grid-cols-2 gap-x-10">
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">01</span> Every program tailored to the student</li>
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">02</span> Custom worksheets &amp; practice exams</li>
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">03</span> Virtual, or in a Tampa learning space</li>
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">04</span> Study &amp; time-management skills</li>
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">05</span> Summer refreshers &amp; final-exam prep</li>
+        <li class="hair-t py-3.5 flex gap-3.5 text-ink/75 text-lg"><span class="font-mono text-violet text-xs mt-1.5">06</span> SAT/ACT/DESMOS support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 2 · MEET MAX ═══════════ -->
+<section id="max" class="bg-panel py-24 md:py-28 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-12 gap-12 md:gap-14 items-center">
+      <div class="md:col-span-5 rv">
+        <div class="relative max-w-sm mx-auto md:mx-0 border border-line bg-white p-2.5">
+          <img src="assets/max-4.png" alt="Max Schwarzkopf" class="w-full object-cover">
+          <p class="font-mono text-[10px] uppercase tracking-[.14em] text-ink/50 pt-2.5 px-1 flex justify-between"><span>Max Schwarzkopf</span><span class="text-violet">fig. 01</span></p>
+        </div>
+      </div>
+      <div class="md:col-span-7">
+        <p class="rv mono-tag mb-4">Meet Max</p>
+        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">Meet “The Max” in Maxematics</h2>
+        <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
+          <p class="font-display text-xl md:text-2xl leading-relaxed text-ink/85">“If you think of something as ‘hard’ it will be. It doesn’t have to be that way.”</p>
+        </blockquote>
+        <p class="rv rv-d3 mt-7 text-ink/70 text-lg leading-relaxed">
+          Max started tutoring with the idea that academic success is found at the intersection of preparation
+          and attitude. While hurdling challenges and gaining mastery are obvious tutoring goals, Max aims to do
+          that while inspiring a shift in thinking that makes learning genuinely fun.
+        </p>
+        <p class="rv rv-d4 mt-5 text-ink/70 text-lg leading-relaxed">
+          Beyond tutoring, Max is a Biomedical-STEM student, a researcher, and a campus leader — captain of
+          varsity rowing, director of his school’s Writing Center and founder of the Pie &amp; Pi Club. Max’s
+          personal commitment to excellence is mirrored in his commitment to every student.
+        </p>
+      </div>
+    </div>
+
+    <!-- research & lab experience -->
+    <div class="rv rv-d1 mt-16 grid md:grid-cols-2 gap-5">
+      <div class="bg-white border border-line p-7">
+        <p class="mono-tag">Engineering &amp; Research</p>
+        <p class="font-display font-semibold text-xl mt-2">Reddy Lab, USF</p>
+        <p class="mt-3 text-ink/65 leading-relaxed">
+          Designed and constructed an eVOLVER system for continuous-throughput evolution of yeast and
+          bacterial cells. Conducted experiments evaluating the effects of DDM detergent combined with
+          asolectin on the GltT protein under varied temperatures.
+        </p>
+      </div>
+      <div class="bg-white border border-line p-7">
+        <p class="mono-tag">Internship</p>
+        <p class="font-display font-semibold text-xl mt-2">NJ State Police Crime Lab Intern</p>
+        <p class="text-ink/45 text-sm mt-0.5">Hamilton, NJ</p>
+        <p class="mt-3 text-ink/65 leading-relaxed">
+          Worked with state police scientists in DNA Analysis, Drug Identification, Trace Evidence, Forensic
+          Anthropology, Ballistics, Toxicology, CSI, Serology and CODIS. Assisted the NJSP in this prototype
+          internship to determine viability for future undergraduate participation in what has historically
+          been a program limited to MS students.
+        </p>
+      </div>
+    </div>
+
+    <!-- awards -->
+    <div class="mt-16">
+      <h3 class="rv font-display font-bold text-2xl md:text-3xl tracking-tight">A record that speaks for itself.</h3>
+      <div class="rv rv-d1 mt-8 grid sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-line">
+        <div class="border-b border-r border-line bg-violet-faint p-5"><p class="font-display font-semibold text-lg leading-snug">Anne Frank Humanitarian Award</p><p class="text-ink/55 text-sm mt-1 font-mono">2026</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Excellence — Math · Science · History</p><p class="text-ink/55 text-sm mt-1 font-mono">Department Awards, 2021–26</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Cum Laude Society</p><p class="text-ink/55 text-sm mt-1 font-mono">Inducted 2026</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Tampa Prep Head’s List</p><p class="text-ink/55 text-sm mt-1 font-mono">A+ achieved in all subjects</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Writing Center Director</p><p class="text-ink/55 text-sm mt-1 font-mono">Tampa Prep, 2024–26</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">AP Scholar with Distinction</p><p class="text-ink/55 text-sm mt-1 font-mono">College Board — 5’s on all AP exams</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">HOBY Youth Leadership</p><p class="text-ink/55 text-sm mt-1 font-mono">Ambassador, 2025</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Best Overall Research — HC STEM Fair</p><p class="text-ink/55 text-sm mt-1 font-mono">Awarded by FL Teacher’s Association</p></div>
+        <div class="border-b border-r border-line bg-white p-5"><p class="font-display font-semibold text-lg leading-snug">Varsity Rowing Captain</p><p class="text-ink/55 text-sm mt-1 font-mono">“Coaches Award,” ’25, ’26</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 3 · TOPICS — flat framed grid ═══════════ -->
+<section id="topics" class="bg-page py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv mono-tag mb-4">Topics</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">One Tutor,<br>many topics.</h2>
+    </div>
+    <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption><span class="n">01</span>Algebra 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption><span class="n">02</span>Precalculus</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption><span class="n">03</span>Calculus 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption><span class="n">04</span>Geometry</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption><span class="n">05</span>Statistics</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption><span class="n">06</span>Desmos Calculator</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption><span class="n">07</span>Chemistry</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption><span class="n">08</span>Biology</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption><span class="n">09</span>Lab Reports</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption><span class="n">10</span>Physics</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption><span class="n">11</span>Latin 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption><span class="n">12</span>Creative &amp; Technical Writing</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption><span class="n">13</span>SAT &amp; ACT Prep</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption><span class="n">14</span>World &amp; US History</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 4 · TESTIMONIALS ═══════════ -->
+<section id="testimonials" class="bg-panel py-24 md:py-28 border-y border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv mono-tag mb-4">What families say</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Results students feel.</h2>
+    </div>
+    <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
+      <figure class="rv bg-white border border-line p-7">
+        <blockquote class="text-ink/70 leading-relaxed">“Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!”</blockquote>
+        <figcaption class="mt-5 pt-5 border-t border-line flex items-center gap-3.5">
+          <img src="assets/testimonial-lakshmi.png" alt="Lakshmi Jayaram, Ph.D." loading="lazy" class="w-11 h-11 rounded-full object-contain bg-white border border-line p-1">
+          <span><span class="block font-display font-semibold">Lakshmi Jayaram, Ph.D.</span><span class="block text-sm text-violet font-mono text-[11px] mt-0.5">Executive Director, Prep &amp; Me</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 bg-white border border-line p-7">
+        <blockquote class="text-ink/70 leading-relaxed">“Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he’s such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max.”</blockquote>
+        <figcaption class="mt-5 pt-5 border-t border-line flex items-center gap-3.5">
+          <img src="assets/testimonial-eva.jpg" alt="Eva T." loading="lazy" class="w-11 h-11 rounded-full object-cover" style="object-position:center 15%">
+          <span><span class="block font-display font-semibold">Eva T.</span><span class="block text-sm text-violet font-mono text-[11px] mt-0.5">SAT / ACT Prep</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d2 bg-white border border-line p-7">
+        <blockquote class="text-ink/70 leading-relaxed">“I was struggling in Geometry and worried about completing the class. Since starting with Max I haven’t gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong.”</blockquote>
+        <figcaption class="mt-5 pt-5 border-t border-line flex items-center gap-3.5">
+          <img src="assets/testimonial-kervaris.jpg" alt="Ker’Varis M." loading="lazy" class="w-11 h-11 rounded-full object-cover" style="object-position:center 12%">
+          <span><span class="block font-display font-semibold">Ker’Varis M.</span><span class="block text-sm text-violet font-mono text-[11px] mt-0.5">Geometry</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 bg-white border border-line p-7">
+        <blockquote class="text-ink/70 leading-relaxed">“Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him.”</blockquote>
+        <figcaption class="mt-5 pt-5 border-t border-line flex items-center gap-3.5">
+          <img src="assets/testimonial-alice.jpg" alt="Alice H." loading="lazy" class="w-11 h-11 rounded-full object-cover" style="object-position:center 22%">
+          <span><span class="block font-display font-semibold">Alice H.</span><span class="block text-sm text-violet font-mono text-[11px] mt-0.5">Parent</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d2 bg-white border border-line p-7">
+        <blockquote class="text-ink/70 leading-relaxed">“Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can’t believe I’m writing this, but I’ve actually started to like Chemistry.”</blockquote>
+        <figcaption class="mt-5 pt-5 border-t border-line flex items-center gap-3.5">
+          <img src="assets/testimonial-connor.jpg" alt="Connor J." loading="lazy" class="w-11 h-11 rounded-full object-cover" style="object-position:38% center">
+          <span><span class="block font-display font-semibold">Connor J.</span><span class="block text-sm text-violet font-mono text-[11px] mt-0.5">Chemistry</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 5 · TUTORING & RATES ═══════════ -->
+<section id="rates" class="bg-page py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv mono-tag mb-4">Rates</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Simple, tailored sessions.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">Book by the session or save with the 10-hour package.</p>
+    </div>
+    <div class="mt-12 grid lg:grid-cols-5 gap-8 items-start">
+      <div class="rv lg:col-span-3 border border-line">
+        <table class="w-full text-left">
+          <thead><tr class="border-b border-line bg-panel">
+            <th class="px-8 py-4 font-mono font-medium text-[11px] uppercase tracking-[.14em] text-ink/50">Session</th>
+            <th class="px-8 py-4 font-mono font-medium text-[11px] uppercase tracking-[.14em] text-ink/50 text-right">Rate</th>
+          </tr></thead>
+          <tbody class="divide-y divide-line">
+            <tr><td class="px-8 py-5 font-medium">30 minutes</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$25</td></tr>
+            <tr><td class="px-8 py-5 font-medium">1 hour</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$40</td></tr>
+            <tr><td class="px-8 py-5 font-medium">1.5 hours</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$60</td></tr>
+            <tr class="bg-violet-faint"><td class="px-8 py-5"><p class="font-semibold">10-hour package</p><p class="text-ink/50 text-sm mt-0.5">Schedule in any increments</p></td><td class="px-8 py-5 text-right"><span class="font-display font-bold text-xl text-violet">$375</span></td></tr>
+          </tbody>
+        </table>
+        <p class="px-8 py-4 text-sm text-ink/55 border-t border-line">Zelle, check, or cash accepted.</p>
+      </div>
+      <div class="rv rv-d2 lg:col-span-2 border border-line bg-panel p-8">
+        <h3 class="font-display font-bold text-xl">Virtual session checklist</h3>
+        <ul class="mt-6 space-y-4 text-ink/70">
+          <li class="flex gap-3"><span class="font-mono text-violet text-xs mt-1">▸</span> Tablet (preferred) or computer with internet</li>
+          <li class="flex gap-3"><span class="font-mono text-violet text-xs mt-1">▸</span> Access to Zoom</li>
+          <li class="flex gap-3"><span class="font-mono text-violet text-xs mt-1">▸</span> Paper &amp; pencil</li>
+          <li class="flex gap-3"><span class="font-mono text-violet text-xs mt-1">▸</span> Helpful, not required: Apple Pencil</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 6 · SCHWARZKOPF SCHOLARSHIP — the single dark section ═══════════ -->
+<section id="scholarship" class="relative bg-ink text-white py-24 md:py-32 overflow-hidden">
+  <div class="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden z-0" aria-hidden="true">
+    <img src="assets/general-portrait.jpg" alt="Gen. H Norman Schwarzkopf" class="absolute inset-0 h-full w-full object-cover object-top opacity-45" style="filter:grayscale(.3) contrast(1.05)">
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/25 z-[1] pointer-events-none" aria-hidden="true"></div>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="max-w-2xl">
+      <p class="rv mono-tag mb-4" style="color:#A78BFA">Giving back</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">The Gen. H Norman Schwarzkopf Scholarship</h2>
+      <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed">
+        Max's grandfather spent his life in service — to his country, and to the young men and women who served
+        alongside him. What fewer people know is that he was also an educator, teaching calculus and mechanics at
+        West Point. The scholarship exists in his memory, honoring the value he placed on educating the next generation.
+      </p>
+      <p class="rv rv-d3 mt-4 text-white/60 leading-relaxed">
+        A full scholastic year of tutoring is awarded to one student each year, in September.
+      </p>
+      <blockquote class="rv rv-d4 mt-8 border-l-2 border-violet-soft pl-6">
+        <p class="text-white/90 text-xl leading-relaxed font-display">"You can't help someone else up a hill without getting a little closer to the top yourself."</p>
+        <footer class="mt-3 text-sm text-white/50 font-mono">— Gen. H Norman Schwarzkopf</footer>
+      </blockquote>
+      <div class="rv rv-d5 mt-9">
+        <a href="#inquire" class="inline-flex items-center gap-2 bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors">
+          Learn more &amp; apply
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <p class="mt-3 text-xs text-white/40">Full scholarship story &amp; application form open on the next page in the coded build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7 · OUT IN THE WORLD ═══════════ -->
+<section id="flyers" class="bg-page py-24 md:py-28 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv mono-tag mb-4">Out in the world</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Look for Maxematics around Tampa.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">From the annual scholarship to free exam-prep workshops — here's what's currently circulating.</p>
+    </div>
+    <div class="rv rv-d1 mt-14 flex flex-col sm:flex-row items-center justify-center gap-12 md:gap-16">
+      <a href="#scholarship" class="poster bg-white p-2.5 border border-line" aria-label="Read about the Schwarzkopf Scholarship">
+        <img src="assets/flyer-scholarship.png" alt="The Gen. H Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto block" loading="lazy">
+      </a>
+      <a href="#inquire" class="poster bg-white p-2.5 border border-line" aria-label="Inquire about SAT workshops">
+        <img src="assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto block" loading="lazy">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8 · CONTACT ═══════════ -->
+<section id="inquire" class="bg-panel py-24 md:py-28 border-t border-line">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
+    <div>
+      <p class="rv mono-tag mb-4">Contact</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">Start the conversation.</h2>
+      <p class="rv rv-d2 mt-6 text-ink/60 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
+      <div class="rv rv-d3 mt-8 flex items-center gap-3 text-ink/70">
+        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        <span class="font-medium">maxematics@icloud.com</span>
+      </div>
+    </div>
+    <form class="rv rv-d2 bg-white border border-line p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div><label for="f-name" class="block text-sm font-semibold mb-2">Name</label><input id="f-name" type="text" placeholder="Your name" class="w-full border border-line bg-page px-4 py-3 outline-none focus:border-violet focus:ring-1 focus:ring-violet transition"></div>
+        <div><label for="f-email" class="block text-sm font-semibold mb-2">Email</label><input id="f-email" type="email" placeholder="you@example.com" class="w-full border border-line bg-page px-4 py-3 outline-none focus:border-violet focus:ring-1 focus:ring-violet transition"></div>
+      </div>
+      <div><label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
+        <select id="f-subject" class="w-full border border-line bg-page px-4 py-3 outline-none focus:border-violet focus:ring-1 focus:ring-violet transition text-ink/80">
+          <option>Tutoring — Math</option><option>Tutoring — Science</option><option>Tutoring — Language</option><option>SAT / ACT Prep</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
+        </select>
+      </div>
+      <div><label for="f-msg" class="block text-sm font-semibold mb-2">Message</label><textarea id="f-msg" rows="4" placeholder="Tell Max about the student and the goal…" class="w-full border border-line bg-page px-4 py-3 outline-none focus:border-violet focus:ring-1 focus:ring-violet transition resize-none"></textarea></div>
+      <button type="submit" class="w-full bg-violet text-white font-semibold py-4 hover:bg-violet-deep transition-colors cursor-pointer">Send inquiry</button>
+      <p class="text-xs text-ink/40 text-center">Visual mockup — form wiring ships in the coded build.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ 9 · AFFILIATIONS ═══════════ -->
+<section id="affiliations" class="bg-page py-16 border-t border-line">
+  <div class="max-w-6xl mx-auto px-6">
+    <p class="rv text-center font-mono text-[10px] uppercase tracking-[.14em] text-ink/40 mb-10">Affiliations, certifications &amp; recognition</p>
+    <div class="rv rv-d1 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+      <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" class="cert"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-10 w-auto object-contain"></a>
+      <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-10 w-auto object-contain"></a>
+      <a href="https://www.thefhm.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-anne-frank-humanitarian.png" alt="The Florida Holocaust Museum" class="h-10 w-auto object-contain"></a>
+      <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-10 w-auto object-contain"></a>
+      <a href="https://prepandme.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-prep-and-me.png" alt="Prep &amp; Me" class="h-10 w-auto object-contain"></a>
+      <a href="https://www.ntatutor.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association" class="h-10 w-auto object-contain"></a>
+      <a href="https://maa.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-10 w-auto object-contain"></a>
+      <a href="https://usrowing.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-us-rowing.png" alt="US Rowing" class="h-10 w-auto object-contain"></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="bg-page border-t border-line py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    <a href="#top" class="flex items-center">
+      <img src="assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
+    </a>
+    <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-ink/55">
+      <a href="#max" class="hover:text-violet transition-colors">Max</a>
+      <a href="#topics" class="hover:text-violet transition-colors">Topics</a>
+      <a href="#rates" class="hover:text-violet transition-colors">Rates</a>
+      <a href="#scholarship" class="hover:text-violet transition-colors">Scholarship</a>
+      <a href="#inquire" class="hover:text-violet transition-colors">Contact</a>
+    </nav>
+    <p class="text-sm text-ink/45">maxematics@icloud.com</p>
+  </div>
+  <p class="mt-10 text-center text-xs text-ink/30">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
+</footer>
+
+<!-- direction switcher -->
+<nav class="dirbar" aria-label="Visual direction switcher">
+  <span class="lbl">Direction</span>
+  <a href="index.html">A</a>
+  <a href="direction-b.html">B</a>
+  <a href="direction-c.html" class="cur" aria-current="page">C</a>
+</nav>
+
+<script>
+  if (location.search.includes('static')) {
+    document.querySelectorAll('.rv').forEach(el => el.classList.add('on'));
+    document.querySelectorAll('.hero-in').forEach(el => { el.style.animation='none'; el.style.opacity='1'; });
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.getAttribute('data-count'), 10);
+    const obs = new IntersectionObserver((es) => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        obs.unobserve(el);
+        if (location.search.includes('static') || window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = target; return; }
+        const t0 = performance.now();
+        const step = (t) => {
+          const p = Math.min(1, (t - t0) / 1200);
+          el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>

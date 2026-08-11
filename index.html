@@ -197,6 +197,15 @@ tailwind.config = {
   .lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
   .lenis.lenis-stopped{ overflow:hidden; }
 
+  /* direction switcher pill (v3 visual-direction round — remove after pick) */
+  .dirbar{ position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:90;
+    display:flex; align-items:center; gap:.15rem; background:#140E1F; color:#fff; border-radius:999px;
+    padding:.3rem .45rem; box-shadow:0 12px 30px -10px rgba(20,14,31,.5); font-size:.78rem; font-weight:600; }
+  .dirbar a{ padding:.42rem .8rem; border-radius:999px; color:rgba(255,255,255,.65); transition:color .2s, background .2s; }
+  .dirbar a:hover{ color:#fff; }
+  .dirbar a.cur{ background:#7C3AED; color:#fff; }
+  .dirbar .lbl{ padding:.42rem .55rem .42rem .8rem; color:rgba(255,255,255,.45); font-weight:500; letter-spacing:.08em; text-transform:uppercase; font-size:.66rem; }
+
   @media (prefers-reduced-motion: reduce){
     .rv,.hero-in{opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important}
     .blob,.aurora,.hero-grid,.glyph{animation:none!important}
@@ -621,6 +630,14 @@ tailwind.config = {
   </div>
   <p class="mt-10 text-center text-xs text-white/30">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
 </footer>
+
+<!-- direction switcher (v3 visual-direction round — remove after pick) -->
+<nav class="dirbar" aria-label="Visual direction switcher">
+  <span class="lbl">Direction</span>
+  <a href="index.html" class="cur" aria-current="page">A</a>
+  <a href="direction-b.html">B</a>
+  <a href="direction-c.html">C</a>
+</nav>
 
 <script>
   if (location.search.includes('static')) {
