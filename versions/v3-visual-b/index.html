@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-vd="b">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- v3 visual direction: B — Editorial credibility -->
+<meta name="vd-variant" content="b">
 <meta name="robots" content="noindex, nofollow">
-<title>Maxematics — Private Tutoring in Math, Science &amp; Language · Max Schwarzkopf</title>
+<title>Maxematics — Direction B: Editorial credibility</title>
 <meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions across 14 topics in math, science &amp; language, including SAT/ACT and Desmos support, virtual or in person.">
 <meta name="theme-color" content="#140E1F">
-<link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
-<link rel="icon" href="assets/favicon/maxematics-favicon-violet-32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="assets/favicon/maxematics-favicon-violet-192.png" sizes="192x192" type="image/png">
-<link rel="apple-touch-icon" href="assets/favicon/maxematics-favicon-violet-180.png">
+<link rel="icon" href="../../assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
+<link rel="icon" href="../../assets/favicon/maxematics-favicon-violet-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../../assets/favicon/maxematics-favicon-violet-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/favicon/maxematics-favicon-violet-180.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Maxematics — Private Tutoring in Math, Science &amp; Language">
 <meta property="og:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
@@ -23,25 +25,25 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script>
 tailwind.config = {
   theme: {
     extend: {
       colors: {
         ink:    '#140E1F',
-        plum:   '#1B1230',
-        violet: { DEFAULT:'#7C3AED', deep:'#5B21B6', soft:'#A78BFA', faint:'#EFE9FE' },
+        plum:   '#1A1520',
+        violet: { DEFAULT:'#7C3AED', deep:'#5B21B6', soft:'#A78BFA', faint:'#F0EBF8' },
         indigo2:'#4F46E5',
         fuchsia2:'#C026D3',
         peach:  '#FF8A5B',
         sky2:   '#38BDF8',
-        paper:  '#FAF8FF',
-        mist:   '#F1ECFB'
+        paper:  '#F7F5F0',
+        mist:   '#EFEBE3'
       },
       fontFamily: {
-        display: ['Sora','sans-serif'],
-        body: ['"Instrument Sans"','sans-serif']
+        display: ['Newsreader','Georgia','serif'],
+        body: ['"Source Sans 3"','sans-serif']
       }
     }
   }
@@ -49,96 +51,60 @@ tailwind.config = {
 </script>
 <style>
   html { scroll-behavior:smooth; }
-  body { font-family:'Instrument Sans',sans-serif; }
-  .font-display { font-family:'Sora',sans-serif; }
+  body { font-family:'Source Sans 3',sans-serif; background:#F7F5F0; }
+  .font-display { font-family:'Newsreader',Georgia,serif; }
 
-  /* ───────── scroll reveal ───────── */
-  .rv { opacity:0; transform:translateY(26px); filter:blur(6px); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1), filter .7s cubic-bezier(.22,1,.36,1); }
-  .rv.on { opacity:1; transform:none; filter:blur(0); }
-  .rv-d1{transition-delay:.07s}.rv-d2{transition-delay:.14s}.rv-d3{transition-delay:.21s}
-  .rv-d4{transition-delay:.28s}.rv-d5{transition-delay:.35s}.rv-d6{transition-delay:.42s}
+  .rv { opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+  .rv.on { opacity:1; transform:none; }
+  .rv-d1{transition-delay:.06s}.rv-d2{transition-delay:.12s}.rv-d3{transition-delay:.18s}
+  .rv-d4{transition-delay:.24s}.rv-d5{transition-delay:.3s}.rv-d6{transition-delay:.36s}
 
-  /* ───────── hero entrance ───────── */
-  @keyframes rise { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
-  .hero-in{opacity:0;animation:rise .9s cubic-bezier(.22,1,.36,1) forwards}
-  .hd-1{animation-delay:.10s}.hd-2{animation-delay:.22s}.hd-3{animation-delay:.34s}
-  .hd-4{animation-delay:.46s}.hd-5{animation-delay:.58s}.hd-6{animation-delay:.72s}
+  @keyframes rise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+  .hero-in{opacity:0;animation:rise .85s cubic-bezier(.22,1,.36,1) forwards}
+  .hd-1{animation-delay:.08s}.hd-2{animation-delay:.16s}.hd-3{animation-delay:.24s}
+  .hd-4{animation-delay:.32s}.hd-5{animation-delay:.4s}.hd-6{animation-delay:.48s}
 
-  /* ───────── DYNAMIC COLOR: drifting gradient-mesh (replaces flat plum) ───────── */
-  .mesh { position:absolute; inset:-30% -10%; z-index:0; pointer-events:none; filter:blur(55px); opacity:1; }
-  .blob { position:absolute; border-radius:50%; mix-blend-mode:screen; will-change:transform; }
-  .b1{ width:50vw;height:50vw; left:-6%; top:-10%;  background:radial-gradient(circle at 30% 30%, #8B4CF0, transparent 68%); animation:drift1 20s ease-in-out infinite; }
-  .b2{ width:46vw;height:46vw; right:-8%; top:-4%;  background:radial-gradient(circle at 50% 50%, #D033E0, transparent 68%); animation:drift2 26s ease-in-out infinite; }
-  .b3{ width:44vw;height:44vw; left:24%; bottom:-22%; background:radial-gradient(circle at 50% 50%, #5A54F0, transparent 68%); animation:drift3 23s ease-in-out infinite; }
-  .b4{ width:30vw;height:30vw; right:8%; bottom:-6%; background:radial-gradient(circle at 50% 50%, #FF8A5B, transparent 66%); opacity:.7; animation:drift1 30s ease-in-out infinite reverse; }
-  .b5{ width:28vw;height:28vw; left:34%; top:-8%; background:radial-gradient(circle at 50% 50%, #38BDF8, transparent 66%); opacity:.6; animation:drift2 34s ease-in-out infinite; }
-  @keyframes drift1{ 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(6%,8%) scale(1.12)} 66%{transform:translate(-5%,4%) scale(.95)} }
-  @keyframes drift2{ 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-8%,6%) scale(1.15)} }
-  @keyframes drift3{ 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(7%,-6%) scale(1.1)} 75%{transform:translate(-4%,5%) scale(.96)} }
+  /* editorial: no mesh / aurora / glyphs — solid field only */
+  .mesh,.blob,.hero-bg,.aurora,.hero-grid,.glyphs,.glyph,.spotlight{ display:none !important; }
 
-  /* ───────── HERO — premium layered background (replaces muddy blob mesh) ───────── */
-  .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
-  /* two clean auroras — violet + indigo only, no screen-blend browning */
-  .aurora{ position:absolute; border-radius:50%; filter:blur(90px); will-change:transform; }
-  .a1{ width:62vw; height:62vw; left:-12%; top:-28%; opacity:.55; background:radial-gradient(circle at 50% 50%, #7C3AED, transparent 62%); animation:auroraA 24s ease-in-out infinite; }
-  .a2{ width:54vw; height:54vw; right:-14%; top:-12%; opacity:.5;  background:radial-gradient(circle at 50% 50%, #4F46E5, transparent 62%); animation:auroraB 30s ease-in-out infinite; }
-  .a3{ width:40vw; height:40vw; left:30%; bottom:-30%; opacity:.4; background:radial-gradient(circle at 50% 50%, #C026D3, transparent 64%); animation:auroraA 34s ease-in-out infinite reverse; }
-  @keyframes auroraA{ 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(5%,6%,0) scale(1.1)} }
-  @keyframes auroraB{ 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(-6%,4%,0) scale(1.08)} }
-  /* animated fine grid, radial-masked */
-  .hero-grid{ position:absolute; inset:-2px;
-    background-image:linear-gradient(rgba(167,139,250,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.07) 1px,transparent 1px);
-    background-size:54px 54px;
-    mask-image:radial-gradient(ellipse 72% 62% at 60% 38%,#000 28%,transparent 80%);
-    -webkit-mask-image:radial-gradient(ellipse 72% 62% at 60% 38%,#000 28%,transparent 80%);
-    animation:gridPan 44s linear infinite; }
-  @keyframes gridPan{ from{background-position:0 0} to{background-position:54px 54px} }
-  /* drifting math/science glyphs — on-brand depth */
-  .glyphs{ position:absolute; inset:0; }
-  .glyph{ position:absolute; font-family:'Sora',sans-serif; font-weight:600; color:#A78BFA; opacity:.15; user-select:none; will-change:transform; animation:floaty var(--fd,18s) ease-in-out infinite; }
-  @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(var(--rot,0deg))} 50%{transform:translateY(-22px) rotate(var(--rot,0deg))} }
-  /* cursor-tracking spotlight */
-  .spotlight{ position:absolute; width:620px; height:620px; left:0; top:0; margin:-310px 0 0 -310px; border-radius:50%;
-    background:radial-gradient(circle, rgba(124,58,237,.22), transparent 60%); will-change:transform; opacity:0; transition:opacity .5s ease; }
-  /* cinematic scholarship portrait */
-  .schwarzkopf-img{ opacity:.55; filter:contrast(1.05) saturate(.92); will-change:transform; }
+  .schwarzkopf-img{ opacity:.45; filter:contrast(1.08) saturate(.85) grayscale(.15); }
 
-  /* subtle science grid — much lighter than v1, dark sections only */
   .grid-faint::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background-image:linear-gradient(rgba(167,139,250,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.04) 1px,transparent 1px);
-    background-size:64px 64px; mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 40%,transparent 100%); }
+    background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px);
+    background-size:72px 72px; mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 100%); }
 
-  .eyebrow{ letter-spacing:.16em; }
+  .eyebrow{ letter-spacing:.2em; font-weight:600; }
 
-  /* ───────── topic tiles — photo + label ───────── */
-  .topic{ position:relative; overflow:hidden; border-radius:1.15rem; margin:0; background:#140E1F;
-    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
-  .topic:hover{ transform:translateY(-5px); box-shadow:0 24px 46px -20px rgba(124,58,237,.42); }
+  /* topics — quieter, sharper */
+  .topic{ position:relative; overflow:hidden; border-radius:.35rem; margin:0; background:#140E1F;
+    transition:transform .35s cubic-bezier(.22,1,.36,1); }
+  .topic:hover{ transform:translateY(-3px); }
   .topic img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
-    transition:transform .7s cubic-bezier(.22,1,.36,1), filter .4s; }
-  .topic:hover img{ transform:scale(1.07); }
-  /* legibility scrim — the label sits on photography, so it needs a guaranteed floor */
+    transition:transform .6s cubic-bezier(.22,1,.36,1); filter:saturate(.9); }
+  .topic:hover img{ transform:scale(1.04); }
   .topic::after{ content:''; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(to top, rgba(20,14,31,.96) 0%, rgba(20,14,31,.86) 18%, rgba(20,14,31,.42) 44%, rgba(20,14,31,0) 72%); }
-  .topic figcaption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:1rem 1.1rem;
-    font-family:'Sora',sans-serif; font-weight:700; font-size:1.02rem; line-height:1.25; color:#fff;
-    text-shadow:0 1px 12px rgba(0,0,0,.5); }
-  @media(max-width:640px){ .topic figcaption{ font-size:.9rem; padding:.8rem .85rem; } }
+    background:linear-gradient(to top, rgba(20,14,31,.92) 0%, rgba(20,14,31,.35) 40%, transparent 70%); }
+  .topic figcaption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:1rem 1.05rem;
+    font-family:'Newsreader',Georgia,serif; font-weight:600; font-size:1.05rem; line-height:1.25; color:#fff;
+    letter-spacing:-.01em; }
+  @media(max-width:640px){ .topic figcaption{ font-size:.92rem; padding:.75rem .8rem; } }
 
-  /* ───────── static testimonial cards ───────── */
-  .tcard{ margin:0; background:#fff; border:1px solid rgba(20,14,31,.07); border-radius:1.4rem; padding:2rem 1.9rem;
-    box-shadow:0 1px 2px rgba(20,14,31,.04); transition:transform .35s, box-shadow .35s; }
-  .tcard:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -22px rgba(20,14,31,.22); }
-  .tcard-q{ color:rgba(20,14,31,.72); font-size:1.02rem; line-height:1.72; }
-  .tcard-by{ display:flex; align-items:center; gap:.9rem; margin-top:1.5rem; padding-top:1.35rem; border-top:1px solid rgba(20,14,31,.07); }
-  .tcard-av{ width:3rem; height:3rem; border-radius:50%; object-fit:cover; flex:none; }
-  .tcard-av.is-logo{ object-fit:contain; padding:.35rem; background:#fff; border:1px solid rgba(20,14,31,.08); }
-  .tcard-name{ display:block; font-family:'Sora',sans-serif; font-weight:700; color:#140E1F; line-height:1.3; }
-  .tcard-role{ display:block; font-size:.82rem; color:#7C3AED; font-weight:600; margin-top:.1rem; }
+  /* testimonials — open quote, hairline, not card chrome */
+  .tcard{ margin:0; background:transparent; border:0; border-radius:0; padding:0 0 1.75rem;
+    box-shadow:none; border-bottom:1px solid rgba(20,14,31,.12); }
+  .tcard:hover{ transform:none; box-shadow:none; }
+  .tcard-q{ color:rgba(20,14,31,.78); font-size:1.08rem; line-height:1.75;
+    font-family:'Newsreader',Georgia,serif; font-style:italic; }
+  .tcard-q::before{ content:'“'; display:block; font-size:2.4rem; line-height:1; color:#7C3AED;
+    font-family:'Newsreader',Georgia,serif; font-style:normal; margin-bottom:.35rem; }
+  .tcard-by{ display:flex; align-items:center; gap:.9rem; margin-top:1.25rem; padding-top:0; border-top:0; }
+  .tcard-av{ width:2.6rem; height:2.6rem; border-radius:50%; object-fit:cover; flex:none; }
+  .tcard-av.is-logo{ object-fit:contain; padding:.3rem; background:#fff; border:1px solid rgba(20,14,31,.1); border-radius:.25rem; }
+  .tcard-name{ display:block; font-family:'Source Sans 3',sans-serif; font-weight:700; color:#140E1F; line-height:1.3; letter-spacing:.01em; }
+  .tcard-role{ display:block; font-size:.8rem; color:#7C3AED; font-weight:600; margin-top:.1rem; letter-spacing:.04em; text-transform:uppercase; }
 
-  /* ───────── expanding credential cards — hover on desktop, always open on touch ───────── */
   .expando-full{ max-height:0; opacity:0; overflow:hidden;
-    transition:max-height .55s cubic-bezier(.22,1,.36,1), opacity .4s ease, margin-top .55s cubic-bezier(.22,1,.36,1); }
+    transition:max-height .55s cubic-bezier(.22,1,.36,1), opacity .4s ease, margin-top .55s; }
   @media(min-width:768px){
     .expando:hover .expando-full, .expando:focus-within .expando-full{ max-height:24rem; opacity:1; margin-top:.9rem; }
     .expando:hover .expando-hint, .expando:focus-within .expando-hint{ opacity:0; }
@@ -149,64 +115,67 @@ tailwind.config = {
     .expando-hint{ display:none; }
   }
 
-  .cardlift{ transition:transform .35s, box-shadow .35s; }
-  .cardlift:hover{ transform:translateY(-4px); box-shadow:0 20px 40px -18px rgba(20,14,31,.16); }
+  .cardlift{ transition:none; }
+  .cardlift:hover{ transform:none; box-shadow:none; }
 
-  .award{ transition:background .25s, transform .25s; }
-  .award:hover{ background:rgba(124,58,237,.07); transform:translateX(3px); }
+  .award{ transition:background .2s; }
+  .award:hover{ background:rgba(124,58,237,.06); transform:none; }
 
-  /* image reveal — subtle zoom on scroll-in */
-  .imgwrap img{ transition:transform 1.2s cubic-bezier(.22,1,.36,1); }
+  .imgwrap img{ transition:transform 1s cubic-bezier(.22,1,.36,1); }
   .rv.on .imgwrap img{ transform:scale(1); }
-  .imgwrap img{ transform:scale(1.06); }
+  .imgwrap img{ transform:scale(1.04); }
 
   .cert img{ transition:transform .3s; }
   .cert:hover img{ transform:translateY(-2px); }
 
-  /* ───────── cycling logo carousel (affiliations) ───────── */
   .aff-carousel{
     display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%;
     --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E");
   }
   .aff-slot{ position:relative; flex:1 1 0; min-width:0; height:72px; display:flex; align-items:center; justify-content:center; }
-  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:alias; will-change:transform,opacity,filter; }
-  /* first/last logos hug the container edge so the strip aligns with the nav's max-width */
+  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:alias; }
   .aff-slot:first-child .aff-logo{ justify-content:flex-start; }
   .aff-slot:last-child  .aff-logo{ justify-content:flex-end; }
-  /* inner wrapper shrinks to the logo so the ↗ badge sits on the logo, not the slot */
   .aff-logo-in{ position:relative; display:inline-flex; max-width:88%; }
-  .aff-logo img{ max-height:48px; max-width:100%; width:auto; object-fit:contain; transition:transform .35s cubic-bezier(.22,1,.36,1); }
-  .aff-logo:hover img{ transform:translateY(-3px) scale(1.04); }
-  /* external-link affordance: ↗ badge fades in on hover, hugging the logo's top-right */
+  .aff-logo img{ max-height:48px; max-width:100%; width:auto; object-fit:contain; transition:transform .3s; }
+  .aff-logo:hover img{ transform:translateY(-2px); }
   .aff-logo-in::after{
     content:''; position:absolute; top:-9px; right:-13px; width:12px; height:12px;
     background:#7C3AED; opacity:0; transform:translate(-3px,3px);
-    transition:opacity .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
+    transition:opacity .25s ease, transform .25s;
     -webkit-mask:var(--ext-icon) center/contain no-repeat; mask:var(--ext-icon) center/contain no-repeat;
   }
   .aff-logo:hover .aff-logo-in::after{ opacity:.9; transform:translate(0,-2px); }
-  .aff-logo:focus-visible{ outline:2px solid #7C3AED; outline-offset:6px; border-radius:.5rem; }
+  .aff-logo:focus-visible{ outline:2px solid #7C3AED; outline-offset:6px; }
 
-  /* framed print collateral (flyers) */
-  .poster{ transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; box-shadow:0 22px 50px -22px rgba(20,14,31,.5); }
-  .poster:hover{ transform:translateY(-6px) rotate(0deg)!important; box-shadow:0 30px 60px -24px rgba(20,14,31,.55); }
+  .poster{ transition:transform .35s; box-shadow:0 16px 40px -20px rgba(20,14,31,.35); transform:none !important; }
+  .poster:hover{ transform:translateY(-4px)!important; }
 
-  /* ───────── Lenis smooth scroll ───────── */
+  /* awards → ruled rows */
+  #max .grid.sm\:grid-cols-2.lg\:grid-cols-3{ display:block; columns:1; }
+  @media(min-width:768px){ #max .grid.sm\:grid-cols-2.lg\:grid-cols-3{ columns:2; column-gap:2.5rem; } }
+  #max .grid.sm\:grid-cols-2.lg\:grid-cols-3 > div{
+    break-inside:avoid; border-radius:0 !important; background:transparent !important;
+    border:0 !important; border-bottom:1px solid rgba(255,255,255,.14) !important;
+    padding:.9rem 0 !important; margin:0;
+  }
+
+  /* CTA / nav — less pill, more editorial button */
+  header a.inline-flex.rounded-full,
+  a.inline-flex.rounded-full.bg-white,
+  a.inline-flex.rounded-full.bg-violet{ border-radius:.2rem !important; }
+
   html.lenis,html.lenis body{ height:auto; }
   .lenis.lenis-smooth{ scroll-behavior:auto!important; }
-  .lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
-  .lenis.lenis-stopped{ overflow:hidden; }
 
   @media (prefers-reduced-motion: reduce){
-    .rv,.hero-in{opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important}
-    .blob,.aurora,.hero-grid,.glyph{animation:none!important}
+    .rv,.hero-in{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
     .imgwrap img,.schwarzkopf-img{transform:none!important}
-    .topic img{transition:none!important}
     html{scroll-behavior:auto}
   }
 </style>
 </head>
-<body class="bg-paper text-ink antialiased">
+<body class="bg-paper text-ink antialiased" style="font-family:'Source Sans 3',sans-serif">
 
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
 
@@ -214,7 +183,7 @@ tailwind.config = {
 <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-paper/85 border-b border-ink/5">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center">
-      <img src="assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
+      <img src="../../assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
     </a>
     <nav aria-label="Primary" class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
       <a href="#max" class="hover:text-violet transition-colors">Max</a>
@@ -233,11 +202,7 @@ tailwind.config = {
 
 <!-- ═══════════ 1 · MAXEMATICS — the company (logo-led, no photo of Max) ═══════════ -->
 <section id="top" class="relative bg-ink text-white overflow-hidden">
-  <!-- premium layered hero background -->
-  <div class="hero-bg" aria-hidden="true">
-    <span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span>
-    <div class="hero-grid"></div>
-    <div class="glyphs" id="heroGlyphs">
+  <div class="glyphs" id="heroGlyphs">
       <span class="glyph" style="left:8%;top:24%;font-size:64px;--fd:19s;--rot:-8deg" data-depth="26">∫</span>
       <span class="glyph" style="left:20%;top:66%;font-size:44px;--fd:23s;--rot:6deg" data-depth="42">π</span>
       <span class="glyph" style="left:44%;top:16%;font-size:52px;--fd:21s;--rot:4deg" data-depth="18">√</span>
@@ -256,7 +221,7 @@ tailwind.config = {
     <div class="md:col-span-5 md:order-2 hero-in hd-1">
       <div class="relative mx-auto max-w-[17rem] md:max-w-[20rem]">
         <div class="absolute -inset-10 rounded-full bg-violet/25 blur-[70px]" aria-hidden="true"></div>
-        <img src="assets/logo-stacked-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+        <img src="../../assets/logo-stacked-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
       </div>
     </div>
 
@@ -316,8 +281,8 @@ tailwind.config = {
       <div class="md:col-span-5 rv imgwrap">
         <div class="relative max-w-sm mx-auto md:mx-0" data-parallax="40">
           <div class="absolute -left-4 -top-4 w-full h-full rounded-[1.6rem] border-2 border-violet-soft/25" aria-hidden="true"></div>
-          <img src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.6rem] w-full object-cover shadow-2xl">
-          <div class="absolute -bottom-5 -right-5 bg-violet text-white rounded-2xl px-5 py-3 shadow-xl font-display font-semibold text-sm">Max Schwarzkopf</div>
+          <img src="../../assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.6rem] w-full object-cover shadow-2xl">
+          <div class="absolute -bottom-4 -right-2 bg-transparent text-white px-0 py-0 font-display font-semibold text-sm tracking-wide border-b border-violet-soft/60">Max Schwarzkopf</div>
         </div>
       </div>
       <div class="md:col-span-7">
@@ -396,20 +361,20 @@ tailwind.config = {
     </div>
 
     <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption>Desmos Calculator</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption>Lab Reports</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption>SAT &amp; ACT Prep</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
+      <figure class="rv topic"><img src="../../assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="../../assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="../../assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="../../assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
+      <figure class="rv topic"><img src="../../assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="../../assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption>Desmos Calculator</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="../../assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="../../assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
+      <figure class="rv topic"><img src="../../assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption>Lab Reports</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="../../assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="../../assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="../../assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
+      <figure class="rv topic"><img src="../../assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption>SAT &amp; ACT Prep</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="../../assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
     </div>
   </div>
 </section>
@@ -425,35 +390,35 @@ tailwind.config = {
       <figure class="rv tcard">
         <blockquote class="tcard-q">“Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!”</blockquote>
         <figcaption class="tcard-by">
-          <img src="assets/testimonial-lakshmi.png" alt="Lakshmi Jayaram, Ph.D." loading="lazy" class="tcard-av is-logo">
+          <img src="../../assets/testimonial-lakshmi.png" alt="Lakshmi Jayaram, Ph.D." loading="lazy" class="tcard-av is-logo">
           <span><span class="tcard-name">Lakshmi Jayaram, Ph.D.</span><span class="tcard-role">Executive Director, Prep &amp; Me</span></span>
         </figcaption>
       </figure>
       <figure class="rv rv-d1 tcard">
         <blockquote class="tcard-q">“Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he’s such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max.”</blockquote>
         <figcaption class="tcard-by">
-          <img src="assets/testimonial-eva.jpg" alt="Eva T." loading="lazy" class="tcard-av" style="object-position:center 15%">
+          <img src="../../assets/testimonial-eva.jpg" alt="Eva T." loading="lazy" class="tcard-av" style="object-position:center 15%">
           <span><span class="tcard-name">Eva T.</span><span class="tcard-role">SAT / ACT Prep</span></span>
         </figcaption>
       </figure>
       <figure class="rv rv-d2 tcard">
         <blockquote class="tcard-q">“I was struggling in Geometry and worried about completing the class. Since starting with Max I haven’t gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong.”</blockquote>
         <figcaption class="tcard-by">
-          <img src="assets/testimonial-kervaris.jpg" alt="Ker’Varis M." loading="lazy" class="tcard-av" style="object-position:center 12%">
+          <img src="../../assets/testimonial-kervaris.jpg" alt="Ker’Varis M." loading="lazy" class="tcard-av" style="object-position:center 12%">
           <span><span class="tcard-name">Ker’Varis M.</span><span class="tcard-role">Geometry</span></span>
         </figcaption>
       </figure>
       <figure class="rv rv-d1 tcard">
         <blockquote class="tcard-q">“Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him.”</blockquote>
         <figcaption class="tcard-by">
-          <img src="assets/testimonial-alice.jpg" alt="Alice H." loading="lazy" class="tcard-av" style="object-position:center 22%">
+          <img src="../../assets/testimonial-alice.jpg" alt="Alice H." loading="lazy" class="tcard-av" style="object-position:center 22%">
           <span><span class="tcard-name">Alice H.</span><span class="tcard-role">Parent</span></span>
         </figcaption>
       </figure>
       <figure class="rv rv-d2 tcard">
         <blockquote class="tcard-q">“Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can’t believe I’m writing this, but I’ve actually started to like Chemistry.”</blockquote>
         <figcaption class="tcard-by">
-          <img src="assets/testimonial-connor.jpg" alt="Connor J." loading="lazy" class="tcard-av" style="object-position:38% center">
+          <img src="../../assets/testimonial-connor.jpg" alt="Connor J." loading="lazy" class="tcard-av" style="object-position:38% center">
           <span><span class="tcard-name">Connor J.</span><span class="tcard-role">Chemistry</span></span>
         </figcaption>
       </figure>
@@ -504,7 +469,7 @@ tailwind.config = {
 <!-- ═══════════ 6 · GIVING BACK / SCHWARZKOPF SCHOLARSHIP ═══════════ -->
 <section id="scholarship" class="relative bg-ink text-white py-24 md:py-32 overflow-hidden">
   <div class="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden z-0" aria-hidden="true">
-    <img id="schwarzkopf" src="assets/general-portrait.jpg" alt="Gen. H Norman Schwarzkopf" class="schwarzkopf-img absolute inset-x-0 -top-[14%] h-[128%] w-full object-cover object-top">
+    <img id="schwarzkopf" src="../../assets/general-portrait.jpg" alt="Gen. H Norman Schwarzkopf" class="schwarzkopf-img absolute inset-x-0 -top-[14%] h-[128%] w-full object-cover object-top">
   </div>
   <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/25 z-[1] pointer-events-none" aria-hidden="true"></div>
   <div class="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-ink/70 to-transparent z-[1] pointer-events-none" aria-hidden="true"></div>
@@ -545,10 +510,10 @@ tailwind.config = {
     </div>
     <div class="rv rv-d1 mt-14 flex flex-col sm:flex-row items-center justify-center gap-12 md:gap-16">
       <a href="#scholarship" class="poster rounded-2xl bg-white p-2.5 border border-ink/8" style="transform:rotate(-2.5deg)" aria-label="Read about the Schwarzkopf Scholarship">
-        <img src="assets/flyer-scholarship.png" alt="The Gen. H Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
+        <img src="../../assets/flyer-scholarship.png" alt="The Gen. H Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
       </a>
       <a href="#inquire" class="poster rounded-2xl bg-white p-2.5 border border-ink/8" style="transform:rotate(2.5deg)" aria-label="Inquire about SAT workshops">
-        <img src="assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
+        <img src="../../assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-lg block" loading="lazy">
       </a>
     </div>
   </div>
@@ -566,7 +531,7 @@ tailwind.config = {
         <span class="font-medium">maxematics@icloud.com</span>
       </div>
     </div>
-    <form class="rv rv-d2 bg-white rounded-3xl border border-ink/8 shadow-sm p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
+    <form class="rv rv-d2 bg-paper border border-ink/15 shadow-none p-8 space-y-5 rounded-sm" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
       <div class="grid sm:grid-cols-2 gap-5">
         <div><label for="f-name" class="block text-sm font-semibold mb-2">Name</label><input id="f-name" type="text" placeholder="Your name" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
         <div><label for="f-email" class="block text-sm font-semibold mb-2">Email</label><input id="f-email" type="email" placeholder="you@example.com" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
@@ -590,14 +555,14 @@ tailwind.config = {
     <div class="rv rv-d1 aff-carousel" id="affCarousel" role="region" aria-roledescription="carousel" aria-label="Affiliations, certifications and recognition"></div>
     <noscript>
       <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
-        <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" class="cert"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
-        <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-11 w-auto object-contain"></a>
-        <a href="https://www.thefhm.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-anne-frank-humanitarian.png" alt="The Florida Holocaust Museum" class="h-11 w-auto object-contain"></a>
-        <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-11 w-auto object-contain"></a>
-        <a href="https://prepandme.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-prep-and-me.png" alt="Prep &amp; Me" class="h-11 w-auto object-contain"></a>
-        <a href="https://www.ntatutor.com/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association" class="h-11 w-auto object-contain"></a>
-        <a href="https://maa.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-11 w-auto object-contain"></a>
-        <a href="https://usrowing.org/" target="_blank" rel="noopener" class="cert"><img src="assets/logo-us-rowing.png" alt="US Rowing" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
+        <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.thefhm.org/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-anne-frank-humanitarian.png" alt="The Florida Holocaust Museum" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-11 w-auto object-contain"></a>
+        <a href="https://prepandme.org/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-prep-and-me.png" alt="Prep &amp; Me" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.ntatutor.com/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-nta-tutor.png" alt="National Tutoring Association" class="h-11 w-auto object-contain"></a>
+        <a href="https://maa.org/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-11 w-auto object-contain"></a>
+        <a href="https://usrowing.org/" target="_blank" rel="noopener" class="cert"><img src="../../assets/logo-us-rowing.png" alt="US Rowing" class="h-11 w-auto object-contain"></a>
       </div>
     </noscript>
   </div>
@@ -608,7 +573,7 @@ tailwind.config = {
 <footer class="bg-ink text-white py-14">
   <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
     <a href="#top" class="flex items-center">
-      <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
+      <img src="../../assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
     </a>
     <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/55">
       <a href="#max" class="hover:text-violet-soft transition-colors">Max</a>
@@ -664,18 +629,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 /* ─── Affiliations: cycling logo carousel (fixed slots, staggered blur/slide) ─── */
 const AFF = [
-  { src:'assets/logo-autodesk-certification.png', alt:'Autodesk Certification',              url:'https://www.autodesk.com/certification/overview' },
-  { src:'assets/logo-cum-laude-society.png',      alt:'Cum Laude Society',                   url:'https://cumlaudesociety.org/' },
-  { src:'assets/logo-anne-frank-humanitarian.png',alt:'Florida Holocaust Museum — Anne Frank Humanitarian Award', url:'https://www.thefhm.org/' },
-  { src:'assets/logo-reddy-lab.png',              alt:'Reddy Lab',                           url:'https://www.reddy-lab.com/' },
-  { src:'assets/logo-instagram-post-award.png',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
-  { src:'assets/logo-pie-and-pi-club.png',        alt:'Pie & Pi Club',                       url:'https://www.instagram.com/pieandpi' },
-  { src:'assets/logo-hoby-leadership.png',        alt:'HOBY Leadership',                     url:'https://hoby.org/' },
-  { src:'assets/logo-prep-and-me.png',            alt:'Prep & Me',                           url:'https://prepandme.org/' },
-  { src:'assets/logo-nta-tutor.png',              alt:'National Tutoring Association',        url:'https://www.ntatutor.com/' },
-  { src:'assets/logo-maa-math.png',               alt:'Mathematical Association of America',  url:'https://maa.org/' },
-  { src:'assets/logo-us-rowing.png',              alt:'US Rowing',                           url:'https://usrowing.org/' },
-  { src:'assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.instagram.com/tampa_prep' },
+  { src:'../../assets/logo-autodesk-certification.png', alt:'Autodesk Certification',              url:'https://www.autodesk.com/certification/overview' },
+  { src:'../../assets/logo-cum-laude-society.png',      alt:'Cum Laude Society',                   url:'https://cumlaudesociety.org/' },
+  { src:'../../assets/logo-anne-frank-humanitarian.png',alt:'Florida Holocaust Museum — Anne Frank Humanitarian Award', url:'https://www.thefhm.org/' },
+  { src:'../../assets/logo-reddy-lab.png',              alt:'Reddy Lab',                           url:'https://www.reddy-lab.com/' },
+  { src:'../../assets/logo-instagram-post-award.png',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
+  { src:'../../assets/logo-pie-and-pi-club.png',        alt:'Pie & Pi Club',                       url:'https://www.instagram.com/pieandpi' },
+  { src:'../../assets/logo-hoby-leadership.png',        alt:'HOBY Leadership',                     url:'https://hoby.org/' },
+  { src:'../../assets/logo-prep-and-me.png',            alt:'Prep & Me',                           url:'https://prepandme.org/' },
+  { src:'../../assets/logo-nta-tutor.png',              alt:'National Tutoring Association',        url:'https://www.ntatutor.com/' },
+  { src:'../../assets/logo-maa-math.png',               alt:'Mathematical Association of America',  url:'https://maa.org/' },
+  { src:'../../assets/logo-us-rowing.png',              alt:'US Rowing',                           url:'https://usrowing.org/' },
+  { src:'../../assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.instagram.com/tampa_prep' },
 ];
 const carousel = document.getElementById('affCarousel');
 let timers = [], curCount = 0;
@@ -789,5 +754,25 @@ if (nav){
   onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
 }
 </script>
+
+<!-- v3 visual-direction switcher (prototype chrome — not part of the design) -->
+<aside id="vd-bar" aria-label="Visual direction switcher" style="position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:9999;display:flex;align-items:center;gap:.35rem;padding:.4rem .45rem;border-radius:999px;background:#140E1F;color:#fff;box-shadow:0 12px 40px -12px rgba(20,14,31,.55),0 0 0 1px rgba(255,255,255,.08);font:600 12px/1 system-ui,-apple-system,sans-serif;letter-spacing:.02em">
+  <a href="../../directions.html" style="color:rgba(255,255,255,.55);text-decoration:none;padding:.55rem .7rem;border-radius:999px" title="Compare all">All</a>
+  <span style="width:1px;height:1.1rem;background:rgba(255,255,255,.15)"></span>
+  <a data-vd="a" href="../v3-visual-a/" style="color:#fff;text-decoration:none;padding:.55rem .85rem;border-radius:999px">A Current</a>
+  <a data-vd="b" href="../v3-visual-b/" style="color:#fff;text-decoration:none;padding:.55rem .85rem;border-radius:999px">B Editorial</a>
+  <a data-vd="c" href="../v3-visual-c/" style="color:#fff;text-decoration:none;padding:.55rem .85rem;border-radius:999px">C Quiet</a>
+</aside>
+<script>
+(function(){
+  var key = document.documentElement.getAttribute('data-vd') || 'a';
+  document.querySelectorAll('#vd-bar a[data-vd]').forEach(function(a){
+    if (a.getAttribute('data-vd') === key) {
+      a.style.background = '#7C3AED';
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

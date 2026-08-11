@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Max Schwarzkopf — Maxematics · STEM Student, Researcher &amp; Educator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink:    '#17111F',
+        plum:   '#1E1528',
+        plum2:  '#271B33',
+        violet: { DEFAULT:'#7C3AED', deep:'#5B21B6', soft:'#A78BFA', faint:'#EDE7FB' },
+        paper:  '#FAF9F7',
+        mist:   '#F1EEF8'
+      },
+      fontFamily: {
+        display: ['Sora','sans-serif'],
+        body: ['"Instrument Sans"','sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  :root { --violet:#7C3AED; --violet-soft:#A78BFA; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Instrument Sans',sans-serif; }
+  .font-display { font-family:'Sora',sans-serif; }
+
+  /* ---------- scroll reveal ---------- */
+  .rv { opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+  .rv.on { opacity:1; transform:none; }
+  .rv-d1 { transition-delay:.08s } .rv-d2 { transition-delay:.16s } .rv-d3 { transition-delay:.24s }
+  .rv-d4 { transition-delay:.32s } .rv-d5 { transition-delay:.40s }
+
+  /* ---------- hero entrance ---------- */
+  @keyframes rise { from { opacity:0; transform:translateY(34px); } to { opacity:1; transform:none; } }
+  .hero-in { opacity:0; animation:rise .9s cubic-bezier(.22,1,.36,1) forwards; }
+  .hd-1{animation-delay:.10s} .hd-2{animation-delay:.22s} .hd-3{animation-delay:.34s}
+  .hd-4{animation-delay:.46s} .hd-5{animation-delay:.60s} .hd-6{animation-delay:.75s}
+
+  /* ---------- signature: slow gear ---------- */
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .gear-spin { animation:spin 46s linear infinite; transform-origin:center; }
+
+  /* ---------- blueprint grid backdrop for dark sections ---------- */
+  .grid-dark {
+    background-image:
+      linear-gradient(rgba(167,139,250,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167,139,250,.055) 1px, transparent 1px);
+    background-size:56px 56px;
+  }
+  .grid-light {
+    background-image:
+      linear-gradient(rgba(124,58,237,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,.05) 1px, transparent 1px);
+    background-size:56px 56px;
+  }
+
+  .eyebrow { letter-spacing:.18em; }
+
+  /* subject card motif */
+  .subj-card { transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .35s; }
+  .subj-card:hover { transform:translateY(-6px); box-shadow:0 24px 48px -18px rgba(124,58,237,.28); border-color:#A78BFA; }
+  .subj-card:hover .subj-glyph { transform:rotate(90deg); color:#7C3AED; }
+  .subj-glyph { transition:transform .5s cubic-bezier(.22,1,.36,1), color .35s; }
+
+  .cert-tile { transition:transform .3s, box-shadow .3s; }
+  .cert-tile:hover { transform:translateY(-4px); box-shadow:0 16px 32px -14px rgba(23,17,31,.18); }
+
+  .award-row { transition:background .25s, transform .25s; }
+  .award-row:hover { background:rgba(124,58,237,.06); transform:translateX(4px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv, .hero-in { opacity:1 !important; transform:none !important; animation:none !important; transition:none !important; }
+    .gear-spin { animation:none; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body class="bg-paper text-ink antialiased">
+
+<!-- ══════════════ NAV ══════════════ -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-paper/85 border-b border-ink/5">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2">
+      <img src="assets/logo.png" alt="Maxematics" class="h-6 w-auto">
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
+      <a href="#about" class="hover:text-violet transition-colors">About</a>
+      <a href="#achievements" class="hover:text-violet transition-colors">Achievements</a>
+      <a href="#research" class="hover:text-violet transition-colors">Research</a>
+      <a href="#subjects" class="hover:text-violet transition-colors">Subjects</a>
+      <a href="#tutoring" class="hover:text-violet transition-colors">Tutoring</a>
+      <a href="#scholarship" class="hover:text-violet transition-colors">Scholarship</a>
+    </nav>
+    <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-violet text-white text-sm font-semibold px-5 py-2.5 hover:bg-violet-deep transition-colors cursor-pointer">
+      Inquire
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ══════════════ 1 · HERO (dark) ══════════════ -->
+<section id="top" class="relative bg-ink text-white overflow-hidden grid-dark">
+  <!-- signature gear -->
+  <svg class="gear-spin absolute -right-40 -top-40 w-[560px] h-[560px] text-violet/10 pointer-events-none" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+    <path d="M50 8l4.8 9.2 10.2-2.4 1.4 10.4 10.4 1.4-2.4 10.2L83.6 42 92 50l-8.4 8-.4 5.2 2.4 10.2-10.4 1.4-1.4 10.4-10.2-2.4L58 92l-8-8.4-8 8.4-4.8-9.2-10.2 2.4-1.4-10.4-10.4-1.4 2.4-10.2L8.4 58 0 50l8.4-8 9.2-4.8-2.4-10.2 10.4-1.4 1.4-10.4 10.2 2.4L42 8l8 8.4z" transform="translate(4 -4) scale(.92)"/>
+    <circle cx="50" cy="50" r="18" fill="#17111F"/>
+  </svg>
+
+  <div class="max-w-6xl mx-auto px-6 pt-40 pb-28 grid md:grid-cols-12 gap-12 items-center relative">
+    <div class="md:col-span-7">
+      <p class="hero-in hd-1 eyebrow text-violet-soft text-xs font-semibold uppercase mb-6">Tampa, Florida · Class of 2027</p>
+      <h1 class="hero-in hd-2 font-display font-800 font-extrabold leading-[1.02] text-5xl md:text-[4.4rem] tracking-tight">
+        Max<br>Schwarzkopf<span class="text-violet">.</span>
+      </h1>
+      <p class="hero-in hd-3 mt-6 text-xl md:text-2xl text-white/85 font-display font-medium">
+        STEM student. Researcher. Educator.
+      </p>
+      <p class="hero-in hd-4 mt-5 max-w-xl text-white/60 text-lg leading-relaxed">
+        The intersection of preparation &amp; inspiration — a Biomedical-STEM candidate building
+        research hardware in a molecular engineering lab, leading in the classroom, and
+        teaching the next student up the hill.
+      </p>
+      <div class="hero-in hd-5 mt-9 flex flex-wrap items-center gap-4">
+        <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-violet text-white font-semibold px-7 py-3.5 hover:bg-violet-deep transition-colors cursor-pointer">
+          Send an inquiry
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#achievements" class="inline-flex items-center gap-2 rounded-full border border-white/20 text-white/80 font-semibold px-7 py-3.5 hover:border-violet-soft hover:text-white transition-colors cursor-pointer">
+          See the record
+        </a>
+      </div>
+      <div class="hero-in hd-6 mt-12 flex flex-wrap gap-x-10 gap-y-4">
+        <div><p class="font-display font-bold text-3xl text-violet-soft">760<span class="text-white/40 text-xl">/760</span></p><p class="text-xs uppercase tracking-widest text-white/45 mt-1">Math PSAT</p></div>
+        <div><p class="font-display font-bold text-3xl text-violet-soft">4.94</p><p class="text-xs uppercase tracking-widest text-white/45 mt-1">Weighted GPA</p></div>
+        <div><p class="font-display font-bold text-3xl text-violet-soft">10+</p><p class="text-xs uppercase tracking-widest text-white/45 mt-1">Students weekly</p></div>
+        <div><p class="font-display font-bold text-3xl text-violet-soft">12</p><p class="text-xs uppercase tracking-widest text-white/45 mt-1">Awards &amp; honors</p></div>
+      </div>
+    </div>
+    <div class="md:col-span-5 hero-in hd-4">
+      <div class="relative max-w-sm mx-auto">
+        <div class="absolute -inset-3 rounded-3xl bg-gradient-to-br from-violet/50 to-transparent blur-2xl opacity-40" aria-hidden="true"></div>
+        <img src="assets/headshot.jpg" alt="Max Schwarzkopf" class="relative rounded-3xl w-full object-cover border border-white/10 shadow-2xl">
+        <div class="absolute -bottom-5 -left-5 bg-plum2 border border-white/10 rounded-2xl px-5 py-3.5 shadow-xl">
+          <p class="font-display font-semibold text-sm">Reddy Lab · USF</p>
+          <p class="text-white/50 text-xs mt-0.5">Molecular engineering intern, 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 2 · ABOUT (light) ══════════════ -->
+<section id="about" class="bg-paper py-24 md:py-32">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-14 items-center">
+    <div class="md:col-span-5 rv">
+      <div class="relative max-w-sm">
+        <div class="absolute -left-4 -top-4 w-full h-full rounded-3xl border-2 border-violet/20" aria-hidden="true"></div>
+        <img src="assets/headshot.jpg" alt="Max Schwarzkopf portrait" class="relative rounded-3xl w-full object-cover shadow-lg">
+      </div>
+    </div>
+    <div class="md:col-span-7">
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">About Max</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">The experts in anything were once beginners.</h2>
+      <p class="rv rv-d2 mt-6 text-lg text-ink/70 leading-relaxed">
+        Max Schwarzkopf is a senior at Tampa Preparatory School pursuing a Biomedical STEM
+        concentration — captain of the varsity rowing team, director of the school's Writing
+        Center, and founder of the Pie &amp; Pi Club. Since 2022 he has also tutored middle,
+        upper and home-schooled students across math, science and language.
+      </p>
+      <blockquote class="rv rv-d3 mt-8 border-l-4 border-violet pl-6 py-1">
+        <p class="text-ink/80 text-lg italic leading-relaxed">"If you think of something as 'hard' it absolutely will be — but it doesn't need to be that way. Academic success is the intersection of preparation and attitude. I tackle concepts one problem at a time and hope to inspire a shift in thinking that makes learning fun."</p>
+        <footer class="mt-3 text-sm font-semibold text-violet">— Max Schwarzkopf</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 3 · ACHIEVEMENTS (dark) ══════════════ -->
+<section id="achievements" class="bg-plum text-white py-24 md:py-32 grid-dark">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">Achievements</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">A record that speaks for itself.</h2>
+      <p class="rv rv-d2 mt-5 text-white/60 text-lg">Five consecutive years of top academic standing, department honors across three disciplines, and recognition for leadership and service.</p>
+    </div>
+
+    <div class="mt-14 grid md:grid-cols-3 gap-4 rv rv-d2">
+      <!-- headline honors -->
+      <div class="md:col-span-1 rounded-2xl bg-white/[.04] border border-white/10 p-7 flex flex-col justify-between min-h-[190px]">
+        <svg class="w-8 h-8 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0"/></svg>
+        <div>
+          <p class="font-display font-bold text-xl mt-6">Anne Frank Humanitarian Award</p>
+          <p class="text-white/50 text-sm mt-1">2026</p>
+        </div>
+      </div>
+      <div class="rounded-2xl bg-violet/15 border border-violet/30 p-7 flex flex-col justify-between min-h-[190px]">
+        <svg class="w-8 h-8 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+        <div>
+          <p class="font-display font-bold text-xl mt-6">AP Scholar with Distinction</p>
+          <p class="text-white/50 text-sm mt-1">College Board</p>
+        </div>
+      </div>
+      <div class="rounded-2xl bg-white/[.04] border border-white/10 p-7 flex flex-col justify-between min-h-[190px]">
+        <svg class="w-8 h-8 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div>
+          <p class="font-display font-bold text-xl mt-6">Head's List — every year</p>
+          <p class="text-white/50 text-sm mt-1">All A's in academic classes · 2021–26</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- awards ledger -->
+    <div class="mt-6 rounded-2xl bg-white/[.03] border border-white/10 divide-y divide-white/[.07] rv rv-d3">
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Faculty Award — Excellence in Academics</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2021–24</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Department Award — Excellence in Math</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2021–22 · 2023–24</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Department Award — Excellence in Science</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2022–23 · 2024–25</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Department Award — Excellence in History</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2024–25</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Hugh O'Brian Youth Leadership Ambassador (FL-W)</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2025</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Florida Teacher's Assn. — Best Research, HC STEM Science Fair</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">Award</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">"The Coaches Award" — Varsity Rowing</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2024–25 · 2025–26</p></div>
+      <div class="award-row grid md:grid-cols-12 gap-2 px-7 py-4"><p class="md:col-span-8 font-medium">Tampa Prep Writing Center — Director &amp; Tutor</p><p class="md:col-span-4 text-white/45 md:text-right text-sm self-center">2024–26</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 4 · AFFILIATIONS (light) ══════════════ -->
+<section id="affiliations" class="bg-mist py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto">
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">Affiliations &amp; Certifications</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl tracking-tight">Recognized by</h2>
+    </div>
+    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 rv rv-d2">
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certified User" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-anne-frank-humanitarian.png" alt="Anne Frank Humanitarian" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-pie-and-pi-club.png" alt="Pie & Pi Club" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-hoby-leadership.png" alt="HOBY Leadership" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-prep-and-me.png" alt="Prep & Me" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-us-rowing.png" alt="US Rowing" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-tampa-prep-school.png" alt="Tampa Preparatory School" class="max-h-14 w-auto object-contain"></div>
+      <div class="cert-tile bg-white rounded-2xl border border-ink/5 p-6 flex items-center justify-center h-28"><img src="assets/logo-instagram-post-award.png" alt="Award recognition" class="max-h-14 w-auto object-contain"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 5 · STEM / RESEARCH (dark) ══════════════ -->
+<section id="research" class="bg-ink text-white py-24 md:py-32 grid-dark relative overflow-hidden">
+  <svg class="gear-spin absolute -left-32 top-1/3 w-[420px] h-[420px] text-violet/[.07] pointer-events-none" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+    <path d="M50 8l4.8 9.2 10.2-2.4 1.4 10.4 10.4 1.4-2.4 10.2L83.6 42 92 50l-8.4 8-.4 5.2 2.4 10.2-10.4 1.4-1.4 10.4-10.2-2.4L58 92l-8-8.4-8 8.4-4.8-9.2-10.2 2.4-1.4-10.4-10.4-1.4 2.4-10.2L8.4 58 0 50l8.4-8 9.2-4.8-2.4-10.2 10.4-1.4 1.4-10.4 10.2 2.4L42 8l8 8.4z" transform="translate(4 -4) scale(.92)"/>
+    <circle cx="50" cy="50" r="18" fill="#17111F"/>
+  </svg>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">STEM &amp; Research</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">Built in the lab,<br>not just the classroom.</h2>
+    </div>
+    <div class="mt-14 grid md:grid-cols-2 gap-5">
+      <article class="rv rounded-3xl bg-white/[.04] border border-white/10 p-9 hover:border-violet-soft/40 transition-colors">
+        <p class="eyebrow text-xs font-semibold uppercase text-violet-soft">2026 · University of South Florida</p>
+        <h3 class="font-display font-bold text-2xl mt-3">Reddy Lab — Molecular Engineering</h3>
+        <p class="mt-4 text-white/60 leading-relaxed">Engineered and built an <span class="text-white font-medium">eVOLVER continuous-culture system</span> to expand the lab's research capability in the structure, evolution and engineering of membrane transport — hands-on hardware, software and wet-lab work on one bench.</p>
+      </article>
+      <article class="rv rv-d1 rounded-3xl bg-white/[.04] border border-white/10 p-9 hover:border-violet-soft/40 transition-colors">
+        <p class="eyebrow text-xs font-semibold uppercase text-violet-soft">2025 · Hamilton, NJ</p>
+        <h3 class="font-display font-bold text-2xl mt-3">New Jersey State Police — Forensic Laboratory</h3>
+        <p class="mt-4 text-white/60 leading-relaxed">Laboratory experience across <span class="text-white font-medium">forensic anthropology, trace evidence, DNA analysis, CSI, ballistics, serology and toxicology</span> — applied science with real evidentiary standards.</p>
+      </article>
+      <article class="rv rounded-3xl bg-white/[.04] border border-white/10 p-9 hover:border-violet-soft/40 transition-colors">
+        <p class="eyebrow text-xs font-semibold uppercase text-violet-soft">Founder &amp; President</p>
+        <h3 class="font-display font-bold text-2xl mt-3">Pie &amp; Pi Club</h3>
+        <p class="mt-4 text-white/60 leading-relaxed">Founded and leads Tampa Prep's math-culture club — recruiting members, pitching faculty, and making quantitative thinking something students choose on purpose.</p>
+      </article>
+      <article class="rv rv-d1 rounded-3xl bg-white/[.04] border border-white/10 p-9 hover:border-violet-soft/40 transition-colors">
+        <p class="eyebrow text-xs font-semibold uppercase text-violet-soft">Tampa Preparatory School · '27</p>
+        <h3 class="font-display font-bold text-2xl mt-3">Biomedical STEM Concentration</h3>
+        <p class="mt-4 text-white/60 leading-relaxed">A dedicated biomedical-science track alongside a 4.94 weighted GPA, Autodesk engineering certification, and Medical Explorers Club membership.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 6 · SUBJECTS (light) ══════════════ -->
+<section id="subjects" class="bg-paper py-24 md:py-32 grid-light">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">Subjects</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Range, on purpose.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">Fourteen subjects across four disciplines — every program tailored to the student.</p>
+    </div>
+    <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Math -->
+      <div class="rv subj-card bg-white rounded-3xl border border-ink/8 p-8 cursor-pointer">
+        <svg class="subj-glyph w-9 h-9 text-ink/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.008v.008H12v-.008zM12 14h.008v.008H12V14zm0-3h.008v.008H12V11zm3 3h.008v.008H15V14zm0-3h.008v.008H15V11zm-6 3h.008v.008H9V14zm0-3h.008v.008H9V11zm-2.25-6h10.5a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0117.25 23H6.75A2.25 2.25 0 014.5 20.75V7.25A2.25 2.25 0 016.75 5z" transform="translate(0 -1.5)"/></svg>
+        <h3 class="font-display font-bold text-2xl mt-6">Math</h3>
+        <ul class="mt-4 space-y-2 text-ink/65 font-medium">
+          <li>Algebra 1 &amp; 2</li><li>Geometry</li><li>Precalculus</li><li>Calculus</li><li>Statistics</li><li>Desmos Calculator</li>
+        </ul>
+      </div>
+      <!-- Science -->
+      <div class="rv rv-d1 subj-card bg-white rounded-3xl border border-ink/8 p-8 cursor-pointer">
+        <svg class="subj-glyph w-9 h-9 text-ink/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+        <h3 class="font-display font-bold text-2xl mt-6">Science</h3>
+        <ul class="mt-4 space-y-2 text-ink/65 font-medium">
+          <li>Chemistry</li><li>Biology</li><li>Lab Reports</li><li class="text-ink/40">Physics <span class="text-xs uppercase tracking-wide">— coming soon</span></li>
+        </ul>
+      </div>
+      <!-- Language -->
+      <div class="rv rv-d2 subj-card bg-white rounded-3xl border border-ink/8 p-8 cursor-pointer">
+        <svg class="subj-glyph w-9 h-9 text-ink/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>
+        <h3 class="font-display font-bold text-2xl mt-6">Language</h3>
+        <ul class="mt-4 space-y-2 text-ink/65 font-medium">
+          <li>Latin 1 &amp; 2</li><li>Creative Writing</li><li>Technical Writing</li>
+        </ul>
+      </div>
+      <!-- Other -->
+      <div class="rv rv-d3 subj-card bg-white rounded-3xl border border-ink/8 p-8 cursor-pointer">
+        <svg class="subj-glyph w-9 h-9 text-ink/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+        <h3 class="font-display font-bold text-2xl mt-6">Other</h3>
+        <ul class="mt-4 space-y-2 text-ink/65 font-medium">
+          <li>SAT &amp; ACT Prep</li><li>US &amp; World History</li><li>Select AP Courses</li><li>Study &amp; Time Management</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 7 · TESTIMONIALS (dark) ══════════════ -->
+<section id="testimonials" class="bg-plum text-white py-24 md:py-32">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">Testimonials</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">From the people he's taught.</h2>
+    </div>
+    <div class="mt-14 grid md:grid-cols-2 gap-5">
+      <!-- featured: professional endorsement -->
+      <figure class="rv md:col-span-2 rounded-3xl bg-violet/15 border border-violet/30 p-9 md:p-11">
+        <svg class="w-8 h-8 text-violet-soft/60" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
+        <blockquote class="mt-5 text-xl md:text-2xl leading-relaxed text-white/90 font-display font-medium">Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level and the outcomes are fantastic — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!</blockquote>
+        <figcaption class="mt-7 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1.5"><img src="assets/logo-prep-and-me.png" alt="Prep & Me" class="max-h-full w-auto object-contain"></div>
+          <div><p class="font-semibold">Lakshmi Jayaram, Ph.D.</p><p class="text-white/50 text-sm">Executive Director, Prep &amp; Me</p></div>
+        </figcaption>
+      </figure>
+      <figure class="rv rounded-3xl bg-white/[.04] border border-white/10 p-8">
+        <blockquote class="text-white/75 leading-relaxed">"I was struggling in Geometry and was worried about completing the class. Since starting to work with Max I have not gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-violet/30 border border-violet/40 flex items-center justify-center font-display font-bold text-sm text-violet-soft">KM</div>
+          <div><p class="font-semibold text-sm">Ker'Varis M.</p><p class="text-white/45 text-xs">Geometry</p></div>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 rounded-3xl bg-white/[.04] border border-white/10 p-8">
+        <blockquote class="text-white/75 leading-relaxed">"Max has helped me prepare for the SAT/ACT. Not only does he know all the math and helped me figure out things I was otherwise just guessing at — he's also just such a nice guy and so comfortable to work with. If I had to recommend anyone to help you get your scores up, it would be Max."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-violet/30 border border-violet/40 flex items-center justify-center font-display font-bold text-sm text-violet-soft">ET</div>
+          <div><p class="font-semibold text-sm">Eva T.</p><p class="text-white/45 text-xs">SAT / ACT Prep</p></div>
+        </figcaption>
+      </figure>
+      <figure class="rv rounded-3xl bg-white/[.04] border border-white/10 p-8">
+        <blockquote class="text-white/75 leading-relaxed">"Max has been great at filling in skills that my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-violet/30 border border-violet/40 flex items-center justify-center font-display font-bold text-sm text-violet-soft">AH</div>
+          <div><p class="font-semibold text-sm">Alice H.</p><p class="text-white/45 text-xs">Parent</p></div>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 rounded-3xl bg-white/[.04] border border-white/10 p-8">
+        <blockquote class="text-white/75 leading-relaxed">"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything I was learning just made more sense. I can't believe I'm writing this but I've actually started to like Chemistry."</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-violet/30 border border-violet/40 flex items-center justify-center font-display font-bold text-sm text-violet-soft">CJ</div>
+          <div><p class="font-semibold text-sm">Connor J.</p><p class="text-white/45 text-xs">Chemistry</p></div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 8 · TUTORING & RATES (light) ══════════════ -->
+<section id="tutoring" class="bg-paper py-24 md:py-32">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">Tutoring &amp; Rates</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight">Selective sessions,<br>tailored programs.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">Virtual sessions or a dedicated learning space in downtown Tampa. Tailored worksheets and practice exams included. Summer refreshers and SAT/ACT prep available.</p>
+    </div>
+    <div class="mt-14 grid lg:grid-cols-5 gap-8 items-start">
+      <!-- pricing table -->
+      <div class="rv lg:col-span-3 rounded-3xl bg-white border border-ink/8 overflow-hidden shadow-sm">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b border-ink/8 bg-mist/60">
+              <th class="px-8 py-5 font-display font-semibold text-sm uppercase tracking-wider text-ink/60">Session</th>
+              <th class="px-8 py-5 font-display font-semibold text-sm uppercase tracking-wider text-ink/60 text-right">Rate</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink/[.06]">
+            <tr class="award-row"><td class="px-8 py-5 font-medium">30 minutes</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$25</td></tr>
+            <tr class="award-row"><td class="px-8 py-5 font-medium">1 hour</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$40</td></tr>
+            <tr class="award-row"><td class="px-8 py-5 font-medium">1.5 hours</td><td class="px-8 py-5 text-right font-display font-bold text-xl">$60</td></tr>
+            <tr class="award-row bg-violet-faint/60">
+              <td class="px-8 py-5"><p class="font-semibold">10-hour package</p><p class="text-ink/50 text-sm mt-0.5">Schedule in any increments</p></td>
+              <td class="px-8 py-5 text-right"><span class="font-display font-bold text-xl text-violet">$375</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="px-8 py-5 text-sm text-ink/55 border-t border-ink/8">Zelle, check or cash payments accepted.</p>
+      </div>
+      <!-- virtual checklist -->
+      <div class="rv rv-d2 lg:col-span-2 rounded-3xl bg-ink text-white p-9">
+        <h3 class="font-display font-bold text-xl">Virtual session checklist</h3>
+        <ul class="mt-6 space-y-4">
+          <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Tablet (preferred) or computer with internet</span></li>
+          <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Access to Zoom</span></li>
+          <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Paper &amp; pencil</span></li>
+          <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Helpful, not required: Apple Pencil or similar</span></li>
+        </ul>
+        <p class="mt-8 text-sm text-white/45">Tutoring middle, upper and home-schooled students since 2022. Availability is limited — inquiries are answered in order.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 9 · SCHOLARSHIP TEASER (dark) ══════════════ -->
+<section id="scholarship" class="relative bg-ink text-white py-24 md:py-32 overflow-hidden">
+  <img src="assets/schwarzkopf.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-[.14]" aria-hidden="true">
+  <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/60" aria-hidden="true"></div>
+  <div class="max-w-6xl mx-auto px-6 relative">
+    <div class="max-w-2xl">
+      <p class="rv eyebrow text-violet-soft text-xs font-semibold uppercase mb-4">Giving back</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">The General H. Norman Schwarzkopf Scholarship</h2>
+      <p class="rv rv-d2 mt-6 text-white/70 text-lg leading-relaxed">
+        Gen. Schwarzkopf spent his life in service — and, less famously, in education, teaching
+        calculus and mechanics at West Point. In his memory, Maxematics awards a full scholastic
+        year of tutoring to one student annually, in late August.
+      </p>
+      <blockquote class="rv rv-d3 mt-8 border-l-4 border-violet pl-6">
+        <p class="text-white/85 text-xl italic font-display leading-relaxed">"You can't help someone else up a hill without getting a little closer to the top yourself."</p>
+        <footer class="mt-3 text-sm text-white/50">— Gen. H. Norman Schwarzkopf</footer>
+      </blockquote>
+      <div class="rv rv-d4 mt-10">
+        <a href="#scholarship" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
+          Learn more &amp; apply
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <p class="mt-3 text-xs text-white/40">Full scholarship page &amp; application in the final build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 10 · INQUIRY (light) ══════════════ -->
+<section id="inquire" class="bg-mist py-24 md:py-32 grid-light">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
+    <div>
+      <p class="rv eyebrow text-violet text-xs font-semibold uppercase mb-4">Inquiry</p>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-tight leading-tight">Start the conversation.</h2>
+      <p class="rv rv-d2 mt-6 text-ink/60 text-lg leading-relaxed">
+        Tutoring inquiries, scholarship questions, research and internship opportunities —
+        everything lands in one place and gets a reply.
+      </p>
+      <div class="rv rv-d3 mt-9 flex items-center gap-3 text-ink/70">
+        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        <span class="font-medium">maxematics@icloud.com</span>
+      </div>
+    </div>
+    <!-- non-functional stub form -->
+    <form class="rv rv-d2 bg-white rounded-3xl border border-ink/8 shadow-sm p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label for="f-name" class="block text-sm font-semibold mb-2">Name</label>
+          <input id="f-name" type="text" placeholder="Your name" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition">
+        </div>
+        <div>
+          <label for="f-email" class="block text-sm font-semibold mb-2">Email</label>
+          <input id="f-email" type="email" placeholder="you@example.com" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition">
+        </div>
+      </div>
+      <div>
+        <label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
+        <select id="f-subject" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition text-ink/80">
+          <option>Tutoring — Math</option><option>Tutoring — Science</option><option>Tutoring — Language</option>
+          <option>SAT / ACT Prep</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-msg" class="block text-sm font-semibold mb-2">Message</label>
+        <textarea id="f-msg" rows="4" placeholder="Tell Max a little about the student and the goal…" class="w-full rounded-xl border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition resize-none"></textarea>
+      </div>
+      <button type="submit" class="w-full rounded-xl bg-violet text-white font-semibold py-4 hover:bg-violet-deep transition-colors cursor-pointer">Send inquiry</button>
+      <p class="text-xs text-ink/40 text-center">Visual mockup — form wiring ships in the coded build.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER (dark) ══════════════ -->
+<footer class="bg-ink text-white py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="flex items-center gap-3">
+      <img src="assets/logo.png" alt="Maxematics" class="h-6 w-auto brightness-0 invert opacity-90">
+    </div>
+    <nav class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/55">
+      <a href="#about" class="hover:text-violet-soft transition-colors">About</a>
+      <a href="#achievements" class="hover:text-violet-soft transition-colors">Achievements</a>
+      <a href="#research" class="hover:text-violet-soft transition-colors">Research</a>
+      <a href="#subjects" class="hover:text-violet-soft transition-colors">Subjects</a>
+      <a href="#tutoring" class="hover:text-violet-soft transition-colors">Tutoring</a>
+      <a href="#scholarship" class="hover:text-violet-soft transition-colors">Scholarship</a>
+    </nav>
+    <p class="text-sm text-white/45">maxematics@icloud.com</p>
+  </div>
+  <p class="mt-10 text-center text-xs text-white/30">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
+</footer>
+
+<script>
+  // ?static=1 -> render everything revealed (used for full-page screenshots)
+  if (location.search.includes('static')) {
+    document.querySelectorAll('.rv').forEach(el => el.classList.add('on'));
+    document.querySelectorAll('.hero-in').forEach(el => { el.style.animation = 'none'; el.style.opacity = '1'; });
+  }
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

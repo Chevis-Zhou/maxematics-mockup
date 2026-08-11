@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maxematics — Visual directions (A · B · C)</title>
+<meta name="theme-color" content="#140E1F">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#140E1F; --violet:#7C3AED; --paper:#FAF8FF; --line:rgba(20,14,31,.1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Instrument Sans',system-ui,sans-serif;}
+  body{min-height:100vh;padding:2.5rem 1.25rem 4rem}
+  .wrap{max-width:52rem;margin:0 auto}
+  .crumb{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(20,14,31,.45);font-weight:600;margin:0 0 .9rem}
+  h1{font-family:Sora,sans-serif;font-size:clamp(1.7rem,4vw,2.35rem);line-height:1.15;letter-spacing:-.02em;margin:0 0 1rem;font-weight:700}
+  .lede{font-size:1.08rem;line-height:1.65;color:rgba(20,14,31,.68);margin:0 0 1.75rem;max-width:40rem}
+  .ask{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:1.25rem 1.35rem;margin:0 0 2rem}
+  .ask h2{font-family:Sora,sans-serif;font-size:.95rem;margin:0 0 .65rem;font-weight:700}
+  .ask ul{margin:0;padding-left:1.15rem;color:rgba(20,14,31,.7);line-height:1.7}
+  .ask li{margin:.2rem 0}
+  .grid{display:grid;gap:1rem}
+  @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
+  a.card{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:#fff;
+    border:1px solid var(--line);border-radius:1.1rem;padding:1.25rem 1.2rem 1.35rem;
+    transition:border-color .2s, transform .2s, box-shadow .2s; min-height:100%; cursor:pointer}
+  a.card:hover{border-color:rgba(124,58,237,.45);transform:translateY(-2px);
+    box-shadow:0 18px 40px -28px rgba(20,14,31,.35)}
+  .key{display:inline-flex;align-items:center;justify-content:center;width:1.7rem;height:1.7rem;
+    border-radius:999px;background:var(--ink);color:#fff;font-family:Sora,sans-serif;
+    font-size:.75rem;font-weight:700;margin-bottom:.85rem}
+  a.card h3{font-family:Sora,sans-serif;font-size:1.05rem;margin:0 0 .45rem;font-weight:700}
+  a.card p{margin:0;font-size:.92rem;line-height:1.55;color:rgba(20,14,31,.62);flex:1}
+  .meta{margin-top:1rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--violet);font-weight:600}
+  .note{margin-top:2.25rem;font-size:.88rem;line-height:1.6;color:rgba(20,14,31,.5)}
+  .note code{font-size:.82em;background:rgba(124,58,237,.08);padding:.1rem .35rem;border-radius:.3rem}
+  footer{margin-top:2.5rem;font-size:.8rem;color:rgba(20,14,31,.4)}
+  footer a{color:var(--violet);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="crumb">Maxematics · Visual direction round</p>
+    <h1>Same story. Three skins.</h1>
+    <p class="lede">
+      Content and logo are locked. Flip between these three directions and tell us which axes you want —
+      type, density, and atmosphere. Mixing is fine (e.g. B’s type with C’s quieter surfaces).
+    </p>
+
+    <div class="ask">
+      <h2>Decide on these — not “which do you like”</h2>
+      <ul>
+        <li>Serif display (B) vs sans (A / C)?</li>
+        <li>Expressive hero atmosphere (A) vs quiet / flat (B / C)?</li>
+        <li>Light-led engineering calm (C) vs dark science-forward baseline (A)?</li>
+      </ul>
+    </div>
+
+    <div class="grid">
+      <a class="card" href="versions/v3-visual-a/">
+        <span class="key">A</span>
+        <h3>Current refined</h3>
+        <p>Today’s violet science-forward system — aurora hero, Sora + Instrument Sans. The baseline you already know.</p>
+        <span class="meta">Open A →</span>
+      </a>
+      <a class="card" href="versions/v3-visual-b/">
+        <span class="key">B</span>
+        <h3>Editorial credibility</h3>
+        <p>Admissions-reader tone — Newsreader serif, warm paper, ruled lists, no mesh or floating glyphs.</p>
+        <span class="meta">Open B →</span>
+      </a>
+      <a class="card" href="versions/v3-visual-c/">
+        <span class="key">C</span>
+        <h3>Clean engineering</h3>
+        <p>Edufor-like “less noisy” — light hero, IBM Plex, flat surfaces, restrained violet accent, tighter rhythm.</p>
+        <span class="meta">Open C →</span>
+      </a>
+    </div>
+
+    <p class="note">
+      Each page has a bottom switcher (A · B · C). The live control site remains
+      <code>index.html</code> until a direction is chosen and folded in.
+      Briefs: <code>versions/v3-visual-directions/BRIEFS.md</code>.
+    </p>
+    <footer>
+      <a href="./">← Current live mockup</a>
+    </footer>
+  </div>
+</body>
+</html>
