@@ -102,10 +102,6 @@ tailwind.config = {
   .plot-dot{ opacity:0; animation:dotIn .5s cubic-bezier(.22,1,.36,1) forwards; }
   @keyframes dotIn{ to{ opacity:1 } }
 
-  /* glyphs — 5 not 8, smaller, single hue, further back */
-  .glyph{ position:absolute; font-family:'Sora',sans-serif; font-weight:600; color:#A78BFA; opacity:.10; user-select:none; will-change:transform; animation:floaty var(--fd,20s) ease-in-out infinite; }
-  @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(var(--rot,0deg))} 50%{transform:translateY(-16px) rotate(var(--rot,0deg))} }
-
   .schwarzkopf-img{ opacity:.5; filter:contrast(1.06) saturate(.9); will-change:transform; }
 
   .grid-faint::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -115,9 +111,9 @@ tailwind.config = {
   .eyebrow{ letter-spacing:.16em; }
 
   /* ───────── hero headline — three words, one line ─────────
-     Single violet full-stop between beats (was a three-dot ellipsis). Kept at full
-     size so it reads as punctuation, with a little air after it to hold the rhythm. */
-  .seq-sep{ color:#A78BFA; padding-right:.28em; }
+     Violet full-stop between beats, set smaller than the type so it punctuates
+     without competing with the words. */
+  .seq-sep{ color:#A78BFA; font-size:.62em; vertical-align:.02em; padding-right:.3em; }
 
   /* ───────── credential strip — breaks the hero's bottom edge ─────────
      The four proof figures were floating loose inside the hero. Here they become a
@@ -128,13 +124,10 @@ tailwind.config = {
   .cred-cell:first-child{ border-left:0; }
   @media(max-width:767px){ .cred-cell{ border-left:0; border-top:1px solid rgba(255,255,255,.10); } .cred-cell:first-child{ border-top:0; } }
 
-  /* ───────── section header lockup — numbered, ruled ─────────
-     v3 repeated "eyebrow + big h2" nine times with nothing to tell the sections apart.
-     A running index plus a violet rule gives the page a spine. */
+  /* ───────── section header lockup — ruled eyebrow ───────── */
   .sec-idx{ display:flex; align-items:center; gap:.85rem; margin-bottom:1.1rem; }
-  .sec-idx .num{ font-family:'Sora',sans-serif; font-weight:700; font-size:.72rem; letter-spacing:.1em; color:#7C3AED; }
-  .sec-idx .rule{ height:1px; width:2.4rem; background:currentColor; opacity:.28; }
-  .on-dark .sec-idx .num{ color:#A78BFA; }
+  .sec-idx .rule{ height:1px; width:2.4rem; background:#7C3AED; opacity:.9; }
+  .on-dark .sec-idx .rule{ background:#A78BFA; }
 
   /* ───────── topic tiles — Direction C treatment ─────────
      The scrim-and-overlay caption was overprinting the photography. Direction C
@@ -148,12 +141,9 @@ tailwind.config = {
   .topic img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
     filter:saturate(.9); transition:filter .4s, transform .7s cubic-bezier(.22,1,.36,1); }
   .topic:hover img{ filter:saturate(1); transform:scale(1.03); }
-  .topic figcaption{ display:flex; align-items:baseline; gap:.6rem; padding:.85rem 1rem;
-    border-top:1px solid rgba(20,14,31,.10);
+  .topic figcaption{ padding:.85rem 1rem; border-top:1px solid rgba(20,14,31,.10);
     font-family:'Sora',sans-serif; font-weight:600; font-size:.94rem; line-height:1.25;
     letter-spacing:-.01em; color:#140E1F; }
-  .topic figcaption .n{ font-weight:700; font-size:.7rem; letter-spacing:.08em; color:#7C3AED;
-    font-variant-numeric:tabular-nums; }
   @media(max-width:640px){ .topic figcaption{ font-size:.85rem; padding:.7rem .8rem; } }
 
   /* ───────── testimonials — circular carousel (restored from the v2 build) ───────── */
@@ -172,31 +162,21 @@ tailwind.config = {
   .ctst-word{ display:inline-block; animation:ctstWord .5s ease both; }
   @keyframes ctstWord{ from{filter:blur(10px);opacity:0;transform:translateY(6px)} to{filter:blur(0);opacity:1;transform:none} }
   .ctst-arrows{ display:flex; gap:1.1rem; padding-top:2.25rem; }
-  .ctst-arrow{ width:2.7rem; height:2.7rem; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; color:#fff; background:#7C3AED; transition:background-color .3s, transform .2s; }
+  .ctst-arrow{ position:relative; width:2.7rem; height:2.7rem; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; color:#fff; background:#7C3AED; transition:background-color .3s, transform .2s; }
   .ctst-arrow:hover{ transform:translateY(-2px); background:#5B21B6; }
   .ctst-arrow:focus-visible{ outline:2px solid #140E1F; outline-offset:3px; }
+  /* autoplay indicator — a ring that fills over the dwell time, so the reader can see
+     the carousel is about to advance rather than being surprised by it */
+  .ctst-ring{ position:absolute; inset:-5px; width:calc(100% + 10px); height:calc(100% + 10px);
+    transform:rotate(-90deg); pointer-events:none; overflow:visible; }
+  .ctst-ring circle{ fill:none; stroke-width:2; }
+  .ctst-ring .trk{ stroke:rgba(124,58,237,.25); }
+  .ctst-ring .bar{ stroke:#7C3AED; stroke-linecap:round; transition:stroke-dashoffset .12s linear; }
 
-  /* ───────── evidence board (awards) ─────────
-     Nine identical cards read as a wall. Ranked rows with a running index read as
-     a record. Same nine items, same order, same words. */
-  .ev-feature{ background:linear-gradient(140deg, rgba(124,58,237,.22), rgba(124,58,237,.06));
-    border:1px solid rgba(167,139,250,.34); border-radius:1.1rem; }
-  .ev-row{ display:flex; align-items:baseline; gap:1.1rem; padding:1.05rem .25rem;
-    border-top:1px solid rgba(255,255,255,.09); transition:background .25s, padding-left .25s; }
-  .ev-row:hover{ background:rgba(124,58,237,.09); padding-left:.85rem; }
-  .ev-n{ font-family:'Sora',sans-serif; font-weight:700; font-size:.7rem; color:rgba(167,139,250,.65); flex:none; width:1.5rem; letter-spacing:.06em; }
-
-  .expando-full{ max-height:0; opacity:0; overflow:hidden;
-    transition:max-height .5s cubic-bezier(.22,1,.36,1), opacity .35s ease, margin-top .5s cubic-bezier(.22,1,.36,1); }
-  @media(min-width:768px){
-    .expando:hover .expando-full, .expando:focus-within .expando-full{ max-height:24rem; opacity:1; margin-top:.9rem; }
-    .expando:hover .expando-hint, .expando:focus-within .expando-hint{ opacity:0; }
-    .expando-hint{ transition:opacity .3s; }
-  }
-  @media(max-width:767px){
-    .expando-full{ max-height:none; opacity:1; margin-top:.9rem; overflow:visible; }
-    .expando-hint{ display:none; }
-  }
+  /* ───────── credential cards — flat set, nothing ranked above anything else ───────── */
+  .cred-card{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10); border-radius:1rem;
+    padding:1.25rem 1.35rem; transition:background .25s, border-color .25s, transform .3s cubic-bezier(.22,1,.36,1); }
+  .cred-card:hover{ background:rgba(255,255,255,.08); border-color:rgba(167,139,250,.4); transform:translateY(-3px); }
 
   .imgwrap img{ transition:transform 1.2s cubic-bezier(.22,1,.36,1); transform:scale(1.05); }
   .rv.on .imgwrap img{ transform:scale(1); }
@@ -204,54 +184,54 @@ tailwind.config = {
   /* ───────── rates table ───────── */
   .rate-row td{ padding:1.15rem 2rem; border-top:1px solid rgba(20,14,31,.07); transition:background .25s; }
   .rate-row:hover td{ background:rgba(124,58,237,.05); }
-  .rate-pkg td{ background:rgba(124,58,237,.06); box-shadow:inset 3px 0 0 #7C3AED; }
-  .rate-pkg:hover td{ background:rgba(124,58,237,.10); }
 
-  /* ───────── affiliations — static wall, not a 6-second carousel ─────────
-     v3 rotated 12 marks through 5 slots on a 6s timer, so a reader never saw the
-     full set and the JS could stack orphaned nodes. For a credibility section that
-     is the wrong trade: show all twelve at once. */
-  .aff-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:rgba(20,14,31,.09);
-    border:1px solid rgba(20,14,31,.09); border-radius:1rem; overflow:hidden; }
-  @media(min-width:640px){ .aff-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
-  @media(min-width:1024px){ .aff-grid{ grid-template-columns:repeat(6,minmax(0,1fr)); } }
-  .aff-cell{ position:relative; background:#FAF8FF; display:flex; align-items:center; justify-content:center;
-    height:96px; padding:1.15rem; transition:background .25s; }
-  .aff-cell:hover{ background:#fff; }
-  .aff-cell img{ max-height:44px; max-width:100%; width:auto; object-fit:contain;
-    filter:grayscale(1); opacity:.55; transition:filter .3s, opacity .3s, transform .35s cubic-bezier(.22,1,.36,1); }
-  .aff-cell:hover img{ filter:grayscale(0); opacity:1; transform:translateY(-2px); }
-  .aff-cell::after{ content:''; position:absolute; top:.6rem; right:.6rem; width:10px; height:10px;
-    background:#7C3AED; opacity:0; transform:translate(-2px,2px); transition:opacity .25s, transform .25s cubic-bezier(.22,1,.36,1);
-    -webkit-mask:var(--ext-icon) center/contain no-repeat; mask:var(--ext-icon) center/contain no-repeat; }
-  .aff-cell:hover::after{ opacity:.85; transform:translate(0,0); }
-  .aff-grid{ --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E"); }
+  /* ───────── affiliations — cycling logo carousel (restored) ───────── */
+  .aff-carousel{
+    display:flex; align-items:center; justify-content:space-between; gap:1rem; width:100%;
+    --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E");
+  }
+  .aff-slot{ position:relative; flex:1 1 0; min-width:0; height:72px; display:flex; align-items:center; justify-content:center; }
+  .aff-logo{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:alias; will-change:transform,opacity,filter; }
+  /* first/last logos hug the container edge so the strip aligns with the nav's max-width */
+  .aff-slot:first-child .aff-logo{ justify-content:flex-start; }
+  .aff-slot:last-child  .aff-logo{ justify-content:flex-end; }
+  /* inner wrapper shrinks to the logo so the ↗ badge sits on the logo, not the slot */
+  .aff-logo-in{ position:relative; display:inline-flex; max-width:88%; }
+  .aff-logo img{ max-height:48px; max-width:100%; width:auto; object-fit:contain; transition:transform .35s cubic-bezier(.22,1,.36,1); }
+  .aff-logo:hover img{ transform:translateY(-3px) scale(1.04); }
+  /* external-link affordance: ↗ badge fades in on hover, hugging the logo's top-right */
+  .aff-logo-in::after{
+    content:''; position:absolute; top:-9px; right:-13px; width:12px; height:12px;
+    background:#7C3AED; opacity:0; transform:translate(-3px,3px);
+    transition:opacity .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
+    -webkit-mask:var(--ext-icon) center/contain no-repeat; mask:var(--ext-icon) center/contain no-repeat;
+  }
+  .aff-logo:hover .aff-logo-in::after{ opacity:.9; transform:translate(0,-2px); }
+  .aff-logo:focus-visible{ outline:2px solid #7C3AED; outline-offset:6px; border-radius:.5rem; }
+  /* phone: 2 slots crammed edge-to-edge read as broken — centre them and give them room */
+  @media(max-width:639px){
+    .aff-carousel{ justify-content:center; gap:2rem; }
+    .aff-slot{ height:64px; }
+    .aff-slot:first-child .aff-logo, .aff-slot:last-child .aff-logo{ justify-content:center; }
+    .aff-logo img{ max-height:40px; }
+  }
 
   /* ───────── "out in the world" — banner, not a section ─────────
      Two full-height flyer scans were carrying a section's worth of weight for what
-     is really a one-line announcement. Demoted to a ticker strip: fixed label on the
-     left, the current announcements scrolling past it. */
-  .otw{ background:#140E1F; color:#fff; overflow:hidden; }
-  .otw-in{ display:flex; align-items:stretch; }
-  .otw-label{ flex:none; display:flex; flex-direction:column; justify-content:center; gap:.15rem;
-    padding:1.15rem 1.6rem; background:#7C3AED; }
-  .otw-label .k{ font-size:.62rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.72); }
-  .otw-label .v{ font-family:'Sora',sans-serif; font-weight:700; font-size:.98rem; letter-spacing:-.01em; line-height:1.2; }
-  .otw-track{ flex:1; min-width:0; position:relative; display:flex; align-items:center;
-    -webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 92%,transparent);
-            mask:linear-gradient(90deg,transparent,#000 5%,#000 92%,transparent); }
-  .otw-run{ display:flex; align-items:center; flex:none; padding-left:2.5rem; animation:otwScroll 34s linear infinite; }
-  .otw:hover .otw-run{ animation-play-state:paused; }
-  .otw-item{ display:inline-flex; align-items:center; gap:.7rem; padding-right:3rem; white-space:nowrap;
-    font-size:.95rem; color:rgba(255,255,255,.82); }
-  .otw-item::before{ content:''; width:6px; height:6px; border-radius:50%; background:#A78BFA; flex:none; }
-  .otw-item b{ font-family:'Sora',sans-serif; font-weight:700; color:#fff; }
+     is really one line. Demoted to a marquee: the line repeats across a white strip
+     with Tampa views set as pill-shaped chips between each repeat. */
+  .otw{ background:#fff; overflow:hidden; border-block:1px solid rgba(20,14,31,.10);
+    padding:.9rem 0; }
+  .otw-track{ display:flex; width:max-content; animation:otwScroll 40s linear infinite; }
+  .otw:hover .otw-track{ animation-play-state:paused; }
+  .otw-run{ display:flex; align-items:center; flex:none; }
+  .otw-word{ font-family:'Sora',sans-serif; font-weight:700; color:#140E1F;
+    font-size:clamp(1rem,2.1vw,1.75rem); letter-spacing:-.01em; text-transform:uppercase;
+    white-space:nowrap; padding:0 1.6rem; }
+  .otw-chip{ flex:none; width:clamp(9rem,15vw,16.5rem); height:clamp(2.4rem,4.2vw,4.4rem);
+    border-radius:999px; overflow:hidden; background:#F1ECFB; }
+  .otw-chip img{ width:100%; height:100%; object-fit:cover; display:block; }
   @keyframes otwScroll{ to{ transform:translateX(-50%); } }
-  @media(max-width:640px){
-    .otw-in{ flex-direction:column; }
-    .otw-label{ padding:.9rem 1.25rem; }
-    .otw-track{ padding:.9rem 0; }
-  }
 
   /* consistent keyboard affordance across every interactive element */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
@@ -272,14 +252,14 @@ tailwind.config = {
 
   @media (prefers-reduced-motion: reduce){
     .rv,.hero-in{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
-    .hero-light,.glyph{animation:none!important}
+    .hero-light{animation:none!important}
     .draw-rect{animation:none!important;transform:scaleX(1)!important}
     .plot-dot{animation:none!important;opacity:1!important}
     .imgwrap img,.schwarzkopf-img{transform:none!important}
     .topic img{transition:none!important}
     .ctst-word{animation:none!important}
     .ctst-img{transition:none!important}
-    .otw-run{animation:none!important}
+    .otw-track{animation:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -310,7 +290,10 @@ tailwind.config = {
 <main id="main">
 
 <!-- ═══════════ 1 · MAXEMATICS — the company (logo-led, no photo of Max) ═══════════ -->
-<section id="top" class="relative bg-ink text-white overflow-hidden">
+<!-- no overflow-hidden here: the credential strip deliberately straddles the bottom edge,
+     and clipping it here swallowed the four labels. The background art is already
+     clipped by .hero-bg's own overflow:hidden. -->
+<section id="top" class="relative bg-ink text-white">
   <div class="hero-bg" aria-hidden="true">
     <span class="hero-light"></span>
     <div class="hero-rule"></div>
@@ -336,11 +319,6 @@ tailwind.config = {
       </g>
     </svg>
 
-    <span class="glyph" style="left:7%;top:26%;font-size:56px;--fd:21s;--rot:-8deg" data-depth="26">∫</span>
-    <span class="glyph" style="left:19%;top:68%;font-size:38px;--fd:24s;--rot:6deg" data-depth="42">π</span>
-    <span class="glyph" style="left:41%;top:15%;font-size:44px;--fd:22s;--rot:4deg" data-depth="18">√</span>
-    <span class="glyph" style="left:63%;top:72%;font-size:60px;--fd:27s;--rot:-6deg" data-depth="34">Σ</span>
-    <span class="glyph" style="left:86%;top:34%;font-size:42px;--fd:20s;--rot:7deg" data-depth="22">∞</span>
   </div>
   <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/72 to-ink/20 pointer-events-none" aria-hidden="true"></div>
 
@@ -349,18 +327,18 @@ tailwind.config = {
       <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
         <span class="inline-block w-6 h-px bg-violet-soft"></span> Private tutoring · Math · Science · Language
       </p>
-      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05] whitespace-nowrap">
-        Preparation<span class="seq-sep">.</span>Mastery<span class="seq-sep">.</span>Success<span class="seq-sep">.</span>
+      <!-- one line from sm up; a 375px phone can't hold three words on a line at a
+           readable size, so it wraps there rather than overflowing the viewport -->
+      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2.15rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05] sm:whitespace-nowrap">
+        <!-- <wbr> gives the phone a break opportunity; there is no literal space between
+             the words, so without it the line overflows instead of wrapping -->
+        Preparation<span class="seq-sep">.</span><wbr>Mastery<span class="seq-sep">.</span><wbr>Success<span class="seq-sep">.</span>
       </h1>
       <div class="hero-in hd-4 mt-8 relative max-w-[22rem] sm:max-w-[26rem]">
         <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
         <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
       </div>
-      <p class="hero-in hd-5 mt-9 max-w-xl text-white/75 text-lg md:text-xl leading-relaxed">
-        Maxematics — pairing real subject mastery with a simple belief: the experts in anything were once
-        beginners too. With tailored programs for every student, Maxematics tackles concepts one at a time.
-      </p>
-      <div class="hero-in hd-6 mt-9">
+      <div class="hero-in hd-5 mt-10">
         <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
           Book a session
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
@@ -372,9 +350,9 @@ tailwind.config = {
   <!-- credential strip — straddles the hero's bottom edge -->
   <div class="absolute inset-x-0 bottom-0 translate-y-1/2 z-20 px-6 pointer-events-none">
     <div class="max-w-6xl mx-auto">
-      <div class="cred-strip hero-in hd-7 grid grid-cols-2 md:grid-cols-4">
+      <div class="cred-strip hero-in hd-6 grid grid-cols-2 md:grid-cols-4">
         <div class="cred-cell">
-          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="14">14</span></p>
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="12">12</span></p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Topics</p>
         </div>
         <div class="cred-cell">
@@ -395,11 +373,12 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
-<section id="difference" class="on-dark relative bg-ink text-white pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
+<!-- pt clears the credential strip, which is taller on phones (2×2 instead of 1×4) -->
+<section id="difference" class="on-dark relative bg-ink text-white pt-56 sm:pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
-        <div class="rv sec-idx text-white"><span class="num">01</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
+        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
         <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance">The Maxematics Difference</h2>
       </div>
       <div class="md:col-span-8">
@@ -428,68 +407,38 @@ tailwind.config = {
         </div>
       </div>
       <div class="md:col-span-7">
-        <div class="rv sec-idx text-white"><span class="num">02</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
+        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
         <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet “The Max” in Maxematics</h2>
         <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
           <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard’ it will be. It doesn’t have to be that way.”</p>
         </blockquote>
         <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed">
           Max started tutoring with the idea that academic success is found at the intersection of preparation
-          and attitude. While hurdling challenges and gaining mastery are obvious tutoring goals, Max aims to do
-          that while inspiring a shift in thinking that makes learning genuinely fun.
+          and attitude. While subject mastery is the obvious goal, Max aims to do that while also inspiring a
+          shift in thinking that makes learning fun.
         </p>
         <p class="rv rv-d4 mt-5 text-white/75 text-lg leading-relaxed">
-          Beyond tutoring, Max is a Biomedical-STEM student, a researcher, and a campus leader — captain of
-          varsity rowing, director of his school’s Writing Center and founder of the Pie &amp; Pi Club. Max’s
-          personal commitment to excellence is mirrored in his commitment to every student.
+          Beyond tutoring, Max is a Biomedical-STEM student, researcher, rower, escape room aficionado, foodie,
+          community contributor and campus leader.
         </p>
       </div>
     </div>
 
-    <!-- awards + lab experience — one evidence board, client's order of importance preserved;
-         research and the crime-lab internship now close the matrix instead of sitting
-         in two cards above it -->
+    <!-- credentials — flat card set, nothing ranked above anything else; the lab and
+         internship entries live here now instead of in two separate boxes above -->
     <div class="mt-16">
-      <div class="rv rv-d1 grid md:grid-cols-12 gap-x-12 gap-y-8 items-start">
-        <div class="md:col-span-5 ev-feature p-7">
-            <p class="font-display font-bold text-2xl md:text-[1.75rem] leading-snug balance">Anne Frank Humanitarian Award</p>
-          <p class="text-white/60 mt-2 tnum">2026</p>
-        </div>
-        <div class="md:col-span-7">
-          <div class="ev-row"><span class="ev-n tnum">02</span><div><p class="font-display font-semibold text-lg leading-snug">Excellence — Math · Science · History</p><p class="text-white/55 text-sm mt-0.5 tnum">Department Awards, 2021–26</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">03</span><div><p class="font-display font-semibold text-lg leading-snug">Cum Laude Society</p><p class="text-white/55 text-sm mt-0.5 tnum">Inducted 2026</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">04</span><div><p class="font-display font-semibold text-lg leading-snug">Tampa Prep Head’s List</p><p class="text-white/55 text-sm mt-0.5">A+ achieved in all subjects</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">05</span><div><p class="font-display font-semibold text-lg leading-snug">Writing Center Director</p><p class="text-white/55 text-sm mt-0.5 tnum">Tampa Prep, 2024–26</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">06</span><div><p class="font-display font-semibold text-lg leading-snug">AP Scholar with Distinction</p><p class="text-white/55 text-sm mt-0.5">College Board — 5’s on all AP exams</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">07</span><div><p class="font-display font-semibold text-lg leading-snug">HOBY Youth Leadership</p><p class="text-white/55 text-sm mt-0.5 tnum">Ambassador, 2025</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">08</span><div><p class="font-display font-semibold text-lg leading-snug">Best Overall Research — HC STEM Fair</p><p class="text-white/55 text-sm mt-0.5">Awarded by FL Teacher’s Association</p></div></div>
-          <div class="ev-row"><span class="ev-n tnum">09</span><div><p class="font-display font-semibold text-lg leading-snug">Varsity Rowing Captain</p><p class="text-white/55 text-sm mt-0.5 tnum">“Coaches Award,” ’25, ’26</p></div></div>
-          <div class="ev-row expando" tabindex="0"><span class="ev-n tnum">10</span><div>
-            <p class="font-display font-semibold text-lg leading-snug">Reddy Lab, USF</p>
-            <p class="text-white/55 text-sm mt-0.5">Engineering &amp; Research</p>
-            <div class="expando-full">
-              <p class="text-white/70 text-sm leading-relaxed">
-                Designed and constructed an eVOLVER system for continuous-throughput evolution of yeast and
-                bacterial cells. Conducted experiments evaluating the effects of DDM detergent combined with
-                asolectin on the GltT protein under varied temperatures.
-              </p>
-            </div>
-            <p class="expando-hint mt-2 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
-          </div></div>
-          <div class="ev-row expando" tabindex="0"><span class="ev-n tnum">11</span><div>
-            <p class="font-display font-semibold text-lg leading-snug">NJ State Police Crime Lab Intern</p>
-            <p class="text-white/55 text-sm mt-0.5">Internship — Hamilton, NJ</p>
-            <div class="expando-full">
-              <p class="text-white/70 text-sm leading-relaxed">
-                Worked with state police scientists in DNA Analysis, Drug Identification, Trace Evidence, Forensic
-                Anthropology, Ballistics, Toxicology, CSI, Serology and CODIS. Assisted the NJSP in this prototype
-                internship to determine viability for future undergraduate participation in what has historically
-                been a program limited to MS students.
-              </p>
-            </div>
-            <p class="expando-hint mt-2 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
-          </div></div>
-        </div>
+      <div class="rv rv-d1 grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Anne Frank Humanitarian Award</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Department Awards Math Science History</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Cum Laude Society</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Tampa Prep Head’s List</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Writing Center Director &amp; Tutor</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">AP Scholar with Distinction</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">HOBY Youth Leadership Ambassador</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Best Overall Research — HC STEM Fair</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Varsity Rowing Captain</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">NJ State Police Crime Lab Intern, Hamilton NJ</p></div>
       </div>
     </div>
   </div>
@@ -499,25 +448,23 @@ tailwind.config = {
 <section id="topics" class="bg-paper py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="num">03</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor,<br>many topics.</h2>
     </div>
 
     <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
-      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption><span class="n">01</span>Algebra 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption><span class="n">02</span>Precalculus</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption><span class="n">03</span>Calculus 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption><span class="n">04</span>Geometry</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption><span class="n">05</span>Statistics</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption><span class="n">06</span>Desmos Calculator</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption><span class="n">07</span>Chemistry</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption><span class="n">08</span>Biology</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption><span class="n">09</span>Lab Reports</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption><span class="n">10</span>Physics</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption><span class="n">11</span>Latin 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption><span class="n">12</span>Creative &amp; Technical Writing</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption><span class="n">13</span>SAT &amp; ACT Prep</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption><span class="n">14</span>World &amp; US History</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT/ACT/Desmos" loading="lazy"><figcaption>SAT/ACT/Desmos</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
     </div>
   </div>
 </section>
@@ -526,8 +473,7 @@ tailwind.config = {
 <section id="testimonials" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="num">04</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">What people are saying?</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Results students feel.</h2>
+      <h2 class="rv font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">What people are saying.</h2>
     </div>
 
     <!-- circular carousel — every voice, including the Prep & Me endorsement -->
@@ -541,9 +487,8 @@ tailwind.config = {
 <section id="rates" class="bg-paper py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="num">05</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, tailored sessions.</h2>
-      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">Book by the session or save with the 10-hour package.</p>
     </div>
     <div class="mt-12 grid lg:grid-cols-5 gap-6 items-stretch">
       <div class="rv lg:col-span-3 rounded-2xl bg-white border border-ink/10 overflow-hidden">
@@ -555,9 +500,8 @@ tailwind.config = {
           </tr></thead>
           <tbody>
             <tr class="rate-row"><td class="font-medium">30 minutes</td><td class="text-right font-display font-bold text-xl tnum">$25</td></tr>
-            <tr class="rate-row"><td class="font-medium">1 hour</td><td class="text-right font-display font-bold text-xl tnum">$40</td></tr>
-            <tr class="rate-row"><td class="font-medium">1.5 hours</td><td class="text-right font-display font-bold text-xl tnum">$60</td></tr>
-            <tr class="rate-row rate-pkg"><td><p class="font-semibold">10-hour package</p><p class="text-ink/55 text-sm mt-0.5">Schedule in any increments</p></td><td class="text-right"><span class="font-display font-bold text-2xl text-violet tnum">$375</span></td></tr>
+            <tr class="rate-row"><td class="font-medium">60 minutes</td><td class="text-right font-display font-bold text-xl tnum">$40</td></tr>
+            <tr class="rate-row"><td class="font-medium">90 minutes</td><td class="text-right font-display font-bold text-xl tnum">$60</td></tr>
           </tbody>
         </table>
         <p class="px-8 py-4 text-sm text-ink/55 border-t border-ink/8">Zelle, check, or cash accepted.</p>
@@ -587,7 +531,7 @@ tailwind.config = {
   <div class="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-ink/70 to-transparent z-[1] pointer-events-none" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-white"><span class="num">06</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Giving back</span></div>
+      <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Giving back</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">The Gen. H Norman Schwarzkopf Scholarship</h2>
       <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed">
         Max's grandfather spent his life in service — to his country, and to the young men and women who served
@@ -612,23 +556,20 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ═══════════ OUT IN THE WORLD — banner strip, not a section ═══════════ -->
-<aside id="flyers" class="otw" aria-label="Out in the world — what's currently happening around Tampa">
-  <div class="otw-in">
-    <div class="otw-label">
-      <span class="k">Out in the world</span>
-      <span class="v">Look for Maxematics around Tampa.</span>
+<!-- ═══════════ OUT IN THE WORLD — banner strip, not a section ═══════════
+     Copy is verbatim: "Out in the world / Look for Maxematics around Tampa."
+     The pill chips take Tampa view photos — drop them in assets/tampa/ and swap
+     the placeholder <span class="otw-chip"> for <span class="otw-chip"><img …></span>. -->
+<aside id="flyers" class="otw" aria-label="Out in the world — look for Maxematics around Tampa">
+  <div class="otw-track">
+    <!-- run duplicated so the loop is seamless; the copy is aria-hidden -->
+    <div class="otw-run">
+      <span class="otw-word">Out in the world</span><span class="otw-chip"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span><span class="otw-chip"></span>
     </div>
-    <div class="otw-track">
-      <!-- run duplicated so the loop is seamless; the copy is aria-hidden -->
-      <div class="otw-run">
-        <span class="otw-item"><b>Schwarzkopf Scholarship</b> — a full year of tutoring, awarded each September</span>
-        <span class="otw-item"><b>Senior community seminars</b> — free sessions around Tampa</span>
-        <span class="otw-item"><b>Free SAT Desmos workshops</b> — calculator strategy, open to all</span>
-        <span class="otw-item" aria-hidden="true"><b>Schwarzkopf Scholarship</b> — a full year of tutoring, awarded each September</span>
-        <span class="otw-item" aria-hidden="true"><b>Senior community seminars</b> — free sessions around Tampa</span>
-        <span class="otw-item" aria-hidden="true"><b>Free SAT Desmos workshops</b> — calculator strategy, open to all</span>
-      </div>
+    <div class="otw-run" aria-hidden="true">
+      <span class="otw-word">Out in the world</span><span class="otw-chip"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span><span class="otw-chip"></span>
     </div>
   </div>
 </aside>
@@ -637,7 +578,7 @@ tailwind.config = {
 <section id="inquire" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
     <div>
-      <div class="rv sec-idx text-ink"><span class="num">07</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the conversation.</h2>
       <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
       <a href="mailto:maxematics@icloud.com" class="rv rv-d3 mt-8 inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
@@ -665,21 +606,18 @@ tailwind.config = {
 <!-- ═══════════ 9 · AFFILIATIONS & CERTIFICATIONS ═══════════ -->
 <section id="affiliations" class="bg-paper py-20 border-t border-ink/5">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="rv sec-idx justify-center text-ink"><span class="num">08</span><span class="rule"></span><span class="eyebrow text-ink/45 text-xs font-semibold uppercase">Affiliations, certifications &amp; recognition</span></div>
-    <div class="rv rv-d1 aff-grid mt-8">
-      <a class="aff-cell" href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" title="Autodesk Certification"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://cumlaudesociety.org/" target="_blank" rel="noopener" title="Cum Laude Society"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.thefhm.org/" target="_blank" rel="noopener" title="Florida Holocaust Museum — Anne Frank Humanitarian Award"><img src="assets/logo-anne-frank-humanitarian.png" alt="Florida Holocaust Museum — Anne Frank Humanitarian Award (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.reddy-lab.com/" target="_blank" rel="noopener" title="Reddy Lab"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.instagram.com/p/DOwNhn5E9Cx/" target="_blank" rel="noopener" title="Award recognition"><img src="assets/logo-instagram-post-award.png" alt="Award recognition (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.instagram.com/pieandpi" target="_blank" rel="noopener" title="Pie &amp; Pi Club"><img src="assets/logo-pie-and-pi-club.png" alt="Pie &amp; Pi Club (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://hoby.org/" target="_blank" rel="noopener" title="HOBY Leadership"><img src="assets/logo-hoby-leadership.png" alt="HOBY Leadership (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://prepandme.org/" target="_blank" rel="noopener" title="Prep &amp; Me"><img src="assets/logo-prep-and-me.png" alt="Prep &amp; Me (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.ntatutor.com/" target="_blank" rel="noopener" title="National Tutoring Association"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://maa.org/" target="_blank" rel="noopener" title="Mathematical Association of America"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://usrowing.org/" target="_blank" rel="noopener" title="US Rowing"><img src="assets/logo-us-rowing.png" alt="US Rowing (opens in new tab)" loading="lazy"></a>
-      <a class="aff-cell" href="https://www.instagram.com/tampa_prep" target="_blank" rel="noopener" title="Tampa Preparatory School"><img src="assets/logo-tampa-prep-school.png" alt="Tampa Preparatory School (opens in new tab)" loading="lazy"></a>
-    </div>
+    <p class="rv text-center eyebrow text-xs font-semibold uppercase text-ink/45 mb-9">Affiliations, certifications &amp; recognition</p>
+    <div class="rv rv-d1 aff-carousel" id="affCarousel" role="region" aria-roledescription="carousel" aria-label="Affiliations, certifications and recognition"></div>
+    <noscript>
+      <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
+        <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
+        <a href="https://cumlaudesociety.org/" target="_blank" rel="noopener"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.thefhm.org/" target="_blank" rel="noopener"><img src="assets/logo-anne-frank-humanitarian.png" alt="Florida Holocaust Museum" class="h-11 w-auto object-contain"></a>
+        <a href="https://www.reddy-lab.com/" target="_blank" rel="noopener"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab" class="h-11 w-auto object-contain"></a>
+        <a href="https://prepandme.org/" target="_blank" rel="noopener"><img src="assets/logo-prep-and-me.png" alt="Prep &amp; Me" class="h-11 w-auto object-contain"></a>
+        <a href="https://maa.org/" target="_blank" rel="noopener"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America" class="h-11 w-auto object-contain"></a>
+      </div>
+    </noscript>
   </div>
 </section>
 </main>
@@ -755,16 +693,6 @@ if (!reduce){
   const sk = document.getElementById('schwarzkopf');
   if (sk) scroll(animate(sk, { y:['-8%','8%'] }, { ease:'linear' }), { target: sk, offset:['start end','end start'] });
 
-  const hero = document.getElementById('top');
-  const glyphs = [...document.querySelectorAll('.glyph')];
-  if (hero && glyphs.length){
-    scroll((p) => {
-      glyphs.forEach(g => {
-        const depth = parseFloat(g.dataset.depth) || 24;
-        g.style.translate = '0 ' + (p * depth * 2.4).toFixed(1) + 'px';
-      });
-    }, { target: hero, offset:['start start','end start'] });
-  }
 }
 
 /* ─── Stat count-up ─── */
@@ -792,6 +720,8 @@ const CTST = [
 const ctstRoot = document.getElementById('ctst');
 if (ctstRoot){
   const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const DWELL = 10000;                      // slow cadence — a quote needs time to be read
+  const RING  = (2 * Math.PI * 23).toFixed(2);
   ctstRoot.innerHTML = `
     <div class="ctst-grid">
       <div class="ctst-imgs" id="ctstImgs"></div>
@@ -799,7 +729,12 @@ if (ctstRoot){
         <div id="ctstText" aria-live="polite"></div>
         <div class="ctst-arrows">
           <button class="ctst-arrow" id="ctstPrev" aria-label="Previous testimonial">${ARROW('<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>')}</button>
-          <button class="ctst-arrow" id="ctstNext" aria-label="Next testimonial">${ARROW('<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>')}</button>
+          <button class="ctst-arrow" id="ctstNext" aria-label="Next testimonial">${ARROW('<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>')}
+            <svg class="ctst-ring" viewBox="0 0 48 48" aria-hidden="true">
+              <circle class="trk" cx="24" cy="24" r="23"/>
+              <circle class="bar" cx="24" cy="24" r="23" stroke-dasharray="${RING}" stroke-dashoffset="${RING}"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>`;
@@ -808,7 +743,7 @@ if (ctstRoot){
   const prevBtn = ctstRoot.querySelector('#ctstPrev');
   const nextBtn = ctstRoot.querySelector('#ctstNext');
   const N = CTST.length;
-  let active = 0, timer = null;
+  let active = 0;
 
   CTST.forEach((t, i) => {
     const img = document.createElement('img');
@@ -847,7 +782,24 @@ if (ctstRoot){
     if (!reduce) textEl.animate([{ opacity:0, transform:'translateY(12px)' }, { opacity:1, transform:'none' }], { duration:320, easing:'ease' });
   }
   function update(){ styleImgs(); renderText(); }
-  function resetAutoplay(){ if (timer) clearInterval(timer); if (!reduce) timer = setInterval(() => { active = (active + 1) % N; update(); }, 5000); }
+
+  // The ring on the next arrow fills across the dwell, then the slide advances — the
+  // reader can see the change coming instead of the quote swapping underneath them.
+  const bar = ctstRoot.querySelector('.ctst-ring .bar');
+  let started = 0, raf = null;
+  function tick(now){
+    const p = Math.min(1, (now - started) / DWELL);
+    bar.style.strokeDashoffset = (RING * (1 - p)).toFixed(2);
+    if (p >= 1){ active = (active + 1) % N; update(); started = now; }
+    raf = requestAnimationFrame(tick);
+  }
+  function resetAutoplay(){
+    if (reduce) return;
+    if (raf) cancelAnimationFrame(raf);
+    bar.style.strokeDashoffset = RING;
+    started = performance.now();
+    raf = requestAnimationFrame(tick);
+  }
 
   prevBtn.addEventListener('click', () => { active = (active - 1 + N) % N; update(); resetAutoplay(); });
   nextBtn.addEventListener('click', () => { active = (active + 1) % N; update(); resetAutoplay(); });
@@ -858,6 +810,79 @@ if (ctstRoot){
   });
   window.addEventListener('resize', styleImgs);
   update(); resetAutoplay();
+}
+
+/* ─── Affiliations: cycling logo carousel (fixed slots, staggered blur/slide) ─── */
+const AFF = [
+  { src:'assets/logo-autodesk-certification.png', alt:'Autodesk Certification',              url:'https://www.autodesk.com/certification/overview' },
+  { src:'assets/logo-cum-laude-society.png',      alt:'Cum Laude Society',                   url:'https://cumlaudesociety.org/' },
+  { src:'assets/logo-anne-frank-humanitarian.png',alt:'Florida Holocaust Museum — Anne Frank Humanitarian Award', url:'https://www.thefhm.org/' },
+  { src:'assets/logo-reddy-lab.png',              alt:'Reddy Lab',                           url:'https://www.reddy-lab.com/' },
+  { src:'assets/logo-instagram-post-award.png',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
+  { src:'assets/logo-pie-and-pi-club.png',        alt:'Pie & Pi Club',                       url:'https://www.instagram.com/pieandpi' },
+  { src:'assets/logo-hoby-leadership.png',        alt:'HOBY Leadership',                     url:'https://hoby.org/' },
+  { src:'assets/logo-prep-and-me.png',            alt:'Prep & Me',                           url:'https://prepandme.org/' },
+  { src:'assets/logo-nta-tutor.png',              alt:'National Tutoring Association',       url:'https://www.ntatutor.com/' },
+  { src:'assets/logo-maa-math.png',               alt:'Mathematical Association of America', url:'https://maa.org/' },
+  { src:'assets/logo-us-rowing.png',              alt:'US Rowing',                           url:'https://usrowing.org/' },
+  { src:'assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.instagram.com/tampa_prep' },
+];
+const affCarousel = document.getElementById('affCarousel');
+let affTimers = [], affCount = 0;
+
+function affMakeLogo(l){
+  const a = document.createElement('a');
+  a.href = l.url; a.target = '_blank'; a.rel = 'noopener'; a.title = l.alt;
+  a.className = 'aff-logo'; a.setAttribute('aria-label', l.alt + ' (opens in new tab)');
+  const inner = document.createElement('span');
+  inner.className = 'aff-logo-in';
+  const img = document.createElement('img');
+  img.src = l.src; img.alt = l.alt; img.loading = 'lazy';
+  inner.appendChild(img); a.appendChild(inner); return a;
+}
+function affSlotCount(){
+  if (window.matchMedia('(min-width:1024px)').matches) return 5;
+  if (window.matchMedia('(min-width:640px)').matches) return 3;
+  return 2;
+}
+function affCycle(slot){
+  if (document.hidden) return;
+  slot.idx = (slot.idx + 1) % slot.logos.length;
+  // Fade out EVERY outgoing logo and guarantee removal on a timer — a cancelled exit
+  // animation (or a throttled background tab) otherwise leaves nodes stacked up.
+  const outgoing = [...slot.el.children];
+  const next = affMakeLogo(slot.logos[slot.idx]);
+  slot.el.appendChild(next);
+  animate(next, { opacity:[0,1], y:[14,0], filter:['blur(6px)','blur(0px)'] }, { duration:.9, ease:EASE });
+  outgoing.forEach(prev => {
+    prev.style.pointerEvents = 'none';
+    animate(prev, { opacity:[1,0], y:[0,-14], filter:['blur(0px)','blur(6px)'] }, { duration:.9, ease:EASE });
+    setTimeout(() => prev.remove(), 1000);
+  });
+}
+function affBuild(){
+  const n = affSlotCount();
+  if (n === affCount) return;
+  affCount = n;
+  affTimers.forEach(clearInterval); affTimers = [];
+  affCarousel.innerHTML = '';
+  const slots = [];
+  for (let s = 0; s < n; s++){
+    const el = document.createElement('div');
+    el.className = 'aff-slot'; el.setAttribute('role','group'); el.setAttribute('aria-roledescription','slide');
+    const logos = AFF.filter((_, i) => i % n === s);
+    el.appendChild(affMakeLogo(logos[0]));
+    affCarousel.appendChild(el);
+    slots.push({ el, logos, idx:0 });
+  }
+  if (reduce) return;
+  slots.forEach((slot, i) => {
+    setTimeout(() => { affCycle(slot); affTimers.push(setInterval(() => affCycle(slot), 6000)); }, 3600 + i * 380);
+  });
+}
+if (affCarousel){
+  affBuild();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(affBuild, 200); });
 }
 
 /* ─── Nav: deepen shadow once scrolled ─── */
