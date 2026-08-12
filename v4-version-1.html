@@ -265,13 +265,15 @@ tailwind.config = {
   .lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
   .lenis.lenis-stopped{ overflow:hidden; }
 
-  .dirbar{ position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:90;
-    display:flex; align-items:center; gap:.15rem; background:#140E1F; color:#fff; border-radius:999px;
-    padding:.3rem .45rem; box-shadow:0 12px 30px -10px rgba(20,14,31,.5); font-size:.78rem; font-weight:600; }
-  .dirbar a{ padding:.42rem .8rem; border-radius:999px; color:rgba(255,255,255,.65); transition:color .2s, background .2s; }
-  .dirbar a:hover{ color:#fff; }
-  .dirbar a.cur{ background:#7C3AED; color:#fff; }
-  .dirbar .lbl{ padding:.42rem .55rem .42rem .8rem; color:rgba(255,255,255,.5); font-weight:500; letter-spacing:.08em; text-transform:uppercase; font-size:.66rem; }
+  /* ───────── site nav — inverts over dark full-bleed sections ───────── */
+  .site-nav{ background:transparent; border-bottom:1px solid transparent; color:#fff;
+    transition:background-color .28s ease, border-color .28s ease, box-shadow .28s ease; }
+  .site-nav.is-light{ background:rgba(250,248,255,.85); backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px); border-bottom-color:rgba(20,14,31,.05); color:#140E1F; }
+  .site-nav.is-dark{ background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; }
+  .site-nav .nav-links a{ color:inherit; opacity:.72; transition:opacity .2s, color .2s; }
+  .site-nav .nav-links a:hover{ opacity:1; color:#A78BFA; }
+  .site-nav.is-light .nav-links a:hover{ color:#7C3AED; }
 
   @media (prefers-reduced-motion: reduce){
     .rv,.hero-in{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
@@ -292,16 +294,16 @@ tailwind.config = {
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
 
 <!-- ═══════════ NAV ═══════════ -->
-<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-paper/85 border-b border-ink/5 transition-shadow">
+<header class="site-nav is-dark fixed top-0 inset-x-0 z-50">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center">
-      <img src="assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
+      <img id="navLogo" src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
     </a>
-    <nav aria-label="Primary" class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
-      <a href="#max" class="hover:text-violet transition-colors">Max</a>
-      <a href="#topics" class="hover:text-violet transition-colors">Topics</a>
-      <a href="#rates" class="hover:text-violet transition-colors">Rates</a>
-      <a href="#scholarship" class="hover:text-violet transition-colors">Scholarship</a>
+    <nav aria-label="Primary" class="nav-links hidden md:flex items-center gap-7 text-sm font-medium">
+      <a href="#max">Max</a>
+      <a href="#topics">Topics</a>
+      <a href="#rates">Rates</a>
+      <a href="#scholarship">Scholarship</a>
     </nav>
     <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-violet text-white text-sm font-semibold px-5 py-2.5 hover:bg-violet-deep transition-colors cursor-pointer">
       Inquire
@@ -316,7 +318,7 @@ tailwind.config = {
 <!-- no overflow-hidden here: the credential strip deliberately straddles the bottom edge,
      and clipping it here swallowed the four labels. The background art is already
      clipped by .hero-bg's own overflow:hidden. -->
-<section id="top" class="relative bg-ink text-white">
+<section id="top" data-nav="dark" class="relative bg-ink text-white">
   <div class="hero-bg" aria-hidden="true">
     <span class="hero-light"></span>
     <div class="hero-rule"></div>
@@ -337,7 +339,7 @@ tailwind.config = {
       <g mask="url(#curveDraw)">
         <path d="M0 282 C 130 274, 214 246, 292 190 S 452 52, 760 18" stroke="url(#curveFade)" stroke-width="2.5" stroke-linecap="round"/>
         <circle class="plot-dot" style="animation-delay:.9s"  cx="292" cy="190" r="4.5" fill="#A78BFA"/>
-        <circle class="plot-dot" style="animation-delay:1.5s" cx="530" cy="86"  r="4.5" fill="#A78BFA"/>
+        <circle class="plot-dot" style="animation-delay:1.5s" cx="530" cy="62"  r="4.5" fill="#A78BFA"/>
         <circle class="plot-dot" style="animation-delay:2.1s" cx="742" cy="19"  r="6"   fill="#fff"/>
       </g>
     </svg>
@@ -349,11 +351,11 @@ tailwind.config = {
        above the left-to-right scrim instead of being veiled by it. -->
   <div class="curve-hot" aria-hidden="true">
     <div class="plot-hit" data-plot="0" style="left:38.421%;top:63.333%"></div>
-    <div class="plot-hit" data-plot="1" style="left:69.737%;top:28.667%"></div>
+    <div class="plot-hit" data-plot="1" style="left:69.737%;top:20.667%"></div>
     <div class="plot-hit" data-plot="2" style="left:97.632%;top:6.333%"></div>
 
     <div class="plot-anchor" style="left:38.421%;top:63.333%"><div class="plot-label">Preparation.</div></div>
-    <div class="plot-anchor" style="left:69.737%;top:28.667%"><div class="plot-label">Mastery.</div></div>
+    <div class="plot-anchor" style="left:69.737%;top:20.667%"><div class="plot-label">Mastery.</div></div>
     <div class="plot-anchor" style="left:97.632%;top:6.333%;--ax:-86%"><div class="plot-label">Success.</div></div>
   </div>
 
@@ -412,7 +414,7 @@ tailwind.config = {
 
 <!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
 <!-- pt clears the credential strip, which is taller on phones (2×2 instead of 1×4) -->
-<section id="difference" class="on-dark relative bg-ink text-white pt-56 sm:pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
+<section id="difference" data-nav="dark" class="on-dark relative bg-ink text-white pt-56 sm:pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
@@ -434,7 +436,7 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 2 · MEET MAX — intro, philosophy, credentials ═══════════ -->
-<section id="max" class="on-dark bg-plum text-white py-24 md:py-32 relative overflow-hidden grid-faint">
+<section id="max" data-nav="dark" class="on-dark bg-plum text-white py-24 md:py-32 relative overflow-hidden grid-faint">
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-12 md:gap-14 items-center">
       <div class="md:col-span-5 rv imgwrap">
@@ -561,7 +563,7 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 6 · GIVING BACK / SCHWARZKOPF SCHOLARSHIP ═══════════ -->
-<section id="scholarship" class="on-dark relative bg-ink text-white py-24 md:py-32 overflow-hidden">
+<section id="scholarship" data-nav="dark" class="on-dark relative bg-ink text-white py-24 md:py-32 overflow-hidden">
   <div class="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden z-0" aria-hidden="true">
     <img id="schwarzkopf" src="assets/general-portrait.jpg" alt="Gen. H Norman Schwarzkopf" class="schwarzkopf-img absolute inset-x-0 -top-[14%] h-[128%] w-full object-cover object-top">
   </div>
@@ -673,7 +675,7 @@ tailwind.config = {
 </main>
 
 <!-- ═══════════ FOOTER ═══════════ -->
-<footer class="bg-ink text-white py-14">
+<footer data-nav="dark" class="bg-ink text-white py-14">
   <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
     <a href="#top" class="flex items-center">
       <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
@@ -689,12 +691,6 @@ tailwind.config = {
   </div>
   <p class="mt-10 text-center text-xs text-white/35">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
 </footer>
-
-<nav class="dirbar" aria-label="Version switcher">
-  <span class="lbl">Maxematics</span>
-  <a href="v4-direction-01.html">Direction 01</a>
-  <a href="v4-version-1.html" class="cur" aria-current="page">Version 1</a>
-</nav>
 
 <script>
   if (location.search.includes('static')) {
@@ -958,11 +954,29 @@ if (affCarousel){
   let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(affBuild, 200); });
 }
 
-/* ─── Nav: deepen shadow once scrolled ─── */
-const nav = document.querySelector('header');
+/* ─── Nav: invert over dark full-bleed bands ─── */
+const nav = document.querySelector('header.site-nav');
+const navLogo = document.getElementById('navLogo');
+const LOGO_LIGHT = 'assets/logo-horizontal.svg';
+const LOGO_DARK  = 'assets/logo-horizontal-reversed.svg';
 if (nav){
-  const onScroll = () => nav.classList.toggle('shadow-lg', window.scrollY > 24);
-  onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
+  const bands = [...document.querySelectorAll('[data-nav="dark"]')];
+  const probeY = 32;
+  const syncNav = () => {
+    const dark = bands.some(el => {
+      const r = el.getBoundingClientRect();
+      return r.top <= probeY && r.bottom > probeY;
+    });
+    nav.classList.toggle('is-dark', dark);
+    nav.classList.toggle('is-light', !dark);
+    nav.classList.toggle('shadow-lg', !dark && window.scrollY > 24);
+    if (navLogo && navLogo.getAttribute('src') !== (dark ? LOGO_DARK : LOGO_LIGHT)){
+      navLogo.src = dark ? LOGO_DARK : LOGO_LIGHT;
+    }
+  };
+  syncNav();
+  window.addEventListener('scroll', syncNav, { passive:true });
+  if (lenis) lenis.on('scroll', syncNav);
 }
 </script>
 </body>
