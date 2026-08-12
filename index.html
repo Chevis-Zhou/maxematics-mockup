@@ -257,13 +257,11 @@ tailwind.config = {
   .lenis.lenis-stopped{ overflow:hidden; }
 
   /* ───────── site nav — inverts over dark full-bleed sections ───────── */
-  .site-nav{ border-bottom:1px solid transparent; color:#fff;
+  .site-nav{ color:#fff;
     backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-    transition:background-color .28s ease, border-color .28s ease, box-shadow .28s ease, color .28s ease; }
-  .site-nav.is-light{ background:rgba(250,248,255,.85);
-    border-bottom-color:rgba(20,14,31,.05); color:#140E1F; }
-  .site-nav.is-dark{ background:rgba(20,14,31,.82);
-    border-bottom-color:rgba(255,255,255,.08); color:#fff; }
+    transition:background-color .28s ease, color .28s ease; }
+  .site-nav.is-light{ background:rgba(250,248,255,.78); color:#140E1F; }
+  .site-nav.is-dark{ background:rgba(20,14,31,.72); color:#fff; }
   .site-nav .nav-links a{ color:inherit; opacity:.72; transition:opacity .2s, color .2s; }
   .site-nav .nav-links a:hover{ opacity:1; color:#A78BFA; }
   .site-nav.is-light .nav-links a:hover{ color:#7C3AED; }
@@ -949,7 +947,6 @@ if (nav){
     });
     nav.classList.toggle('is-dark', dark);
     nav.classList.toggle('is-light', !dark);
-    nav.classList.toggle('shadow-lg', !dark && window.scrollY > 24);
     if (navLogo && navLogo.getAttribute('src') !== (dark ? LOGO_DARK : LOGO_LIGHT)){
       navLogo.src = dark ? LOGO_DARK : LOGO_LIGHT;
     }
