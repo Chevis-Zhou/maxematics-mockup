@@ -353,28 +353,23 @@ tailwind.config = {
   <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/72 to-ink/20 pointer-events-none" aria-hidden="true"></div>
 
   <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 relative z-10">
-    <div class="max-w-3xl">
-      <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
-        <span class="inline-block w-6 h-px bg-violet-soft"></span> Private Tutoring
-      </p>
-      <!-- Flex, not white-space: the three words sit on one line from sm up and wrap on a
-           phone, which can't hold them at a readable size. (whitespace-nowrap + <wbr> was
-           the obvious route but Chrome breaks at a <wbr> even when nowrap is set.) -->
-      <h1 class="hero-in hd-3 flex flex-wrap gap-x-[0.7em] gap-y-1 min-w-0 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.45rem] md:text-[3.25rem] leading-[1.08]">
-        <span>Preparation<span class="seq-sep">.</span></span>
-        <span>Mastery<span class="seq-sep">.</span></span>
-        <span>Success<span class="seq-sep">.</span></span>
-      </h1>
-      <div class="hero-in hd-4 mt-8 relative max-w-[28rem] sm:max-w-[36rem]">
-        <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
-        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
-      </div>
-      <div class="hero-in hd-5 mt-10">
-        <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
-          Book a session
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-      </div>
+    <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
+      <span class="inline-block w-6 h-px bg-violet-soft"></span> Private Tutoring
+    </p>
+    <h1 class="hero-in hd-3 flex flex-nowrap whitespace-nowrap gap-x-[0.55em] font-display font-extrabold tracking-[-.03em] text-[clamp(1.2rem,4.6vw,3.25rem)] leading-[1.08]">
+      <span>Preparation<span class="seq-sep">.</span></span>
+      <span>Mastery<span class="seq-sep">.</span></span>
+      <span>Success<span class="seq-sep">.</span></span>
+    </h1>
+    <div class="hero-in hd-4 mt-8 relative max-w-[28rem] sm:max-w-[36rem]">
+      <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
+      <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+    </div>
+    <div class="hero-in hd-5 mt-10">
+      <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
+        Book a session
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
     </div>
   </div>
 
