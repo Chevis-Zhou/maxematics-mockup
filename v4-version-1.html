@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maxematics — Version 1 (refined)</title>
+<meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions across 14 topics in math, science &amp; language, including SAT/ACT and Desmos support, virtual or in person.">
+<meta name="theme-color" content="#140E1F">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon/maxematics-favicon-violet-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon/maxematics-favicon-violet-180.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maxematics — Private Tutoring in Math, Science &amp; Language">
+<meta property="og:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
+<meta property="og:image" content="assets/max-2.jpg">
+<meta property="og:url" content="https://chevis-zhou.github.io/maxematics-mockup/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maxematics — Private Tutoring in Math, Science &amp; Language">
+<meta name="twitter:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
+<meta name="twitter:image" content="assets/max-2.jpg">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        // Single-accent discipline: violet is the only chromatic voice on the page.
+        // v3's peach / sky2 / fuchsia2 are deliberately gone — the three-hue radial
+        // mesh they fed is the "AI purple/pink gradient" tell this pass removes.
+        ink:    '#140E1F',
+        plum:   '#1B1230',
+        violet: { DEFAULT:'#7C3AED', deep:'#5B21B6', soft:'#A78BFA', faint:'#EFE9FE' },
+        paper:  '#FAF8FF',
+        mist:   '#F1ECFB'
+      },
+      fontFamily: {
+        display: ['Sora','sans-serif'],
+        body: ['"Instrument Sans"','sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior:smooth; }
+  body { font-family:'Instrument Sans',sans-serif; }
+  .font-display { font-family:'Sora',sans-serif; }
+
+  /* Every figure on the page is evidence — numerals must align in a column. */
+  .tnum { font-variant-numeric: tabular-nums; font-feature-settings:'tnum' 1; }
+  .balance { text-wrap: balance; }
+
+  /* ───────── scroll reveal — shorter travel, no blur ─────────
+     v3 animated `filter: blur()` on every revealed block. Blur is the single most
+     expensive filter to composite and it read as a gimmick at 26px of travel.
+     14px + opacity at .5s reads as confidence rather than arrival. */
+  .rv { opacity:0; transform:translateY(14px); transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1); }
+  .rv.on { opacity:1; transform:none; }
+  .rv-d1{transition-delay:.06s}.rv-d2{transition-delay:.12s}.rv-d3{transition-delay:.18s}
+  .rv-d4{transition-delay:.24s}.rv-d5{transition-delay:.30s}.rv-d6{transition-delay:.36s}
+
+  /* ───────── hero entrance ───────── */
+  @keyframes rise { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+  .hero-in{opacity:0;animation:rise .8s cubic-bezier(.22,1,.36,1) forwards}
+  .hd-1{animation-delay:.08s}.hd-2{animation-delay:.18s}.hd-3{animation-delay:.28s}
+  .hd-4{animation-delay:.38s}.hd-5{animation-delay:.48s}.hd-6{animation-delay:.60s}
+
+  /* ═════════ HERO — precision, not atmosphere ═════════
+     Replaces v3's three blurred auroras (violet + indigo + fuchsia, screen-blended)
+     with one violet light source, a ruled coordinate field, and a plotted growth
+     curve. The subject is mathematics, so the background is mathematics — not haze. */
+  .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+
+  /* one light source, top-right, tight falloff — no hue mixing, no browning */
+  .hero-light{ position:absolute; width:70vw; height:70vw; right:-18%; top:-34%;
+    background:radial-gradient(circle at 50% 50%, rgba(124,58,237,.42), transparent 60%);
+    filter:blur(70px); will-change:transform; animation:lightDrift 30s ease-in-out infinite; }
+  @keyframes lightDrift{ 0%,100%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(-4%,3%,0) scale(1.07)} }
+
+  /* ruled field — finer and squarer than v3's 54px grid, masked to the left copy block */
+  .hero-rule{ position:absolute; inset:-2px;
+    background-image:linear-gradient(rgba(167,139,250,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.10) 1px,transparent 1px);
+    background-size:38px 38px;
+    mask-image:linear-gradient(105deg,#000 6%,rgba(0,0,0,.35) 48%,transparent 78%);
+    -webkit-mask-image:linear-gradient(105deg,#000 6%,rgba(0,0,0,.35) 48%,transparent 78%); }
+  /* heavier axis pair — anchors the field as a coordinate plane, not wallpaper */
+  .hero-axis{ position:absolute; inset:0; }
+  .hero-axis::before,.hero-axis::after{ content:''; position:absolute; background:rgba(167,139,250,.20); }
+  .hero-axis::before{ left:0; right:0; bottom:22%; height:1px; }
+  .hero-axis::after{ top:0; bottom:0; left:9%; width:1px; }
+
+  /* plotted curve — masked reveal driven by a pure scaleX transform (no dashoffset repaint) */
+  .curve{ position:absolute; right:0; bottom:14%; width:min(58vw,760px); height:auto; opacity:.85; }
+  .draw-rect{ transform-box:fill-box; transform-origin:left center; transform:scaleX(0);
+    animation:drawIn 1.9s cubic-bezier(.22,1,.36,1) .45s forwards; }
+  @keyframes drawIn{ to{ transform:scaleX(1); } }
+  .plot-dot{ opacity:0; animation:dotIn .5s cubic-bezier(.22,1,.36,1) forwards; }
+  @keyframes dotIn{ to{ opacity:1 } }
+
+  /* glyphs — 5 not 8, smaller, single hue, further back */
+  .glyph{ position:absolute; font-family:'Sora',sans-serif; font-weight:600; color:#A78BFA; opacity:.10; user-select:none; will-change:transform; animation:floaty var(--fd,20s) ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(var(--rot,0deg))} 50%{transform:translateY(-16px) rotate(var(--rot,0deg))} }
+
+  .schwarzkopf-img{ opacity:.5; filter:contrast(1.06) saturate(.9); will-change:transform; }
+
+  .grid-faint::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px);
+    background-size:64px 64px; mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 40%,transparent 100%); }
+
+  .eyebrow{ letter-spacing:.16em; }
+
+  /* ───────── hero headline — the four words are a sequence, so set them as one ─────────
+     Copy is unchanged; only its typographic treatment is. The ellipses drop to a
+     violet tick at 0.5em so the eye reads four escalating beats, not a run-on line. */
+  .seq-sep{ color:#A78BFA; font-size:.5em; vertical-align:.18em; letter-spacing:.06em; opacity:.75; padding:0 .12em; }
+
+  /* ───────── credential strip — breaks the hero's bottom edge ─────────
+     The four proof figures were floating loose inside the hero. Here they become a
+     ruled instrument panel that straddles the section boundary — the page's one
+     deliberate grid-breaking moment. */
+  .cred-strip{ border:1px solid rgba(255,255,255,.14); background:rgba(20,14,31,.72); backdrop-filter:blur(14px); border-radius:1.25rem; }
+  .cred-cell{ padding:1.4rem 1.6rem; border-left:1px solid rgba(255,255,255,.10); }
+  .cred-cell:first-child{ border-left:0; }
+  @media(max-width:767px){ .cred-cell{ border-left:0; border-top:1px solid rgba(255,255,255,.10); } .cred-cell:first-child{ border-top:0; } }
+
+  /* ───────── section header lockup — numbered, ruled ─────────
+     v3 repeated "eyebrow + big h2" nine times with nothing to tell the sections apart.
+     A running index plus a violet rule gives the page a spine. */
+  .sec-idx{ display:flex; align-items:center; gap:.85rem; margin-bottom:1.1rem; }
+  .sec-idx .num{ font-family:'Sora',sans-serif; font-weight:700; font-size:.72rem; letter-spacing:.1em; color:#7C3AED; }
+  .sec-idx .rule{ height:1px; width:2.4rem; background:currentColor; opacity:.28; }
+  .on-dark .sec-idx .num{ color:#A78BFA; }
+
+  /* ───────── topic tiles ───────── */
+  .topic{ position:relative; overflow:hidden; border-radius:.9rem; margin:0; background:#140E1F;
+    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
+  .topic:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -22px rgba(124,58,237,.45); }
+  .topic img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
+    transition:transform .7s cubic-bezier(.22,1,.36,1); }
+  .topic:hover img{ transform:scale(1.06); }
+  /* lighter scrim than v3 (96% floor crushed the photography); a violet hairline
+     on hover carries the interaction instead of more black */
+  .topic::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(to top, rgba(20,14,31,.90) 0%, rgba(20,14,31,.62) 30%, rgba(20,14,31,.10) 62%, rgba(20,14,31,0) 82%); }
+  .topic::before{ content:''; position:absolute; inset:0; z-index:3; pointer-events:none; border-radius:inherit;
+    box-shadow:inset 0 0 0 1px rgba(167,139,250,0); transition:box-shadow .35s; }
+  .topic:hover::before{ box-shadow:inset 0 0 0 1px rgba(167,139,250,.55); }
+  .topic figcaption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:.95rem 1.05rem;
+    font-family:'Sora',sans-serif; font-weight:600; font-size:.98rem; line-height:1.25; color:#fff;
+    letter-spacing:-.01em; }
+  @media(max-width:640px){ .topic figcaption{ font-size:.86rem; padding:.75rem .8rem; } }
+
+  /* ───────── testimonials ───────── */
+  .tcard{ margin:0; background:#fff; border:1px solid rgba(20,14,31,.08); border-radius:1.1rem; padding:1.9rem 1.8rem;
+    transition:transform .35s, box-shadow .35s, border-color .35s; }
+  .tcard:hover{ transform:translateY(-3px); box-shadow:0 20px 40px -24px rgba(20,14,31,.26); border-color:rgba(124,58,237,.28); }
+  .tcard-q{ color:rgba(20,14,31,.74); font-size:1rem; line-height:1.72; }
+  .tcard-by{ display:flex; align-items:center; gap:.85rem; margin-top:1.4rem; padding-top:1.25rem; border-top:1px solid rgba(20,14,31,.08); }
+  .tcard-av{ width:2.85rem; height:2.85rem; border-radius:50%; object-fit:cover; flex:none; }
+  .tcard-av.is-logo{ object-fit:contain; padding:.35rem; background:#fff; border:1px solid rgba(20,14,31,.08); }
+  .tcard-name{ display:block; font-family:'Sora',sans-serif; font-weight:700; color:#140E1F; line-height:1.3; }
+  .tcard-role{ display:block; font-size:.8rem; color:#7C3AED; font-weight:600; margin-top:.1rem; }
+  /* the Ph.D. / Executive Director quote is the highest-authority proof on the page —
+     given the visual weight to match, instead of being one of five equal boxes */
+  .tcard-lead{ background:#140E1F; border-color:rgba(255,255,255,.10); }
+  .tcard-lead .tcard-q{ color:rgba(255,255,255,.86); font-family:'Sora',sans-serif; font-weight:500;
+    font-size:1.24rem; line-height:1.6; letter-spacing:-.01em; }
+  .tcard-lead .tcard-by{ border-top-color:rgba(255,255,255,.12); }
+  .tcard-lead .tcard-name{ color:#fff; }
+  .tcard-lead .tcard-role{ color:#A78BFA; }
+  .tcard-lead:hover{ border-color:rgba(167,139,250,.4); }
+
+  /* ───────── evidence board (awards) ─────────
+     Nine identical cards read as a wall. Ranked rows with a running index read as
+     a record. Same nine items, same order, same words. */
+  .ev-feature{ background:linear-gradient(140deg, rgba(124,58,237,.22), rgba(124,58,237,.06));
+    border:1px solid rgba(167,139,250,.34); border-radius:1.1rem; }
+  .ev-row{ display:flex; align-items:baseline; gap:1.1rem; padding:1.05rem .25rem;
+    border-top:1px solid rgba(255,255,255,.09); transition:background .25s, padding-left .25s; }
+  .ev-row:hover{ background:rgba(124,58,237,.09); padding-left:.85rem; }
+  .ev-n{ font-family:'Sora',sans-serif; font-weight:700; font-size:.7rem; color:rgba(167,139,250,.65); flex:none; width:1.5rem; letter-spacing:.06em; }
+
+  .expando-full{ max-height:0; opacity:0; overflow:hidden;
+    transition:max-height .5s cubic-bezier(.22,1,.36,1), opacity .35s ease, margin-top .5s cubic-bezier(.22,1,.36,1); }
+  @media(min-width:768px){
+    .expando:hover .expando-full, .expando:focus-within .expando-full{ max-height:24rem; opacity:1; margin-top:.9rem; }
+    .expando:hover .expando-hint, .expando:focus-within .expando-hint{ opacity:0; }
+    .expando-hint{ transition:opacity .3s; }
+  }
+  @media(max-width:767px){
+    .expando-full{ max-height:none; opacity:1; margin-top:.9rem; overflow:visible; }
+    .expando-hint{ display:none; }
+  }
+
+  .imgwrap img{ transition:transform 1.2s cubic-bezier(.22,1,.36,1); transform:scale(1.05); }
+  .rv.on .imgwrap img{ transform:scale(1); }
+
+  /* ───────── rates table ───────── */
+  .rate-row td{ padding:1.15rem 2rem; border-top:1px solid rgba(20,14,31,.07); transition:background .25s; }
+  .rate-row:hover td{ background:rgba(124,58,237,.05); }
+  .rate-pkg td{ background:rgba(124,58,237,.06); box-shadow:inset 3px 0 0 #7C3AED; }
+  .rate-pkg:hover td{ background:rgba(124,58,237,.10); }
+
+  /* ───────── affiliations — static wall, not a 6-second carousel ─────────
+     v3 rotated 12 marks through 5 slots on a 6s timer, so a reader never saw the
+     full set and the JS could stack orphaned nodes. For a credibility section that
+     is the wrong trade: show all twelve at once. */
+  .aff-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:rgba(20,14,31,.09);
+    border:1px solid rgba(20,14,31,.09); border-radius:1rem; overflow:hidden; }
+  @media(min-width:640px){ .aff-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  @media(min-width:1024px){ .aff-grid{ grid-template-columns:repeat(6,minmax(0,1fr)); } }
+  .aff-cell{ position:relative; background:#FAF8FF; display:flex; align-items:center; justify-content:center;
+    height:96px; padding:1.15rem; transition:background .25s; }
+  .aff-cell:hover{ background:#fff; }
+  .aff-cell img{ max-height:44px; max-width:100%; width:auto; object-fit:contain;
+    filter:grayscale(1); opacity:.55; transition:filter .3s, opacity .3s, transform .35s cubic-bezier(.22,1,.36,1); }
+  .aff-cell:hover img{ filter:grayscale(0); opacity:1; transform:translateY(-2px); }
+  .aff-cell::after{ content:''; position:absolute; top:.6rem; right:.6rem; width:10px; height:10px;
+    background:#7C3AED; opacity:0; transform:translate(-2px,2px); transition:opacity .25s, transform .25s cubic-bezier(.22,1,.36,1);
+    -webkit-mask:var(--ext-icon) center/contain no-repeat; mask:var(--ext-icon) center/contain no-repeat; }
+  .aff-cell:hover::after{ opacity:.85; transform:translate(0,0); }
+  .aff-grid{ --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E"); }
+
+  .poster{ transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; box-shadow:0 20px 46px -24px rgba(20,14,31,.5); }
+  .poster:hover{ transform:translateY(-6px) rotate(0deg)!important; box-shadow:0 30px 60px -26px rgba(20,14,31,.55); }
+
+  /* consistent keyboard affordance across every interactive element */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid #7C3AED; outline-offset:3px; border-radius:.4rem; }
+
+  html.lenis,html.lenis body{ height:auto; }
+  .lenis.lenis-smooth{ scroll-behavior:auto!important; }
+  .lenis.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain; }
+  .lenis.lenis-stopped{ overflow:hidden; }
+
+  .dirbar{ position:fixed; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:90;
+    display:flex; align-items:center; gap:.15rem; background:#140E1F; color:#fff; border-radius:999px;
+    padding:.3rem .45rem; box-shadow:0 12px 30px -10px rgba(20,14,31,.5); font-size:.78rem; font-weight:600; }
+  .dirbar a{ padding:.42rem .8rem; border-radius:999px; color:rgba(255,255,255,.65); transition:color .2s, background .2s; }
+  .dirbar a:hover{ color:#fff; }
+  .dirbar a.cur{ background:#7C3AED; color:#fff; }
+  .dirbar .lbl{ padding:.42rem .55rem .42rem .8rem; color:rgba(255,255,255,.5); font-weight:500; letter-spacing:.08em; text-transform:uppercase; font-size:.66rem; }
+
+  @media (prefers-reduced-motion: reduce){
+    .rv,.hero-in{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+    .hero-light,.glyph{animation:none!important}
+    .draw-rect{animation:none!important;transform:scaleX(1)!important}
+    .plot-dot{animation:none!important;opacity:1!important}
+    .imgwrap img,.schwarzkopf-img{transform:none!important}
+    .topic img{transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="bg-paper text-ink antialiased">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
+
+<!-- ═══════════ NAV ═══════════ -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-paper/85 border-b border-ink/5 transition-shadow">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center">
+      <img src="assets/logo-horizontal.svg" alt="Maxematics" class="h-7 w-auto">
+    </a>
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-7 text-sm font-medium text-ink/70">
+      <a href="#max" class="hover:text-violet transition-colors">Max</a>
+      <a href="#topics" class="hover:text-violet transition-colors">Topics</a>
+      <a href="#rates" class="hover:text-violet transition-colors">Rates</a>
+      <a href="#scholarship" class="hover:text-violet transition-colors">Scholarship</a>
+    </nav>
+    <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-violet text-white text-sm font-semibold px-5 py-2.5 hover:bg-violet-deep transition-colors cursor-pointer">
+      Inquire
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═══════════ 1 · MAXEMATICS — the company (logo-led, no photo of Max) ═══════════ -->
+<section id="top" class="relative bg-ink text-white overflow-hidden">
+  <div class="hero-bg" aria-hidden="true">
+    <span class="hero-light"></span>
+    <div class="hero-rule"></div>
+    <div class="hero-axis"></div>
+
+    <!-- plotted growth curve: preparation → mastery → success, drawn as data -->
+    <svg class="curve" viewBox="0 0 760 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <mask id="curveDraw">
+          <rect class="draw-rect" x="0" y="0" width="760" height="300" fill="#fff"/>
+        </mask>
+        <linearGradient id="curveFade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#A78BFA" stop-opacity=".18"/>
+          <stop offset=".55" stop-color="#A78BFA" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#C4B5FD" stop-opacity="1"/>
+        </linearGradient>
+      </defs>
+      <g mask="url(#curveDraw)">
+        <path d="M0 282 C 130 274, 214 246, 292 190 S 452 52, 760 18" stroke="url(#curveFade)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle class="plot-dot" style="animation-delay:.9s"  cx="292" cy="190" r="4.5" fill="#A78BFA"/>
+        <circle class="plot-dot" style="animation-delay:1.5s" cx="530" cy="86"  r="4.5" fill="#A78BFA"/>
+        <circle class="plot-dot" style="animation-delay:2.1s" cx="742" cy="19"  r="6"   fill="#fff"/>
+      </g>
+    </svg>
+
+    <span class="glyph" style="left:7%;top:26%;font-size:56px;--fd:21s;--rot:-8deg" data-depth="26">∫</span>
+    <span class="glyph" style="left:19%;top:68%;font-size:38px;--fd:24s;--rot:6deg" data-depth="42">π</span>
+    <span class="glyph" style="left:41%;top:15%;font-size:44px;--fd:22s;--rot:4deg" data-depth="18">√</span>
+    <span class="glyph" style="left:63%;top:72%;font-size:60px;--fd:27s;--rot:-6deg" data-depth="34">Σ</span>
+    <span class="glyph" style="left:86%;top:34%;font-size:42px;--fd:20s;--rot:7deg" data-depth="22">∞</span>
+  </div>
+  <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/72 to-ink/20 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 grid md:grid-cols-12 gap-14 md:gap-12 items-center relative z-10">
+    <div class="md:col-span-5 md:order-2 hero-in hd-1">
+      <div class="relative mx-auto max-w-[17rem] md:max-w-[20rem]">
+        <div class="absolute -inset-10 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
+        <img src="assets/logo-stacked-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+      </div>
+    </div>
+
+    <div class="md:col-span-7 md:order-1">
+      <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
+        <span class="inline-block w-6 h-px bg-violet-soft"></span> Private tutoring · Math · Science · Language
+      </p>
+      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2.5rem] md:text-[4.1rem] leading-[1.03]">
+        Preparation<span class="seq-sep">…</span>Mastery<span class="seq-sep">…</span><br class="hidden sm:block">Success<span class="seq-sep">…</span>Maxematics<span class="text-violet-soft">.</span>
+      </h1>
+      <p class="hero-in hd-4 mt-7 max-w-xl text-white/75 text-lg md:text-xl leading-relaxed">
+        Maxematics — pairing real subject mastery with a simple belief: the experts in anything were once
+        beginners too. With tailored programs for every student, Maxematics tackles concepts one at a time.
+      </p>
+      <div class="hero-in hd-5 mt-9">
+        <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
+          Book a session
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- credential strip — straddles the hero's bottom edge -->
+  <div class="absolute inset-x-0 bottom-0 translate-y-1/2 z-20 px-6 pointer-events-none">
+    <div class="max-w-6xl mx-auto">
+      <div class="cred-strip hero-in hd-6 grid grid-cols-2 md:grid-cols-4">
+        <div class="cred-cell">
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="14">14</span></p>
+          <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Topics</p>
+        </div>
+        <div class="cred-cell">
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="10">10</span><span class="text-violet-soft">+</span></p>
+          <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Weekly students</p>
+        </div>
+        <div class="cred-cell">
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white">2022</p>
+          <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Tutoring since</p>
+        </div>
+        <div class="cred-cell">
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white">1:1</p>
+          <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Every session</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
+<section id="difference" class="on-dark relative bg-ink text-white pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="grid md:grid-cols-12 gap-10 md:gap-14">
+      <div class="md:col-span-4">
+        <div class="rv sec-idx text-white"><span class="num">01</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
+        <h2 class="rv rv-d1 font-display font-bold text-3xl md:text-[2.6rem] leading-tight tracking-tight balance">The Maxematics Difference</h2>
+      </div>
+      <div class="md:col-span-8">
+        <ul class="rv rv-d2 grid sm:grid-cols-2 gap-x-10">
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Every program tailored to the student</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Custom worksheets &amp; practice exams</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Virtual, or in a Tampa learning space</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Study &amp; time-management skills</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10 sm:border-b-0"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Summer refreshers &amp; final-exam prep</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> SAT/ACT/DESMOS support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 2 · MEET MAX — intro, philosophy, credentials ═══════════ -->
+<section id="max" class="on-dark bg-plum text-white py-24 md:py-32 relative overflow-hidden grid-faint">
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="grid md:grid-cols-12 gap-12 md:gap-14 items-center">
+      <div class="md:col-span-5 rv imgwrap">
+        <div class="relative max-w-sm mx-auto md:mx-0" data-parallax="40">
+          <div class="absolute -left-4 -top-4 w-full h-full rounded-[1.4rem] border border-violet-soft/30" aria-hidden="true"></div>
+          <img src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.4rem] w-full object-cover shadow-2xl">
+          <div class="absolute -bottom-5 -right-5 bg-violet text-white rounded-xl px-5 py-3 shadow-xl font-display font-semibold text-sm">Max Schwarzkopf</div>
+        </div>
+      </div>
+      <div class="md:col-span-7">
+        <div class="rv sec-idx text-white"><span class="num">02</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
+        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet “The Max” in Maxematics</h2>
+        <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
+          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard’ it will be. It doesn’t have to be that way.”</p>
+        </blockquote>
+        <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed">
+          Max started tutoring with the idea that academic success is found at the intersection of preparation
+          and attitude. While hurdling challenges and gaining mastery are obvious tutoring goals, Max aims to do
+          that while inspiring a shift in thinking that makes learning genuinely fun.
+        </p>
+        <p class="rv rv-d4 mt-5 text-white/75 text-lg leading-relaxed">
+          Beyond tutoring, Max is a Biomedical-STEM student, a researcher, and a campus leader — captain of
+          varsity rowing, director of his school’s Writing Center and founder of the Pie &amp; Pi Club. Max’s
+          personal commitment to excellence is mirrored in his commitment to every student.
+        </p>
+      </div>
+    </div>
+
+    <!-- research & lab experience -->
+    <div class="rv rv-d1 mt-16 grid md:grid-cols-2 gap-5">
+      <div class="expando rounded-xl bg-white/[.05] border border-white/10 p-7 hover:border-violet-soft/40 transition-colors" tabindex="0">
+        <p class="eyebrow text-[11px] font-semibold uppercase text-violet-soft">Engineering &amp; Research</p>
+        <p class="font-display font-semibold text-xl mt-2">Reddy Lab, USF</p>
+        <div class="expando-full">
+          <p class="text-white/70 leading-relaxed">
+            Designed and constructed an eVOLVER system for continuous-throughput evolution of yeast and
+            bacterial cells. Conducted experiments evaluating the effects of DDM detergent combined with
+            asolectin on the GltT protein under varied temperatures.
+          </p>
+        </div>
+        <p class="expando-hint mt-3 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
+      </div>
+      <div class="expando rounded-xl bg-white/[.05] border border-white/10 p-7 hover:border-violet-soft/40 transition-colors" tabindex="0">
+        <p class="eyebrow text-[11px] font-semibold uppercase text-violet-soft">Internship</p>
+        <p class="font-display font-semibold text-xl mt-2">NJ State Police Crime Lab Intern</p>
+        <p class="text-white/50 text-sm mt-0.5">Hamilton, NJ</p>
+        <div class="expando-full">
+          <p class="text-white/70 leading-relaxed">
+            Worked with state police scientists in DNA Analysis, Drug Identification, Trace Evidence, Forensic
+            Anthropology, Ballistics, Toxicology, CSI, Serology and CODIS. Assisted the NJSP in this prototype
+            internship to determine viability for future undergraduate participation in what has historically
+            been a program limited to MS students.
+          </p>
+        </div>
+        <p class="expando-hint mt-3 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
+      </div>
+    </div>
+
+    <!-- awards — evidence board, client's order of importance preserved -->
+    <div class="mt-16">
+      <h3 class="rv font-display font-bold text-2xl md:text-3xl tracking-tight">A record that speaks for itself.</h3>
+      <div class="rv rv-d1 mt-8 grid md:grid-cols-12 gap-x-12 gap-y-8 items-start">
+        <div class="md:col-span-5 ev-feature p-7">
+            <p class="font-display font-bold text-2xl md:text-[1.75rem] leading-snug balance">Anne Frank Humanitarian Award</p>
+          <p class="text-white/60 mt-2 tnum">2026</p>
+        </div>
+        <div class="md:col-span-7">
+          <div class="ev-row"><span class="ev-n tnum">02</span><div><p class="font-display font-semibold text-lg leading-snug">Excellence — Math · Science · History</p><p class="text-white/55 text-sm mt-0.5 tnum">Department Awards, 2021–26</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">03</span><div><p class="font-display font-semibold text-lg leading-snug">Cum Laude Society</p><p class="text-white/55 text-sm mt-0.5 tnum">Inducted 2026</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">04</span><div><p class="font-display font-semibold text-lg leading-snug">Tampa Prep Head’s List</p><p class="text-white/55 text-sm mt-0.5">A+ achieved in all subjects</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">05</span><div><p class="font-display font-semibold text-lg leading-snug">Writing Center Director</p><p class="text-white/55 text-sm mt-0.5 tnum">Tampa Prep, 2024–26</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">06</span><div><p class="font-display font-semibold text-lg leading-snug">AP Scholar with Distinction</p><p class="text-white/55 text-sm mt-0.5">College Board — 5’s on all AP exams</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">07</span><div><p class="font-display font-semibold text-lg leading-snug">HOBY Youth Leadership</p><p class="text-white/55 text-sm mt-0.5 tnum">Ambassador, 2025</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">08</span><div><p class="font-display font-semibold text-lg leading-snug">Best Overall Research — HC STEM Fair</p><p class="text-white/55 text-sm mt-0.5">Awarded by FL Teacher’s Association</p></div></div>
+          <div class="ev-row"><span class="ev-n tnum">09</span><div><p class="font-display font-semibold text-lg leading-snug">Varsity Rowing Captain</p><p class="text-white/55 text-sm mt-0.5 tnum">“Coaches Award,” ’25, ’26</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 3 · TOPICS ═══════════ -->
+<section id="topics" class="bg-paper py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <div class="rv sec-idx text-ink"><span class="num">03</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor,<br>many topics.</h2>
+    </div>
+
+    <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
+      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption>Desmos Calculator</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption>Lab Reports</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption>SAT &amp; ACT Prep</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 4 · TESTIMONIALS ═══════════ -->
+<section id="testimonials" class="bg-mist py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <div class="rv sec-idx text-ink"><span class="num">04</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">What families say</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Results students feel.</h2>
+    </div>
+
+    <!-- lead quote: the credentialed endorsement carries the section -->
+    <figure class="rv rv-d1 mt-14 tcard tcard-lead md:p-10">
+      <blockquote class="tcard-q balance">“Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!”</blockquote>
+      <figcaption class="tcard-by">
+        <img src="assets/testimonial-lakshmi.png" alt="Lakshmi Jayaram, Ph.D." loading="lazy" class="tcard-av is-logo">
+        <span><span class="tcard-name">Lakshmi Jayaram, Ph.D.</span><span class="tcard-role">Executive Director, Prep &amp; Me</span></span>
+      </figcaption>
+    </figure>
+
+    <div class="mt-4 grid md:grid-cols-2 gap-4 items-start">
+      <figure class="rv tcard">
+        <blockquote class="tcard-q">“Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he’s such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max.”</blockquote>
+        <figcaption class="tcard-by">
+          <img src="assets/testimonial-eva.jpg" alt="Eva T." loading="lazy" class="tcard-av" style="object-position:center 15%">
+          <span><span class="tcard-name">Eva T.</span><span class="tcard-role">SAT / ACT Prep</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 tcard">
+        <blockquote class="tcard-q">“I was struggling in Geometry and worried about completing the class. Since starting with Max I haven’t gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong.”</blockquote>
+        <figcaption class="tcard-by">
+          <img src="assets/testimonial-kervaris.jpg" alt="Ker’Varis M." loading="lazy" class="tcard-av" style="object-position:center 12%">
+          <span><span class="tcard-name">Ker’Varis M.</span><span class="tcard-role">Geometry</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv tcard">
+        <blockquote class="tcard-q">“Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him.”</blockquote>
+        <figcaption class="tcard-by">
+          <img src="assets/testimonial-alice.jpg" alt="Alice H." loading="lazy" class="tcard-av" style="object-position:center 22%">
+          <span><span class="tcard-name">Alice H.</span><span class="tcard-role">Parent</span></span>
+        </figcaption>
+      </figure>
+      <figure class="rv rv-d1 tcard">
+        <blockquote class="tcard-q">“Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can’t believe I’m writing this, but I’ve actually started to like Chemistry.”</blockquote>
+        <figcaption class="tcard-by">
+          <img src="assets/testimonial-connor.jpg" alt="Connor J." loading="lazy" class="tcard-av" style="object-position:38% center">
+          <span><span class="tcard-name">Connor J.</span><span class="tcard-role">Chemistry</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 5 · TUTORING & RATES ═══════════ -->
+<section id="rates" class="bg-paper py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <div class="rv sec-idx text-ink"><span class="num">05</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, tailored sessions.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">Book by the session or save with the 10-hour package.</p>
+    </div>
+    <div class="mt-12 grid lg:grid-cols-5 gap-6 items-stretch">
+      <div class="rv lg:col-span-3 rounded-2xl bg-white border border-ink/10 overflow-hidden">
+        <table class="w-full text-left">
+          <caption class="sr-only">Tutoring session rates</caption>
+          <thead><tr class="bg-mist/60">
+            <th scope="col" class="px-8 py-4 font-display font-semibold text-[.7rem] uppercase tracking-[.14em] text-ink/50">Session</th>
+            <th scope="col" class="px-8 py-4 font-display font-semibold text-[.7rem] uppercase tracking-[.14em] text-ink/50 text-right">Rate</th>
+          </tr></thead>
+          <tbody>
+            <tr class="rate-row"><td class="font-medium">30 minutes</td><td class="text-right font-display font-bold text-xl tnum">$25</td></tr>
+            <tr class="rate-row"><td class="font-medium">1 hour</td><td class="text-right font-display font-bold text-xl tnum">$40</td></tr>
+            <tr class="rate-row"><td class="font-medium">1.5 hours</td><td class="text-right font-display font-bold text-xl tnum">$60</td></tr>
+            <tr class="rate-row rate-pkg"><td><p class="font-semibold">10-hour package</p><p class="text-ink/55 text-sm mt-0.5">Schedule in any increments</p></td><td class="text-right"><span class="font-display font-bold text-2xl text-violet tnum">$375</span></td></tr>
+          </tbody>
+        </table>
+        <p class="px-8 py-4 text-sm text-ink/55 border-t border-ink/8">Zelle, check, or cash accepted.</p>
+      </div>
+      <div class="rv rv-d2 lg:col-span-2 rounded-2xl bg-ink text-white p-8 md:p-9 relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-violet/25 blur-[60px]" aria-hidden="true"></div>
+        <div class="relative z-10">
+          <h3 class="font-display font-bold text-xl">Virtual session checklist</h3>
+          <ul class="mt-6 space-y-4">
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Tablet (preferred) or computer with internet</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Access to Zoom</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Paper &amp; pencil</span></li>
+            <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Helpful, not required: Apple Pencil</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 6 · GIVING BACK / SCHWARZKOPF SCHOLARSHIP ═══════════ -->
+<section id="scholarship" class="on-dark relative bg-ink text-white py-24 md:py-32 overflow-hidden">
+  <div class="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden z-0" aria-hidden="true">
+    <img id="schwarzkopf" src="assets/general-portrait.jpg" alt="Gen. H Norman Schwarzkopf" class="schwarzkopf-img absolute inset-x-0 -top-[14%] h-[128%] w-full object-cover object-top">
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/88 to-ink/25 z-[1] pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-ink/70 to-transparent z-[1] pointer-events-none" aria-hidden="true"></div>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="max-w-2xl">
+      <div class="rv sec-idx text-white"><span class="num">06</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Giving back</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">The Gen. H Norman Schwarzkopf Scholarship</h2>
+      <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed">
+        Max's grandfather spent his life in service — to his country, and to the young men and women who served
+        alongside him. What fewer people know is that he was also an educator, teaching calculus and mechanics at
+        West Point. The scholarship exists in his memory, honoring the value he placed on educating the next generation.
+      </p>
+      <p class="rv rv-d3 mt-4 text-white/65 leading-relaxed">
+        A full scholastic year of tutoring is awarded to one student each year, in September.
+      </p>
+      <blockquote class="rv rv-d4 mt-8 border-l-2 border-violet pl-6">
+        <p class="text-white/90 text-xl italic font-display leading-relaxed balance">"You can't help someone else up a hill without getting a little closer to the top yourself."</p>
+        <footer class="mt-3 text-sm text-white/55">— Gen. H Norman Schwarzkopf</footer>
+      </blockquote>
+      <div class="rv rv-d5 mt-9">
+        <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
+          Learn more &amp; apply
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <p class="mt-3 text-xs text-white/45">Full scholarship story &amp; application form open on the next page in the coded build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7 · OUT IN THE WORLD ═══════════ -->
+<section id="flyers" class="bg-paper py-24 md:py-28 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+      <div class="rv sec-idx text-ink"><span class="num">07</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Out in the world</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Look for Maxematics around Tampa.</h2>
+      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">From the annual scholarship to free exam-prep workshops — here's what's currently circulating.</p>
+    </div>
+    <div class="rv rv-d1 mt-14 flex flex-col sm:flex-row items-center justify-center gap-12 md:gap-16">
+      <a href="#scholarship" class="poster rounded-xl bg-white p-2.5 border border-ink/10 cursor-pointer" style="transform:rotate(-2.5deg)" aria-label="Read about the Schwarzkopf Scholarship">
+        <img src="assets/flyer-scholarship.png" alt="The Gen. H Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-md block" loading="lazy">
+      </a>
+      <a href="#inquire" class="poster rounded-xl bg-white p-2.5 border border-ink/10 cursor-pointer" style="transform:rotate(2.5deg)" aria-label="Inquire about SAT workshops">
+        <img src="assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-md block" loading="lazy">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8 · CONTACT ═══════════ -->
+<section id="inquire" class="bg-mist py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
+    <div>
+      <div class="rv sec-idx text-ink"><span class="num">08</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the conversation.</h2>
+      <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
+      <a href="mailto:maxematics@icloud.com" class="rv rv-d3 mt-8 inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
+        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        <span class="font-medium">maxematics@icloud.com</span>
+      </a>
+    </div>
+    <form class="rv rv-d2 bg-white rounded-2xl border border-ink/10 p-8 md:p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div><label for="f-name" class="block text-sm font-semibold mb-2">Name</label><input id="f-name" type="text" placeholder="Your name" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
+        <div><label for="f-email" class="block text-sm font-semibold mb-2">Email</label><input id="f-email" type="email" placeholder="you@example.com" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
+      </div>
+      <div><label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
+        <select id="f-subject" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition text-ink/80 cursor-pointer">
+          <option>Tutoring — Math</option><option>Tutoring — Science</option><option>Tutoring — Language</option><option>SAT / ACT Prep</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
+        </select>
+      </div>
+      <div><label for="f-msg" class="block text-sm font-semibold mb-2">Message</label><textarea id="f-msg" rows="4" placeholder="Tell Max about the student and the goal…" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition resize-none"></textarea></div>
+      <button type="submit" class="w-full rounded-lg bg-violet text-white font-semibold py-4 hover:bg-violet-deep transition-colors cursor-pointer">Send inquiry</button>
+      <p class="text-xs text-ink/45 text-center">Visual mockup — form wiring ships in the coded build.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ 9 · AFFILIATIONS & CERTIFICATIONS ═══════════ -->
+<section id="affiliations" class="bg-paper py-20 border-t border-ink/5">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="rv sec-idx justify-center text-ink"><span class="num">09</span><span class="rule"></span><span class="eyebrow text-ink/45 text-xs font-semibold uppercase">Affiliations, certifications &amp; recognition</span></div>
+    <div class="rv rv-d1 aff-grid mt-8">
+      <a class="aff-cell" href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" title="Autodesk Certification"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://cumlaudesociety.org/" target="_blank" rel="noopener" title="Cum Laude Society"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.thefhm.org/" target="_blank" rel="noopener" title="Florida Holocaust Museum — Anne Frank Humanitarian Award"><img src="assets/logo-anne-frank-humanitarian.png" alt="Florida Holocaust Museum — Anne Frank Humanitarian Award (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.reddy-lab.com/" target="_blank" rel="noopener" title="Reddy Lab"><img src="assets/logo-reddy-lab.png" alt="Reddy Lab (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.instagram.com/p/DOwNhn5E9Cx/" target="_blank" rel="noopener" title="Award recognition"><img src="assets/logo-instagram-post-award.png" alt="Award recognition (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.instagram.com/pieandpi" target="_blank" rel="noopener" title="Pie &amp; Pi Club"><img src="assets/logo-pie-and-pi-club.png" alt="Pie &amp; Pi Club (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://hoby.org/" target="_blank" rel="noopener" title="HOBY Leadership"><img src="assets/logo-hoby-leadership.png" alt="HOBY Leadership (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://prepandme.org/" target="_blank" rel="noopener" title="Prep &amp; Me"><img src="assets/logo-prep-and-me.png" alt="Prep &amp; Me (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.ntatutor.com/" target="_blank" rel="noopener" title="National Tutoring Association"><img src="assets/logo-nta-tutor.png" alt="National Tutoring Association (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://maa.org/" target="_blank" rel="noopener" title="Mathematical Association of America"><img src="assets/logo-maa-math.png" alt="Mathematical Association of America (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://usrowing.org/" target="_blank" rel="noopener" title="US Rowing"><img src="assets/logo-us-rowing.png" alt="US Rowing (opens in new tab)" loading="lazy"></a>
+      <a class="aff-cell" href="https://www.instagram.com/tampa_prep" target="_blank" rel="noopener" title="Tampa Preparatory School"><img src="assets/logo-tampa-prep-school.png" alt="Tampa Preparatory School (opens in new tab)" loading="lazy"></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="bg-ink text-white py-14">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    <a href="#top" class="flex items-center">
+      <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
+    </a>
+    <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/60">
+      <a href="#max" class="hover:text-violet-soft transition-colors">Max</a>
+      <a href="#topics" class="hover:text-violet-soft transition-colors">Topics</a>
+      <a href="#rates" class="hover:text-violet-soft transition-colors">Rates</a>
+      <a href="#scholarship" class="hover:text-violet-soft transition-colors">Scholarship</a>
+      <a href="#inquire" class="hover:text-violet-soft transition-colors">Contact</a>
+    </nav>
+    <p class="text-sm text-white/50">maxematics@icloud.com</p>
+  </div>
+  <p class="mt-10 text-center text-xs text-white/35">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
+</footer>
+
+<nav class="dirbar" aria-label="Version switcher">
+  <span class="lbl">Maxematics</span>
+  <a href="v4-direction-01.html">Direction 01</a>
+  <a href="v4-version-1.html" class="cur" aria-current="page">Version 1</a>
+</nav>
+
+<script>
+  if (location.search.includes('static')) {
+    document.querySelectorAll('.rv').forEach(el => el.classList.add('on'));
+    document.querySelectorAll('.hero-in').forEach(el => { el.style.animation='none'; el.style.opacity='1'; });
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+
+<!-- ═══════════ Motion ═══════════ -->
+<script type="module">
+import { animate, scroll, inView } from "https://cdn.jsdelivr.net/npm/motion@12.38.0/+esm";
+import Lenis from "https://cdn.jsdelivr.net/npm/lenis@1.1.20/+esm";
+
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EASE = [0.22, 1, 0.36, 1];
+
+let lenis = null;
+if (!reduce && !location.search.includes('static')){
+  lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  window.lenis = lenis;
+  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+}
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    if (id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { offset: -64 });
+    else target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ─── Scroll-linked parallax ─── */
+if (!reduce){
+  document.querySelectorAll('[data-parallax]').forEach(el => {
+    const d = parseFloat(el.getAttribute('data-parallax')) || 40;
+    scroll(animate(el, { y:[d, -d] }, { ease:'linear' }), { target: el, offset:['start end','end start'] });
+  });
+  const sk = document.getElementById('schwarzkopf');
+  if (sk) scroll(animate(sk, { y:['-8%','8%'] }, { ease:'linear' }), { target: sk, offset:['start end','end start'] });
+
+  const hero = document.getElementById('top');
+  const glyphs = [...document.querySelectorAll('.glyph')];
+  if (hero && glyphs.length){
+    scroll((p) => {
+      glyphs.forEach(g => {
+        const depth = parseFloat(g.dataset.depth) || 24;
+        g.style.translate = '0 ' + (p * depth * 2.4).toFixed(1) + 'px';
+      });
+    }, { target: hero, offset:['start start','end start'] });
+  }
+}
+
+/* ─── Stat count-up ─── */
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.getAttribute('data-count'), 10);
+  inView(el, () => {
+    if (reduce){ el.textContent = target; return; }
+    animate(0, target, { duration:1.4, ease:EASE, onUpdate:(v) => el.textContent = Math.round(v) });
+  }, { amount: 0.6 });
+});
+
+/* ─── Nav: deepen shadow once scrolled ─── */
+const nav = document.querySelector('header');
+if (nav){
+  const onScroll = () => nav.classList.toggle('shadow-lg', window.scrollY > 24);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive:true });
+}
+</script>
+</body>
+</html>
