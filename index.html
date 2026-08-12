@@ -288,7 +288,7 @@ tailwind.config = {
 <header class="site-nav is-dark fixed top-0 inset-x-0 z-50">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center">
-      <img id="navLogo" src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="h-7 w-auto">
+      <img id="navLogo" src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-7 w-auto">
     </a>
     <nav aria-label="Primary" class="nav-links hidden md:flex items-center gap-7 text-sm font-medium">
       <a href="#max">Max</a>
@@ -931,7 +931,7 @@ if (affCarousel){
 const nav = document.querySelector('header.site-nav');
 const navLogo = document.getElementById('navLogo');
 const LOGO_LIGHT = 'assets/logo-horizontal.svg';
-const LOGO_DARK  = 'assets/logo-horizontal-reversed.svg';
+const LOGO_DARK  = 'assets/logo-horizontal-hero.svg';
 if (nav){
   const bands = [...document.querySelectorAll('[data-nav="dark"]')];
   const probeY = 32;
