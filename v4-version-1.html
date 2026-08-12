@@ -68,7 +68,7 @@ tailwind.config = {
   @keyframes rise { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
   .hero-in{opacity:0;animation:rise .8s cubic-bezier(.22,1,.36,1) forwards}
   .hd-1{animation-delay:.08s}.hd-2{animation-delay:.18s}.hd-3{animation-delay:.28s}
-  .hd-4{animation-delay:.38s}.hd-5{animation-delay:.48s}.hd-6{animation-delay:.60s}
+  .hd-4{animation-delay:.38s}.hd-5{animation-delay:.48s}.hd-6{animation-delay:.60s}.hd-7{animation-delay:.72s}
 
   /* ═════════ HERO — precision, not atmosphere ═════════
      Replaces v3's three blurred auroras (violet + indigo + fuchsia, screen-blended)
@@ -114,10 +114,10 @@ tailwind.config = {
 
   .eyebrow{ letter-spacing:.16em; }
 
-  /* ───────── hero headline — the four words are a sequence, so set them as one ─────────
-     Copy is unchanged; only its typographic treatment is. The ellipses drop to a
-     violet tick at 0.5em so the eye reads four escalating beats, not a run-on line. */
-  .seq-sep{ color:#A78BFA; font-size:.5em; vertical-align:.18em; letter-spacing:.06em; opacity:.75; padding:0 .12em; }
+  /* ───────── hero headline — three words, one line ─────────
+     Single violet full-stop between beats (was a three-dot ellipsis). Kept at full
+     size so it reads as punctuation, with a little air after it to hold the rhythm. */
+  .seq-sep{ color:#A78BFA; padding-right:.28em; }
 
   /* ───────── credential strip — breaks the hero's bottom edge ─────────
      The four proof figures were floating loose inside the hero. Here they become a
@@ -136,44 +136,45 @@ tailwind.config = {
   .sec-idx .rule{ height:1px; width:2.4rem; background:currentColor; opacity:.28; }
   .on-dark .sec-idx .num{ color:#A78BFA; }
 
-  /* ───────── topic tiles ───────── */
-  .topic{ position:relative; overflow:hidden; border-radius:.9rem; margin:0; background:#140E1F;
-    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; }
-  .topic:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -22px rgba(124,58,237,.45); }
+  /* ───────── topic tiles — Direction C treatment ─────────
+     The scrim-and-overlay caption was overprinting the photography. Direction C
+     drops the caption below the image on a hairline card, so nothing sits on top
+     of the picture; the number carries the "14 topics" count visually. */
+  .topic{ position:relative; overflow:hidden; border-radius:.9rem; margin:0; background:#fff;
+    border:1px solid rgba(20,14,31,.10);
+    transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s, border-color .35s; }
+  .topic:hover{ transform:translateY(-4px); box-shadow:0 22px 44px -22px rgba(124,58,237,.35);
+    border-color:rgba(124,58,237,.28); }
   .topic img{ display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
-    transition:transform .7s cubic-bezier(.22,1,.36,1); }
-  .topic:hover img{ transform:scale(1.06); }
-  /* lighter scrim than v3 (96% floor crushed the photography); a violet hairline
-     on hover carries the interaction instead of more black */
-  .topic::after{ content:''; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(to top, rgba(20,14,31,.90) 0%, rgba(20,14,31,.62) 30%, rgba(20,14,31,.10) 62%, rgba(20,14,31,0) 82%); }
-  .topic::before{ content:''; position:absolute; inset:0; z-index:3; pointer-events:none; border-radius:inherit;
-    box-shadow:inset 0 0 0 1px rgba(167,139,250,0); transition:box-shadow .35s; }
-  .topic:hover::before{ box-shadow:inset 0 0 0 1px rgba(167,139,250,.55); }
-  .topic figcaption{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:.95rem 1.05rem;
-    font-family:'Sora',sans-serif; font-weight:600; font-size:.98rem; line-height:1.25; color:#fff;
-    letter-spacing:-.01em; }
-  @media(max-width:640px){ .topic figcaption{ font-size:.86rem; padding:.75rem .8rem; } }
+    filter:saturate(.9); transition:filter .4s, transform .7s cubic-bezier(.22,1,.36,1); }
+  .topic:hover img{ filter:saturate(1); transform:scale(1.03); }
+  .topic figcaption{ display:flex; align-items:baseline; gap:.6rem; padding:.85rem 1rem;
+    border-top:1px solid rgba(20,14,31,.10);
+    font-family:'Sora',sans-serif; font-weight:600; font-size:.94rem; line-height:1.25;
+    letter-spacing:-.01em; color:#140E1F; }
+  .topic figcaption .n{ font-weight:700; font-size:.7rem; letter-spacing:.08em; color:#7C3AED;
+    font-variant-numeric:tabular-nums; }
+  @media(max-width:640px){ .topic figcaption{ font-size:.85rem; padding:.7rem .8rem; } }
 
-  /* ───────── testimonials ───────── */
-  .tcard{ margin:0; background:#fff; border:1px solid rgba(20,14,31,.08); border-radius:1.1rem; padding:1.9rem 1.8rem;
-    transition:transform .35s, box-shadow .35s, border-color .35s; }
-  .tcard:hover{ transform:translateY(-3px); box-shadow:0 20px 40px -24px rgba(20,14,31,.26); border-color:rgba(124,58,237,.28); }
-  .tcard-q{ color:rgba(20,14,31,.74); font-size:1rem; line-height:1.72; }
-  .tcard-by{ display:flex; align-items:center; gap:.85rem; margin-top:1.4rem; padding-top:1.25rem; border-top:1px solid rgba(20,14,31,.08); }
-  .tcard-av{ width:2.85rem; height:2.85rem; border-radius:50%; object-fit:cover; flex:none; }
-  .tcard-av.is-logo{ object-fit:contain; padding:.35rem; background:#fff; border:1px solid rgba(20,14,31,.08); }
-  .tcard-name{ display:block; font-family:'Sora',sans-serif; font-weight:700; color:#140E1F; line-height:1.3; }
-  .tcard-role{ display:block; font-size:.8rem; color:#7C3AED; font-weight:600; margin-top:.1rem; }
-  /* the Ph.D. / Executive Director quote is the highest-authority proof on the page —
-     given the visual weight to match, instead of being one of five equal boxes */
-  .tcard-lead{ background:#140E1F; border-color:rgba(255,255,255,.10); }
-  .tcard-lead .tcard-q{ color:rgba(255,255,255,.86); font-family:'Sora',sans-serif; font-weight:500;
-    font-size:1.24rem; line-height:1.6; letter-spacing:-.01em; }
-  .tcard-lead .tcard-by{ border-top-color:rgba(255,255,255,.12); }
-  .tcard-lead .tcard-name{ color:#fff; }
-  .tcard-lead .tcard-role{ color:#A78BFA; }
-  .tcard-lead:hover{ border-color:rgba(167,139,250,.4); }
+  /* ───────── testimonials — circular carousel (restored from the v2 build) ───────── */
+  .ctst{ width:100%; max-width:62rem; margin:0 auto; }
+  .ctst-grid{ display:grid; gap:2.5rem; align-items:center; }
+  @media(min-width:768px){ .ctst-grid{ grid-template-columns:minmax(0,.85fr) minmax(0,1fr); gap:5.5rem; } }
+  /* portrait frame — taller than wide so faces read properly */
+  .ctst-imgs{ position:relative; width:100%; max-width:21rem; margin:0 auto; aspect-ratio:4/5; perspective:1200px; }
+  .ctst-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 18%; border-radius:1.5rem; box-shadow:0 24px 50px -16px rgba(20,14,31,.45); cursor:pointer; }
+  /* org endorsements: show the logo whole on a tile instead of cropping it */
+  .ctst-img.is-logo{ object-fit:contain; object-position:center; padding:22%; background:#fff; }
+  .ctst-content{ display:flex; flex-direction:column; }
+  .ctst-name{ font-weight:700; margin-bottom:.2rem; letter-spacing:-.01em; }
+  .ctst-desig{ margin-bottom:1.6rem; font-weight:600; }
+  .ctst-quote{ line-height:1.75; }
+  .ctst-word{ display:inline-block; animation:ctstWord .5s ease both; }
+  @keyframes ctstWord{ from{filter:blur(10px);opacity:0;transform:translateY(6px)} to{filter:blur(0);opacity:1;transform:none} }
+  .ctst-arrows{ display:flex; gap:1.1rem; padding-top:2.25rem; }
+  .ctst-arrow{ width:2.7rem; height:2.7rem; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; color:#fff; background:#7C3AED; transition:background-color .3s, transform .2s; }
+  .ctst-arrow:hover{ transform:translateY(-2px); background:#5B21B6; }
+  .ctst-arrow:focus-visible{ outline:2px solid #140E1F; outline-offset:3px; }
 
   /* ───────── evidence board (awards) ─────────
      Nine identical cards read as a wall. Ranked rows with a running index read as
@@ -226,8 +227,31 @@ tailwind.config = {
   .aff-cell:hover::after{ opacity:.85; transform:translate(0,0); }
   .aff-grid{ --ext-icon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E"); }
 
-  .poster{ transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s; box-shadow:0 20px 46px -24px rgba(20,14,31,.5); }
-  .poster:hover{ transform:translateY(-6px) rotate(0deg)!important; box-shadow:0 30px 60px -26px rgba(20,14,31,.55); }
+  /* ───────── "out in the world" — banner, not a section ─────────
+     Two full-height flyer scans were carrying a section's worth of weight for what
+     is really a one-line announcement. Demoted to a ticker strip: fixed label on the
+     left, the current announcements scrolling past it. */
+  .otw{ background:#140E1F; color:#fff; overflow:hidden; }
+  .otw-in{ display:flex; align-items:stretch; }
+  .otw-label{ flex:none; display:flex; flex-direction:column; justify-content:center; gap:.15rem;
+    padding:1.15rem 1.6rem; background:#7C3AED; }
+  .otw-label .k{ font-size:.62rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.72); }
+  .otw-label .v{ font-family:'Sora',sans-serif; font-weight:700; font-size:.98rem; letter-spacing:-.01em; line-height:1.2; }
+  .otw-track{ flex:1; min-width:0; position:relative; display:flex; align-items:center;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 92%,transparent);
+            mask:linear-gradient(90deg,transparent,#000 5%,#000 92%,transparent); }
+  .otw-run{ display:flex; align-items:center; flex:none; padding-left:2.5rem; animation:otwScroll 34s linear infinite; }
+  .otw:hover .otw-run{ animation-play-state:paused; }
+  .otw-item{ display:inline-flex; align-items:center; gap:.7rem; padding-right:3rem; white-space:nowrap;
+    font-size:.95rem; color:rgba(255,255,255,.82); }
+  .otw-item::before{ content:''; width:6px; height:6px; border-radius:50%; background:#A78BFA; flex:none; }
+  .otw-item b{ font-family:'Sora',sans-serif; font-weight:700; color:#fff; }
+  @keyframes otwScroll{ to{ transform:translateX(-50%); } }
+  @media(max-width:640px){
+    .otw-in{ flex-direction:column; }
+    .otw-label{ padding:.9rem 1.25rem; }
+    .otw-track{ padding:.9rem 0; }
+  }
 
   /* consistent keyboard affordance across every interactive element */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
@@ -253,6 +277,9 @@ tailwind.config = {
     .plot-dot{animation:none!important;opacity:1!important}
     .imgwrap img,.schwarzkopf-img{transform:none!important}
     .topic img{transition:none!important}
+    .ctst-word{animation:none!important}
+    .ctst-img{transition:none!important}
+    .otw-run{animation:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -317,26 +344,23 @@ tailwind.config = {
   </div>
   <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/72 to-ink/20 pointer-events-none" aria-hidden="true"></div>
 
-  <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 grid md:grid-cols-12 gap-14 md:gap-12 items-center relative z-10">
-    <div class="md:col-span-5 md:order-2 hero-in hd-1">
-      <div class="relative mx-auto max-w-[17rem] md:max-w-[20rem]">
-        <div class="absolute -inset-10 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
-        <img src="assets/logo-stacked-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
-      </div>
-    </div>
-
-    <div class="md:col-span-7 md:order-1">
+  <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 relative z-10">
+    <div class="max-w-3xl">
       <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
         <span class="inline-block w-6 h-px bg-violet-soft"></span> Private tutoring · Math · Science · Language
       </p>
-      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2.5rem] md:text-[4.1rem] leading-[1.03]">
-        Preparation<span class="seq-sep">…</span>Mastery<span class="seq-sep">…</span><br class="hidden sm:block">Success<span class="seq-sep">…</span>Maxematics<span class="text-violet-soft">.</span>
+      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05] whitespace-nowrap">
+        Preparation<span class="seq-sep">.</span>Mastery<span class="seq-sep">.</span>Success<span class="seq-sep">.</span>
       </h1>
-      <p class="hero-in hd-4 mt-7 max-w-xl text-white/75 text-lg md:text-xl leading-relaxed">
+      <div class="hero-in hd-4 mt-8 relative max-w-[22rem] sm:max-w-[26rem]">
+        <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
+        <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+      </div>
+      <p class="hero-in hd-5 mt-9 max-w-xl text-white/75 text-lg md:text-xl leading-relaxed">
         Maxematics — pairing real subject mastery with a simple belief: the experts in anything were once
         beginners too. With tailored programs for every student, Maxematics tackles concepts one at a time.
       </p>
-      <div class="hero-in hd-5 mt-9">
+      <div class="hero-in hd-6 mt-9">
         <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
           Book a session
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
@@ -348,7 +372,7 @@ tailwind.config = {
   <!-- credential strip — straddles the hero's bottom edge -->
   <div class="absolute inset-x-0 bottom-0 translate-y-1/2 z-20 px-6 pointer-events-none">
     <div class="max-w-6xl mx-auto">
-      <div class="cred-strip hero-in hd-6 grid grid-cols-2 md:grid-cols-4">
+      <div class="cred-strip hero-in hd-7 grid grid-cols-2 md:grid-cols-4">
         <div class="cred-cell">
           <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="14">14</span></p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Topics</p>
@@ -376,7 +400,7 @@ tailwind.config = {
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
         <div class="rv sec-idx text-white"><span class="num">01</span><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-3xl md:text-[2.6rem] leading-tight tracking-tight balance">The Maxematics Difference</h2>
+        <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance">The Maxematics Difference</h2>
       </div>
       <div class="md:col-span-8">
         <ul class="rv rv-d2 grid sm:grid-cols-2 gap-x-10">
@@ -422,40 +446,11 @@ tailwind.config = {
       </div>
     </div>
 
-    <!-- research & lab experience -->
-    <div class="rv rv-d1 mt-16 grid md:grid-cols-2 gap-5">
-      <div class="expando rounded-xl bg-white/[.05] border border-white/10 p-7 hover:border-violet-soft/40 transition-colors" tabindex="0">
-        <p class="eyebrow text-[11px] font-semibold uppercase text-violet-soft">Engineering &amp; Research</p>
-        <p class="font-display font-semibold text-xl mt-2">Reddy Lab, USF</p>
-        <div class="expando-full">
-          <p class="text-white/70 leading-relaxed">
-            Designed and constructed an eVOLVER system for continuous-throughput evolution of yeast and
-            bacterial cells. Conducted experiments evaluating the effects of DDM detergent combined with
-            asolectin on the GltT protein under varied temperatures.
-          </p>
-        </div>
-        <p class="expando-hint mt-3 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
-      </div>
-      <div class="expando rounded-xl bg-white/[.05] border border-white/10 p-7 hover:border-violet-soft/40 transition-colors" tabindex="0">
-        <p class="eyebrow text-[11px] font-semibold uppercase text-violet-soft">Internship</p>
-        <p class="font-display font-semibold text-xl mt-2">NJ State Police Crime Lab Intern</p>
-        <p class="text-white/50 text-sm mt-0.5">Hamilton, NJ</p>
-        <div class="expando-full">
-          <p class="text-white/70 leading-relaxed">
-            Worked with state police scientists in DNA Analysis, Drug Identification, Trace Evidence, Forensic
-            Anthropology, Ballistics, Toxicology, CSI, Serology and CODIS. Assisted the NJSP in this prototype
-            internship to determine viability for future undergraduate participation in what has historically
-            been a program limited to MS students.
-          </p>
-        </div>
-        <p class="expando-hint mt-3 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
-      </div>
-    </div>
-
-    <!-- awards — evidence board, client's order of importance preserved -->
+    <!-- awards + lab experience — one evidence board, client's order of importance preserved;
+         research and the crime-lab internship now close the matrix instead of sitting
+         in two cards above it -->
     <div class="mt-16">
-      <h3 class="rv font-display font-bold text-2xl md:text-3xl tracking-tight">A record that speaks for itself.</h3>
-      <div class="rv rv-d1 mt-8 grid md:grid-cols-12 gap-x-12 gap-y-8 items-start">
+      <div class="rv rv-d1 grid md:grid-cols-12 gap-x-12 gap-y-8 items-start">
         <div class="md:col-span-5 ev-feature p-7">
             <p class="font-display font-bold text-2xl md:text-[1.75rem] leading-snug balance">Anne Frank Humanitarian Award</p>
           <p class="text-white/60 mt-2 tnum">2026</p>
@@ -469,6 +464,31 @@ tailwind.config = {
           <div class="ev-row"><span class="ev-n tnum">07</span><div><p class="font-display font-semibold text-lg leading-snug">HOBY Youth Leadership</p><p class="text-white/55 text-sm mt-0.5 tnum">Ambassador, 2025</p></div></div>
           <div class="ev-row"><span class="ev-n tnum">08</span><div><p class="font-display font-semibold text-lg leading-snug">Best Overall Research — HC STEM Fair</p><p class="text-white/55 text-sm mt-0.5">Awarded by FL Teacher’s Association</p></div></div>
           <div class="ev-row"><span class="ev-n tnum">09</span><div><p class="font-display font-semibold text-lg leading-snug">Varsity Rowing Captain</p><p class="text-white/55 text-sm mt-0.5 tnum">“Coaches Award,” ’25, ’26</p></div></div>
+          <div class="ev-row expando" tabindex="0"><span class="ev-n tnum">10</span><div>
+            <p class="font-display font-semibold text-lg leading-snug">Reddy Lab, USF</p>
+            <p class="text-white/55 text-sm mt-0.5">Engineering &amp; Research</p>
+            <div class="expando-full">
+              <p class="text-white/70 text-sm leading-relaxed">
+                Designed and constructed an eVOLVER system for continuous-throughput evolution of yeast and
+                bacterial cells. Conducted experiments evaluating the effects of DDM detergent combined with
+                asolectin on the GltT protein under varied temperatures.
+              </p>
+            </div>
+            <p class="expando-hint mt-2 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
+          </div></div>
+          <div class="ev-row expando" tabindex="0"><span class="ev-n tnum">11</span><div>
+            <p class="font-display font-semibold text-lg leading-snug">NJ State Police Crime Lab Intern</p>
+            <p class="text-white/55 text-sm mt-0.5">Internship — Hamilton, NJ</p>
+            <div class="expando-full">
+              <p class="text-white/70 text-sm leading-relaxed">
+                Worked with state police scientists in DNA Analysis, Drug Identification, Trace Evidence, Forensic
+                Anthropology, Ballistics, Toxicology, CSI, Serology and CODIS. Assisted the NJSP in this prototype
+                internship to determine viability for future undergraduate participation in what has historically
+                been a program limited to MS students.
+              </p>
+            </div>
+            <p class="expando-hint mt-2 text-[11px] uppercase tracking-widest text-white/40">Hover to read more</p>
+          </div></div>
         </div>
       </div>
     </div>
@@ -484,20 +504,20 @@ tailwind.config = {
     </div>
 
     <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
-      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption>Desmos Calculator</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption>Lab Reports</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption>SAT &amp; ACT Prep</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption><span class="n">01</span>Algebra 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption><span class="n">02</span>Precalculus</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption><span class="n">03</span>Calculus 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption><span class="n">04</span>Geometry</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption><span class="n">05</span>Statistics</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/desmos.jpg" alt="Desmos Calculator" loading="lazy"><figcaption><span class="n">06</span>Desmos Calculator</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption><span class="n">07</span>Chemistry</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption><span class="n">08</span>Biology</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/lab-reports.jpg" alt="Lab Reports" loading="lazy"><figcaption><span class="n">09</span>Lab Reports</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption><span class="n">10</span>Physics</figcaption></figure>
+      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption><span class="n">11</span>Latin 1 &amp; 2</figcaption></figure>
+      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption><span class="n">12</span>Creative &amp; Technical Writing</figcaption></figure>
+      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT &amp; ACT Prep" loading="lazy"><figcaption><span class="n">13</span>SAT &amp; ACT Prep</figcaption></figure>
+      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption><span class="n">14</span>World &amp; US History</figcaption></figure>
     </div>
   </div>
 </section>
@@ -506,48 +526,13 @@ tailwind.config = {
 <section id="testimonials" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="num">04</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">What families say</span></div>
+      <div class="rv sec-idx text-ink"><span class="num">04</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">What people are saying?</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Results students feel.</h2>
     </div>
 
-    <!-- lead quote: the credentialed endorsement carries the section -->
-    <figure class="rv rv-d1 mt-14 tcard tcard-lead md:p-10">
-      <blockquote class="tcard-q balance">“Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!”</blockquote>
-      <figcaption class="tcard-by">
-        <img src="assets/testimonial-lakshmi.png" alt="Lakshmi Jayaram, Ph.D." loading="lazy" class="tcard-av is-logo">
-        <span><span class="tcard-name">Lakshmi Jayaram, Ph.D.</span><span class="tcard-role">Executive Director, Prep &amp; Me</span></span>
-      </figcaption>
-    </figure>
-
-    <div class="mt-4 grid md:grid-cols-2 gap-4 items-start">
-      <figure class="rv tcard">
-        <blockquote class="tcard-q">“Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he’s such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max.”</blockquote>
-        <figcaption class="tcard-by">
-          <img src="assets/testimonial-eva.jpg" alt="Eva T." loading="lazy" class="tcard-av" style="object-position:center 15%">
-          <span><span class="tcard-name">Eva T.</span><span class="tcard-role">SAT / ACT Prep</span></span>
-        </figcaption>
-      </figure>
-      <figure class="rv rv-d1 tcard">
-        <blockquote class="tcard-q">“I was struggling in Geometry and worried about completing the class. Since starting with Max I haven’t gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong.”</blockquote>
-        <figcaption class="tcard-by">
-          <img src="assets/testimonial-kervaris.jpg" alt="Ker’Varis M." loading="lazy" class="tcard-av" style="object-position:center 12%">
-          <span><span class="tcard-name">Ker’Varis M.</span><span class="tcard-role">Geometry</span></span>
-        </figcaption>
-      </figure>
-      <figure class="rv tcard">
-        <blockquote class="tcard-q">“Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him.”</blockquote>
-        <figcaption class="tcard-by">
-          <img src="assets/testimonial-alice.jpg" alt="Alice H." loading="lazy" class="tcard-av" style="object-position:center 22%">
-          <span><span class="tcard-name">Alice H.</span><span class="tcard-role">Parent</span></span>
-        </figcaption>
-      </figure>
-      <figure class="rv rv-d1 tcard">
-        <blockquote class="tcard-q">“Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can’t believe I’m writing this, but I’ve actually started to like Chemistry.”</blockquote>
-        <figcaption class="tcard-by">
-          <img src="assets/testimonial-connor.jpg" alt="Connor J." loading="lazy" class="tcard-av" style="object-position:38% center">
-          <span><span class="tcard-name">Connor J.</span><span class="tcard-role">Chemistry</span></span>
-        </figcaption>
-      </figure>
+    <!-- circular carousel — every voice, including the Prep & Me endorsement -->
+    <div class="rv rv-d1 mt-14 md:mt-16">
+      <div id="ctst" class="ctst"></div>
     </div>
   </div>
 </section>
@@ -627,30 +612,32 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ═══════════ 7 · OUT IN THE WORLD ═══════════ -->
-<section id="flyers" class="bg-paper py-24 md:py-28 overflow-hidden">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="num">07</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Out in the world</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Look for Maxematics around Tampa.</h2>
-      <p class="rv rv-d2 mt-5 text-ink/60 text-lg">From the annual scholarship to free exam-prep workshops — here's what's currently circulating.</p>
+<!-- ═══════════ OUT IN THE WORLD — banner strip, not a section ═══════════ -->
+<aside id="flyers" class="otw" aria-label="Out in the world — what's currently happening around Tampa">
+  <div class="otw-in">
+    <div class="otw-label">
+      <span class="k">Out in the world</span>
+      <span class="v">Look for Maxematics around Tampa.</span>
     </div>
-    <div class="rv rv-d1 mt-14 flex flex-col sm:flex-row items-center justify-center gap-12 md:gap-16">
-      <a href="#scholarship" class="poster rounded-xl bg-white p-2.5 border border-ink/10 cursor-pointer" style="transform:rotate(-2.5deg)" aria-label="Read about the Schwarzkopf Scholarship">
-        <img src="assets/flyer-scholarship.png" alt="The Gen. H Norman Schwarzkopf Tutoring Scholarship flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-md block" loading="lazy">
-      </a>
-      <a href="#inquire" class="poster rounded-xl bg-white p-2.5 border border-ink/10 cursor-pointer" style="transform:rotate(2.5deg)" aria-label="Inquire about SAT workshops">
-        <img src="assets/flyer-desmos-workshop.jpg" alt="Free SAT Desmos Calculator workshop flyer" class="h-[26rem] md:h-[32rem] w-auto rounded-md block" loading="lazy">
-      </a>
+    <div class="otw-track">
+      <!-- run duplicated so the loop is seamless; the copy is aria-hidden -->
+      <div class="otw-run">
+        <span class="otw-item"><b>Schwarzkopf Scholarship</b> — a full year of tutoring, awarded each September</span>
+        <span class="otw-item"><b>Senior community seminars</b> — free sessions around Tampa</span>
+        <span class="otw-item"><b>Free SAT Desmos workshops</b> — calculator strategy, open to all</span>
+        <span class="otw-item" aria-hidden="true"><b>Schwarzkopf Scholarship</b> — a full year of tutoring, awarded each September</span>
+        <span class="otw-item" aria-hidden="true"><b>Senior community seminars</b> — free sessions around Tampa</span>
+        <span class="otw-item" aria-hidden="true"><b>Free SAT Desmos workshops</b> — calculator strategy, open to all</span>
+      </div>
     </div>
   </div>
-</section>
+</aside>
 
 <!-- ═══════════ 8 · CONTACT ═══════════ -->
 <section id="inquire" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
     <div>
-      <div class="rv sec-idx text-ink"><span class="num">08</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
+      <div class="rv sec-idx text-ink"><span class="num">07</span><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the conversation.</h2>
       <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
       <a href="mailto:maxematics@icloud.com" class="rv rv-d3 mt-8 inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
@@ -678,7 +665,7 @@ tailwind.config = {
 <!-- ═══════════ 9 · AFFILIATIONS & CERTIFICATIONS ═══════════ -->
 <section id="affiliations" class="bg-paper py-20 border-t border-ink/5">
   <div class="max-w-6xl mx-auto px-6">
-    <div class="rv sec-idx justify-center text-ink"><span class="num">09</span><span class="rule"></span><span class="eyebrow text-ink/45 text-xs font-semibold uppercase">Affiliations, certifications &amp; recognition</span></div>
+    <div class="rv sec-idx justify-center text-ink"><span class="num">08</span><span class="rule"></span><span class="eyebrow text-ink/45 text-xs font-semibold uppercase">Affiliations, certifications &amp; recognition</span></div>
     <div class="rv rv-d1 aff-grid mt-8">
       <a class="aff-cell" href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener" title="Autodesk Certification"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification (opens in new tab)" loading="lazy"></a>
       <a class="aff-cell" href="https://cumlaudesociety.org/" target="_blank" rel="noopener" title="Cum Laude Society"><img src="assets/logo-cum-laude-society.png" alt="Cum Laude Society (opens in new tab)" loading="lazy"></a>
@@ -788,6 +775,90 @@ document.querySelectorAll('[data-count]').forEach(el => {
     animate(0, target, { duration:1.4, ease:EASE, onUpdate:(v) => el.textContent = Math.round(v) });
   }, { amount: 0.6 });
 });
+
+/* ─── Circular testimonials (restored from the v2 build) ─── */
+const CTST = [
+  { name:"Lakshmi Jayaram, Ph.D.", designation:"Executive Director, Prep & Me", src:"assets/testimonial-lakshmi.png", pos:"center 20%",
+    quote:"Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!" },
+  { name:"Eva T.",       designation:"SAT / ACT Prep", src:"assets/testimonial-eva.jpg", pos:"center 15%",
+    quote:"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max." },
+  { name:"Ker'Varis M.", designation:"Geometry", src:"assets/testimonial-kervaris.jpg", pos:"center 12%",
+    quote:"I was struggling in Geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong." },
+  { name:"Alice H.",     designation:"Parent", src:"assets/testimonial-alice.jpg", pos:"center 22%",
+    quote:"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him." },
+  { name:"Connor J.",    designation:"Chemistry", src:"assets/testimonial-connor.jpg", pos:"38% center",
+    quote:"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like Chemistry." },
+];
+const ctstRoot = document.getElementById('ctst');
+if (ctstRoot){
+  const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  ctstRoot.innerHTML = `
+    <div class="ctst-grid">
+      <div class="ctst-imgs" id="ctstImgs"></div>
+      <div class="ctst-content">
+        <div id="ctstText" aria-live="polite"></div>
+        <div class="ctst-arrows">
+          <button class="ctst-arrow" id="ctstPrev" aria-label="Previous testimonial">${ARROW('<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>')}</button>
+          <button class="ctst-arrow" id="ctstNext" aria-label="Next testimonial">${ARROW('<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>')}</button>
+        </div>
+      </div>
+    </div>`;
+  const imgWrap = ctstRoot.querySelector('#ctstImgs');
+  const textEl  = ctstRoot.querySelector('#ctstText');
+  const prevBtn = ctstRoot.querySelector('#ctstPrev');
+  const nextBtn = ctstRoot.querySelector('#ctstNext');
+  const N = CTST.length;
+  let active = 0, timer = null;
+
+  CTST.forEach((t, i) => {
+    const img = document.createElement('img');
+    img.src = t.src; img.alt = t.name; img.dataset.index = i; img.loading = 'lazy';
+    img.className = 'ctst-img' + (t.logo ? ' is-logo' : '');
+    if (t.pos) img.style.objectPosition = t.pos;
+    imgWrap.appendChild(img);
+  });
+
+  function styleImgs(){
+    const cw = imgWrap.offsetWidth || 460;
+    const gap = Math.max(48, Math.min(96, cw * 0.2));
+    const up = gap * 0.8;
+    [...imgWrap.children].forEach((img, i) => {
+      const isActive = i === active;
+      const isLeft  = (active - 1 + N) % N === i;
+      const isRight = (active + 1) % N === i;
+      img.style.transition = 'all .8s cubic-bezier(.4,2,.3,1)';
+      // the front card isn't clickable (clicking it is a no-op) — don't offer a pointer for it
+      img.style.cursor = isActive ? 'default' : 'pointer';
+      if (isActive){ img.style.zIndex = 3; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = 'translateX(0) translateY(0) scale(1) rotateY(0deg)'; }
+      else if (isLeft){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(-${gap}px) translateY(-${up}px) scale(.85) rotateY(15deg)`; }
+      else if (isRight){ img.style.zIndex = 2; img.style.opacity = 1; img.style.pointerEvents = 'auto'; img.style.transform = `translateX(${gap}px) translateY(-${up}px) scale(.85) rotateY(-15deg)`; }
+      else { img.style.zIndex = 1; img.style.opacity = 0; img.style.pointerEvents = 'none'; }
+    });
+  }
+  function renderText(){
+    const t = CTST[active];
+    const quote = reduce
+      ? t.quote
+      : t.quote.split(' ').map((w, i) => `<span class="ctst-word" style="animation-delay:${(0.022 * i).toFixed(3)}s">${w}&nbsp;</span>`).join('');
+    textEl.innerHTML = `
+      <h3 class="ctst-name font-display text-2xl md:text-[1.7rem] text-ink">${t.name}</h3>
+      <p class="ctst-desig text-violet text-sm">${t.designation}</p>
+      <p class="ctst-quote text-ink/70 text-[1.05rem]">${quote}</p>`;
+    if (!reduce) textEl.animate([{ opacity:0, transform:'translateY(12px)' }, { opacity:1, transform:'none' }], { duration:320, easing:'ease' });
+  }
+  function update(){ styleImgs(); renderText(); }
+  function resetAutoplay(){ if (timer) clearInterval(timer); if (!reduce) timer = setInterval(() => { active = (active + 1) % N; update(); }, 5000); }
+
+  prevBtn.addEventListener('click', () => { active = (active - 1 + N) % N; update(); resetAutoplay(); });
+  nextBtn.addEventListener('click', () => { active = (active + 1) % N; update(); resetAutoplay(); });
+  imgWrap.addEventListener('click', (e) => {
+    const img = e.target.closest('.ctst-img'); if (!img) return;
+    const i = +img.dataset.index; if (i === active) return;
+    active = i; update(); resetAutoplay();
+  });
+  window.addEventListener('resize', styleImgs);
+  update(); resetAutoplay();
+}
 
 /* ─── Nav: deepen shadow once scrolled ─── */
 const nav = document.querySelector('header');
