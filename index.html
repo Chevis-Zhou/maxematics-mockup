@@ -135,8 +135,10 @@ tailwind.config = {
 
   /* ───────── hero headline — three words, one line ─────────
      Violet full-stop between beats, set smaller than the type so it punctuates
-     without competing with the words. */
-  .seq-sep{ color:#A78BFA; font-size:.62em; vertical-align:.02em; padding-right:.3em; }
+     without competing with the words. Word gap lives on the flex, not the glyph. */
+  .seq-sep{ color:#A78BFA; font-size:.62em; vertical-align:.02em; }
+  /* section H2s: Title Case + the same violet period */
+  .h-dot{ color:#A78BFA; }
 
   /* ───────── credential strip — breaks the hero's bottom edge ─────────
      The four proof figures were floating loose inside the hero. Here they become a
@@ -239,22 +241,11 @@ tailwind.config = {
     .aff-logo img{ max-height:40px; }
   }
 
-  /* ───────── "out in the world" — banner, not a section ─────────
-     Two full-height flyer scans were carrying a section's worth of weight for what
-     is really one line. Demoted to a marquee: the line repeats across a white strip
-     with Tampa views set as pill-shaped chips between each repeat. */
-  .otw{ background:#fff; overflow:hidden; border-block:1px solid rgba(20,14,31,.10);
-    padding:.9rem 0; }
-  .otw-track{ display:flex; width:max-content; animation:otwScroll 40s linear infinite; }
-  .otw:hover .otw-track{ animation-play-state:paused; }
-  .otw-run{ display:flex; align-items:center; flex:none; }
-  .otw-word{ font-family:'Sora',sans-serif; font-weight:700; color:#140E1F;
-    font-size:clamp(1rem,2.1vw,1.75rem); letter-spacing:-.01em; text-transform:uppercase;
-    white-space:nowrap; padding:0 1.6rem; }
-  .otw-chip{ flex:none; width:clamp(9rem,15vw,16.5rem); height:clamp(2.4rem,4.2vw,4.4rem);
-    border-radius:999px; overflow:hidden; background:#F1ECFB; }
-  .otw-chip img{ width:100%; height:100%; object-fit:cover; display:block; }
-  @keyframes otwScroll{ to{ transform:translateX(-50%); } }
+  /* ───────── Tampa banner — static strip ───────── */
+  .otw-static{ background:#7C3AED; color:#fff; text-align:center;
+    padding:1.35rem 1.5rem; }
+  .otw-static p{ font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-.015em;
+    font-size:clamp(1.05rem,2.2vw,1.7rem); line-height:1.2; margin:0; }
 
   /* consistent keyboard affordance across every interactive element */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
@@ -284,7 +275,7 @@ tailwind.config = {
     .topic img{transition:none!important}
     .ctst-word{animation:none!important}
     .ctst-img{transition:none!important}
-    .otw-track{animation:none!important}
+    .otw-static{animation:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -364,19 +355,19 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 relative z-10">
     <div class="max-w-3xl">
       <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
-        <span class="inline-block w-6 h-px bg-violet-soft"></span> Private tutoring · Math · Science · Language
+        <span class="inline-block w-6 h-px bg-violet-soft"></span> Private Tutoring
       </p>
       <!-- Flex, not white-space: the three words sit on one line from sm up and wrap on a
            phone, which can't hold them at a readable size. (whitespace-nowrap + <wbr> was
            the obvious route but Chrome breaks at a <wbr> even when nowrap is set.) -->
-      <h1 class="hero-in hd-3 flex flex-wrap sm:flex-nowrap font-display font-extrabold tracking-[-.03em] text-[2.15rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05]">
+      <h1 class="hero-in hd-3 flex flex-wrap sm:flex-nowrap gap-x-5 md:gap-x-8 gap-y-1 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.45rem] md:text-[3.25rem] leading-[1.08]">
         <span>Preparation<span class="seq-sep">.</span></span>
         <span>Mastery<span class="seq-sep">.</span></span>
         <span>Success<span class="seq-sep">.</span></span>
       </h1>
-      <div class="hero-in hd-4 mt-8 relative max-w-[22rem] sm:max-w-[26rem]">
+      <div class="hero-in hd-4 mt-8 relative max-w-[28rem] sm:max-w-[36rem]">
         <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
-        <img src="assets/logo-horizontal-reversed.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
       </div>
       <div class="hero-in hd-5 mt-10">
         <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
@@ -419,7 +410,7 @@ tailwind.config = {
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
         <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance">The Maxematics Difference</h2>
+        <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance">The Maxematics Difference<span class="h-dot">.</span></h2>
       </div>
       <div class="md:col-span-8">
         <ul class="rv rv-d2 grid sm:grid-cols-2 gap-x-10">
@@ -428,7 +419,7 @@ tailwind.config = {
           <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Virtual, or in a Tampa learning space</li>
           <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Study &amp; time-management skills</li>
           <li class="flex gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10 sm:border-b-0"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> Summer refreshers &amp; final-exam prep</li>
-          <li class="flex gap-3.5 text-white/80 text-lg py-3.5"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> SAT/ACT/DESMOS support</li>
+          <li class="flex gap-3.5 text-white/80 text-lg py-3.5"><span class="text-violet-soft mt-1.5 text-[.6rem]">◆</span> SAT/ACT/Desmos support</li>
         </ul>
       </div>
     </div>
@@ -448,9 +439,9 @@ tailwind.config = {
       </div>
       <div class="md:col-span-7">
         <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet “The Max” in Maxematics</h2>
+        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet “The Max” in Maxematics<span class="h-dot">.</span></h2>
         <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
-          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard’ it will be. It doesn’t have to be that way.”</p>
+          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard,’ it will be. It doesn’t have to be that way.”</p>
         </blockquote>
         <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed">
           Max started tutoring with the idea that academic success is found at the intersection of preparation
@@ -469,7 +460,7 @@ tailwind.config = {
     <div class="mt-16">
       <div class="rv rv-d1 grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Anne Frank Humanitarian Award</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Department Awards Math Science History</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Department Awards — Math, Science, History</p></div>
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Cum Laude Society</p></div>
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Tampa Prep Head’s List</p></div>
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Writing Center Director &amp; Tutor</p></div>
@@ -479,6 +470,7 @@ tailwind.config = {
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Varsity Rowing Captain</p></div>
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</p></div>
         <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">NJ State Police Crime Lab Intern, Hamilton NJ</p></div>
+        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Pie &amp; Pi — Club Founder &amp; President, Content Creator</p></div>
       </div>
     </div>
   </div>
@@ -489,7 +481,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor,<br>many topics.</h2>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor, Many Topics<span class="h-dot">.</span></h2>
     </div>
 
     <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
@@ -513,7 +505,8 @@ tailwind.config = {
 <section id="testimonials" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
-      <h2 class="rv font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">What people are saying.</h2>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Word on the street</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">What People Are Saying<span class="h-dot">.</span></h2>
     </div>
 
     <!-- circular carousel — every voice, including the Prep & Me endorsement -->
@@ -528,7 +521,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, tailored sessions.</h2>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, Tailored Sessions<span class="h-dot">.</span></h2>
     </div>
     <div class="mt-12 grid lg:grid-cols-5 gap-6 items-stretch">
       <div class="rv lg:col-span-3 rounded-2xl bg-white border border-ink/10 overflow-hidden">
@@ -572,7 +565,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Giving back</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">The Gen. H Norman Schwarzkopf Scholarship</h2>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">The Gen. H Norman Schwarzkopf Scholarship<span class="h-dot">.</span></h2>
       <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed">
         Max's grandfather spent his life in service — to his country, and to the young men and women who served
         alongside him. What fewer people know is that he was also an educator, teaching calculus and mechanics at
@@ -596,34 +589,9 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ═══════════ OUT IN THE WORLD — banner strip, not a section ═══════════
-     Copy is verbatim: "Out in the world / Look for Maxematics around Tampa."
-     Chip photos are Tampa views from Unsplash (free for commercial use) — swap for
-     Max's own Tampa photos when the client has them. -->
-<aside id="flyers" class="otw" aria-label="Out in the world — look for Maxematics around Tampa">
-  <div class="otw-track">
-    <!-- run duplicated so the loop is seamless; the copy is aria-hidden -->
-    <div class="otw-run">
-      <span class="otw-word">Out in the world</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-01.jpg" alt="Downtown Tampa on the water" loading="lazy"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-02.jpg" alt="Tampa at golden hour" loading="lazy"></span>
-      <span class="otw-word">Out in the world</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-03.jpg" alt="Palms against the Tampa skyline" loading="lazy"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-04.jpg" alt="Boat on the Hillsborough River, Tampa" loading="lazy"></span>
-    </div>
-    <div class="otw-run" aria-hidden="true">
-      <span class="otw-word">Out in the world</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-01.jpg" alt="" loading="lazy"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-02.jpg" alt="" loading="lazy"></span>
-      <span class="otw-word">Out in the world</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-03.jpg" alt="" loading="lazy"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span>
-      <span class="otw-chip"><img src="assets/tampa/tampa-04.jpg" alt="" loading="lazy"></span>
-    </div>
-  </div>
+<!-- ═══════════ TAMPA BAY — static banner ═══════════ -->
+<aside id="flyers" class="otw-static" aria-label="Look for Maxematics around Tampa Bay">
+  <p>Look For Maxematics Around Tampa Bay</p>
 </aside>
 
 <!-- ═══════════ 8 · CONTACT ═══════════ -->
@@ -631,12 +599,18 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
     <div>
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the conversation.</h2>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start The Conversation<span class="h-dot">.</span></h2>
       <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
-      <a href="mailto:maxematics@icloud.com" class="rv rv-d3 mt-8 inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
-        <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-        <span class="font-medium">maxematics@icloud.com</span>
-      </a>
+      <div class="rv rv-d3 mt-8 space-y-3">
+        <a href="mailto:maxematics@icloud.com" class="inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
+          <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+          <span class="font-medium">maxematics@icloud.com</span>
+        </a>
+        <a href="tel:+18134446199" class="flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
+          <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          <span class="font-medium">813.444.6199</span>
+        </a>
+      </div>
     </div>
     <form class="rv rv-d2 bg-white rounded-2xl border border-ink/10 p-8 md:p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
       <div class="grid sm:grid-cols-2 gap-5">
@@ -645,7 +619,7 @@ tailwind.config = {
       </div>
       <div><label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
         <select id="f-subject" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition text-ink/80 cursor-pointer">
-          <option>Tutoring — Math</option><option>Tutoring — Science</option><option>Tutoring — Language</option><option>SAT / ACT Prep</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
+          <option>Tutoring — Subjects</option><option>SAT/ACT/Desmos</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
         </select>
       </div>
       <div><label for="f-msg" class="block text-sm font-semibold mb-2">Message</label><textarea id="f-msg" rows="4" placeholder="Tell Max about the student and the goal…" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition resize-none"></textarea></div>
@@ -687,7 +661,11 @@ tailwind.config = {
       <a href="#scholarship" class="hover:text-violet-soft transition-colors">Scholarship</a>
       <a href="#inquire" class="hover:text-violet-soft transition-colors">Contact</a>
     </nav>
-    <p class="text-sm text-white/50">maxematics@icloud.com</p>
+    <p class="text-sm text-white/50 text-center md:text-right">
+      <a href="mailto:maxematics@icloud.com" class="hover:text-violet-soft transition-colors">maxematics@icloud.com</a>
+      <span class="text-white/25 mx-2">·</span>
+      <a href="tel:+18134446199" class="hover:text-violet-soft transition-colors">813.444.6199</a>
+    </p>
   </div>
   <p class="mt-10 text-center text-xs text-white/35">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
 </footer>
@@ -780,16 +758,16 @@ const CTST = [
   { name:"Eva T.",       designation:"SAT / ACT Prep", src:"assets/testimonial-eva.jpg", pos:"center 15%",
     quote:"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max." },
   { name:"Ker'Varis M.", designation:"Geometry", src:"assets/testimonial-kervaris.jpg", pos:"center 12%",
-    quote:"I was struggling in Geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong." },
+    quote:"I was struggling in geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong." },
   { name:"Alice H.",     designation:"Parent", src:"assets/testimonial-alice.jpg", pos:"center 22%",
     quote:"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him." },
-  { name:"Connor J.",    designation:"Chemistry", src:"assets/testimonial-connor.jpg", pos:"38% center",
-    quote:"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like Chemistry." },
+  { name:"Connor J.",    designation:"Chemistry", src:"assets/testimonial-connor.jpg", pos:"center 18%",
+    quote:"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like chemistry." },
 ];
 const ctstRoot = document.getElementById('ctst');
 if (ctstRoot){
   const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
-  const DWELL = 10000;                      // slow cadence — a quote needs time to be read
+  const DWELL = 15000;                      // extra 5s — quotes need a full read
   const RING  = (2 * Math.PI * 23).toFixed(2);
   ctstRoot.innerHTML = `
     <div class="ctst-grid">
