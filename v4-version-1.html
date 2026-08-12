@@ -99,8 +99,31 @@ tailwind.config = {
   .draw-rect{ transform-box:fill-box; transform-origin:left center; transform:scaleX(0);
     animation:drawIn 1.9s cubic-bezier(.22,1,.36,1) .45s forwards; }
   @keyframes drawIn{ to{ transform:scaleX(1); } }
-  .plot-dot{ opacity:0; animation:dotIn .5s cubic-bezier(.22,1,.36,1) forwards; }
+  .plot-dot{ opacity:0; animation:dotIn .5s cubic-bezier(.22,1,.36,1) forwards;
+    transform-box:fill-box; transform-origin:center; }
   @keyframes dotIn{ to{ opacity:1 } }
+
+  /* ───────── curve annotations — hover a plotted point, get its beat ─────────
+     The three points ARE the headline: Preparation / Mastery / Success. Hovering
+     names them, so the curve argues the sequence instead of decorating it.
+     z-15 sits above the copy block (z-10) so the 64px hit discs aren't swallowed
+     by its full-width box, and below the credential strip (z-20). */
+  .curve-hot{ position:absolute; right:0; bottom:14%; width:min(58vw,760px);
+    aspect-ratio:760/300; z-index:15; pointer-events:none; }
+  .plot-hit{ position:absolute; width:64px; height:64px; margin:-32px 0 0 -32px;
+    border-radius:9999px; pointer-events:auto; cursor:pointer; }
+  /* anchor is a shrink-to-fit box that carries ALL the positioning transform, so
+     Motion owns the label's transform outright and never fights a CSS translate */
+  .plot-anchor{ position:absolute; transform:translate(var(--ax,-50%), calc(-100% - 18px)); }
+  /* resting state lives here so Motion reads a real y/scale to spring FROM */
+  .plot-label{ opacity:0; transform:translateY(8px) scale(.92);
+    white-space:nowrap; font-weight:700; font-size:.95rem;
+    letter-spacing:-.01em; color:#fff; background:rgba(20,14,31,.82);
+    backdrop-filter:blur(10px); border:1px solid rgba(167,139,250,.34);
+    border-radius:9999px; padding:.42rem .9rem; box-shadow:0 8px 24px rgba(0,0,0,.35);
+    will-change:transform,opacity; }
+  /* below 1024 the curve sits behind the copy and hover isn't the input model */
+  @media(max-width:1023px){ .curve-hot{ display:none } }
 
   .schwarzkopf-img{ opacity:.5; filter:contrast(1.06) saturate(.9); will-change:transform; }
 
@@ -320,6 +343,20 @@ tailwind.config = {
     </svg>
 
   </div>
+
+  <!-- annotation layer for the curve: hit discs + hover labels, registered to the
+       same 760x300 box as the SVG above. Kept out of .hero-bg so the labels render
+       above the left-to-right scrim instead of being veiled by it. -->
+  <div class="curve-hot" aria-hidden="true">
+    <div class="plot-hit" data-plot="0" style="left:38.421%;top:63.333%"></div>
+    <div class="plot-hit" data-plot="1" style="left:69.737%;top:28.667%"></div>
+    <div class="plot-hit" data-plot="2" style="left:97.632%;top:6.333%"></div>
+
+    <div class="plot-anchor" style="left:38.421%;top:63.333%"><div class="plot-label">Preparation.</div></div>
+    <div class="plot-anchor" style="left:69.737%;top:28.667%"><div class="plot-label">Mastery.</div></div>
+    <div class="plot-anchor" style="left:97.632%;top:6.333%;--ax:-86%"><div class="plot-label">Success.</div></div>
+  </div>
+
   <div class="absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/72 to-ink/20 pointer-events-none" aria-hidden="true"></div>
 
   <div class="max-w-6xl mx-auto px-6 pt-36 pb-40 md:pt-40 md:pb-44 relative z-10">
@@ -706,6 +743,29 @@ if (!reduce){
   const sk = document.getElementById('schwarzkopf');
   if (sk) scroll(animate(sk, { y:['-8%','8%'] }, { ease:'linear' }), { target: sk, offset:['start end','end start'] });
 
+}
+
+/* ─── Hero curve annotations ───
+   Hovering a plotted point swells the dot and springs its word in. Adapted from
+   the Motion "Line graph" example (Cursor + point hover annotation), reduced to
+   a fixed label per point since these three are the headline, not live data. */
+{
+  const hot   = document.querySelector('.curve-hot');
+  const dots  = [...document.querySelectorAll('.curve .plot-dot')];
+  const hits  = hot ? [...hot.querySelectorAll('.plot-hit')] : [];
+  const labels= hot ? [...hot.querySelectorAll('.plot-label')] : [];
+
+  if (hits.length && hits.length === dots.length){
+    const spring = reduce ? { duration:0 } : { type:'spring', visualDuration:.42, bounce:.3 };
+    const set = (i, on) => {
+      animate(dots[i],   { scale: on ? 1.9 : 1 }, spring);
+      animate(labels[i], { opacity: on ? 1 : 0, y: on ? 0 : 8, scale: on ? 1 : .92 }, spring);
+    };
+    hits.forEach((hit, i) => {
+      hit.addEventListener('pointerenter', () => set(i, true));
+      hit.addEventListener('pointerleave', () => set(i, false));
+    });
+  }
 }
 
 /* ─── Stat count-up ─── */
