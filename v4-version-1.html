@@ -327,12 +327,13 @@ tailwind.config = {
       <p class="hero-in hd-2 eyebrow text-white/70 text-xs font-semibold uppercase mb-6 flex items-center gap-2">
         <span class="inline-block w-6 h-px bg-violet-soft"></span> Private tutoring · Math · Science · Language
       </p>
-      <!-- one line from sm up; a 375px phone can't hold three words on a line at a
-           readable size, so it wraps there rather than overflowing the viewport -->
-      <h1 class="hero-in hd-3 font-display font-extrabold tracking-[-.03em] text-[2.15rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05] sm:whitespace-nowrap">
-        <!-- <wbr> gives the phone a break opportunity; there is no literal space between
-             the words, so without it the line overflows instead of wrapping -->
-        Preparation<span class="seq-sep">.</span><wbr>Mastery<span class="seq-sep">.</span><wbr>Success<span class="seq-sep">.</span>
+      <!-- Flex, not white-space: the three words sit on one line from sm up and wrap on a
+           phone, which can't hold them at a readable size. (whitespace-nowrap + <wbr> was
+           the obvious route but Chrome breaks at a <wbr> even when nowrap is set.) -->
+      <h1 class="hero-in hd-3 flex flex-wrap sm:flex-nowrap font-display font-extrabold tracking-[-.03em] text-[2.15rem] sm:text-[2.7rem] md:text-[3.7rem] leading-[1.05]">
+        <span>Preparation<span class="seq-sep">.</span></span>
+        <span>Mastery<span class="seq-sep">.</span></span>
+        <span>Success<span class="seq-sep">.</span></span>
       </h1>
       <div class="hero-in hd-4 mt-8 relative max-w-[22rem] sm:max-w-[26rem]">
         <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
@@ -558,18 +559,30 @@ tailwind.config = {
 
 <!-- ═══════════ OUT IN THE WORLD — banner strip, not a section ═══════════
      Copy is verbatim: "Out in the world / Look for Maxematics around Tampa."
-     The pill chips take Tampa view photos — drop them in assets/tampa/ and swap
-     the placeholder <span class="otw-chip"> for <span class="otw-chip"><img …></span>. -->
+     Chip photos are Tampa views from Unsplash (free for commercial use) — swap for
+     Max's own Tampa photos when the client has them. -->
 <aside id="flyers" class="otw" aria-label="Out in the world — look for Maxematics around Tampa">
   <div class="otw-track">
     <!-- run duplicated so the loop is seamless; the copy is aria-hidden -->
     <div class="otw-run">
-      <span class="otw-word">Out in the world</span><span class="otw-chip"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span><span class="otw-chip"></span>
+      <span class="otw-word">Out in the world</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-01.jpg" alt="Downtown Tampa on the water" loading="lazy"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-02.jpg" alt="Tampa at golden hour" loading="lazy"></span>
+      <span class="otw-word">Out in the world</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-03.jpg" alt="Palms against the Tampa skyline" loading="lazy"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-04.jpg" alt="Boat on the Hillsborough River, Tampa" loading="lazy"></span>
     </div>
     <div class="otw-run" aria-hidden="true">
-      <span class="otw-word">Out in the world</span><span class="otw-chip"></span>
-      <span class="otw-word">Look for Maxematics around Tampa.</span><span class="otw-chip"></span>
+      <span class="otw-word">Out in the world</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-01.jpg" alt="" loading="lazy"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-02.jpg" alt="" loading="lazy"></span>
+      <span class="otw-word">Out in the world</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-03.jpg" alt="" loading="lazy"></span>
+      <span class="otw-word">Look for Maxematics around Tampa.</span>
+      <span class="otw-chip"><img src="assets/tampa/tampa-04.jpg" alt="" loading="lazy"></span>
     </div>
   </div>
 </aside>
