@@ -47,8 +47,8 @@ tailwind.config = {
 }
 </script>
 <style>
-  html { scroll-behavior:smooth; }
-  body { font-family:'Instrument Sans',sans-serif; }
+  html { scroll-behavior:smooth; overflow-x:clip; }
+  body { font-family:'Instrument Sans',sans-serif; overflow-x:clip; }
   .font-display { font-family:'Sora',sans-serif; }
 
   /* Every figure on the page is evidence — numerals must align in a column. */
@@ -360,7 +360,7 @@ tailwind.config = {
       <!-- Flex, not white-space: the three words sit on one line from sm up and wrap on a
            phone, which can't hold them at a readable size. (whitespace-nowrap + <wbr> was
            the obvious route but Chrome breaks at a <wbr> even when nowrap is set.) -->
-      <h1 class="hero-in hd-3 flex flex-wrap sm:flex-nowrap gap-x-5 md:gap-x-8 gap-y-1 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.45rem] md:text-[3.25rem] leading-[1.08]">
+      <h1 class="hero-in hd-3 flex flex-wrap gap-x-[0.7em] gap-y-1 min-w-0 font-display font-extrabold tracking-[-.03em] text-[2rem] sm:text-[2.45rem] md:text-[3.25rem] leading-[1.08]">
         <span>Preparation<span class="seq-sep">.</span></span>
         <span>Mastery<span class="seq-sep">.</span></span>
         <span>Success<span class="seq-sep">.</span></span>
@@ -502,7 +502,7 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 4 · TESTIMONIALS ═══════════ -->
-<section id="testimonials" class="bg-mist py-24 md:py-28">
+<section id="testimonials" class="bg-mist py-24 md:py-28 overflow-x-clip">
   <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Word on the street</span></div>
