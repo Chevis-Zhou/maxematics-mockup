@@ -241,11 +241,20 @@ tailwind.config = {
     .aff-logo img{ max-height:40px; }
   }
 
-  /* ───────── Tampa banner — static strip ───────── */
-  .otw-static{ background:#7C3AED; color:#fff; text-align:center;
-    padding:1.35rem 1.5rem; }
-  .otw-static p{ font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-.015em;
-    font-size:clamp(1.05rem,2.2vw,1.7rem); line-height:1.2; margin:0; }
+  /* ───────── Tampa banner — static strip, same chips as the old marquee ───────── */
+  .otw{ background:#fff; overflow:hidden; border-block:1px solid rgba(20,14,31,.10);
+    padding:.9rem 1.5rem; }
+  .otw-row{ display:flex; align-items:center; justify-content:center; gap:.2rem; flex-wrap:wrap; }
+  .otw-word{ font-family:'Sora',sans-serif; font-weight:700; color:#140E1F;
+    font-size:clamp(1rem,2.1vw,1.75rem); letter-spacing:-.01em;
+    white-space:nowrap; padding:0 1.2rem; }
+  .otw-chip{ flex:none; width:clamp(9rem,15vw,16.5rem); height:clamp(2.4rem,4.2vw,4.4rem);
+    border-radius:999px; overflow:hidden; background:#F1ECFB; }
+  .otw-chip img{ width:100%; height:100%; object-fit:cover; display:block; }
+  @media(max-width:639px){
+    .otw-word{ white-space:normal; text-align:center; padding:.4rem .6rem; }
+    .otw-chip-lg{ display:none; }
+  }
 
   /* consistent keyboard affordance across every interactive element */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
@@ -275,7 +284,7 @@ tailwind.config = {
     .topic img{transition:none!important}
     .ctst-word{animation:none!important}
     .ctst-img{transition:none!important}
-    .otw-static{animation:none!important}
+    .otw-chip{transition:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -585,8 +594,14 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ TAMPA BAY — static banner ═══════════ -->
-<aside id="flyers" class="otw-static" aria-label="Look for Maxematics around Tampa Bay">
-  <p>Look For Maxematics Around Tampa Bay</p>
+<aside id="flyers" class="otw" aria-label="Look for Maxematics around Tampa Bay">
+  <div class="otw-row">
+    <span class="otw-chip otw-chip-lg"><img src="assets/tampa/tampa-03.jpg" alt="" loading="lazy"></span>
+    <span class="otw-chip"><img src="assets/tampa/tampa-01.jpg" alt="Downtown Tampa on the water" loading="lazy"></span>
+    <span class="otw-word">Look For Maxematics Around Tampa Bay</span>
+    <span class="otw-chip"><img src="assets/tampa/tampa-02.jpg" alt="Tampa at golden hour" loading="lazy"></span>
+    <span class="otw-chip otw-chip-lg"><img src="assets/tampa/tampa-04.jpg" alt="" loading="lazy"></span>
+  </div>
 </aside>
 
 <!-- ═══════════ 8 · CONTACT ═══════════ -->
