@@ -20,6 +20,9 @@
 <meta name="twitter:title" content="Maxematics — Private Tutoring">
 <meta name="twitter:description" content="One-on-one tutoring with Max Schwarzkopf — Algebra to AP prep, SAT/ACT, in Tampa or virtual.">
 <meta name="twitter:image" content="assets/max-2.jpg">
+<!-- scripting flag: the hero logo and the odometers hide their pre-animation state, and
+     must not hide it from a reader whose scripts never run -->
+<script>document.documentElement.className += ' js';</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +62,8 @@ tailwind.config = {
      v3 animated `filter: blur()` on every revealed block. Blur is the single most
      expensive filter to composite and it read as a gimmick at 26px of travel.
      14px + opacity at .5s reads as confidence rather than arrival. */
-  .rv { opacity:0; transform:translateY(14px); transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1); }
+  .rv { opacity:0; transform:translateY(14px); transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1);
+    transition-delay:var(--rvd,0s); }
   .rv.on { opacity:1; transform:none; }
   .rv-d1{transition-delay:.06s}.rv-d2{transition-delay:.12s}.rv-d3{transition-delay:.18s}
   .rv-d4{transition-delay:.24s}.rv-d5{transition-delay:.30s}.rv-d6{transition-delay:.36s}
@@ -126,6 +130,28 @@ tailwind.config = {
   @media(max-width:1023px){ .curve-hot{ display:none } }
 
   .schwarzkopf-img{ opacity:.5; filter:contrast(1.06) saturate(.9); will-change:transform; }
+
+  /* ───────── scholarship closed notice ───────── */
+  .schol-dialog{ border:none; padding:0; max-width:26rem; width:calc(100% - 2rem);
+    border-radius:1.25rem; background:#fff; color:#140E1F;
+    box-shadow:0 32px 64px -24px rgba(20,14,31,.55); }
+  .schol-dialog::backdrop{ background:rgba(20,14,31,.62); backdrop-filter:blur(6px); }
+  .schol-dialog[open]{ animation:scholIn .32s cubic-bezier(.22,1,.36,1) both; }
+  .schol-dialog[open]::backdrop{ animation:scholBd .28s ease both; }
+  @keyframes scholIn{ from{opacity:0;transform:translateY(10px) scale(.97)} to{opacity:1;transform:none} }
+  @keyframes scholBd{ from{opacity:0} to{opacity:1} }
+  .schol-dialog-body{ padding:1.75rem 1.75rem 1.5rem; }
+  .schol-dialog-body h3{ font-family:'Sora',sans-serif; font-weight:700; font-size:1.15rem;
+    letter-spacing:-.02em; line-height:1.3; margin:0 0 .75rem; }
+  .schol-dialog-body p{ margin:0; color:rgba(20,14,31,.72); line-height:1.55; font-size:.98rem; }
+  .schol-dialog-foot{ padding:0 1.75rem 1.5rem; display:flex; justify-content:flex-end; }
+  .schol-dialog-close{ border:none; cursor:pointer; border-radius:999px; background:#7C3AED; color:#fff;
+    font-weight:600; font-size:.9rem; padding:.7rem 1.35rem; transition:background .25s; }
+  .schol-dialog-close:hover{ background:#5B21B6; }
+  .schol-dialog-close:focus-visible{ outline:2px solid #140E1F; outline-offset:3px; }
+  @media(prefers-reduced-motion:reduce){
+    .schol-dialog[open],.schol-dialog[open]::backdrop{ animation:none!important; }
+  }
 
   .grid-faint::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px);
@@ -198,11 +224,6 @@ tailwind.config = {
   .ctst-ring .trk{ stroke:rgba(124,58,237,.25); }
   .ctst-ring .bar{ stroke:#7C3AED; stroke-linecap:round; transition:stroke-dashoffset .12s linear; }
 
-  /* ───────── credential cards — flat set, nothing ranked above anything else ───────── */
-  .cred-card{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10); border-radius:1rem;
-    padding:1.25rem 1.35rem; transition:background .25s, border-color .25s, transform .3s cubic-bezier(.22,1,.36,1); }
-  .cred-card:hover{ background:rgba(255,255,255,.08); border-color:rgba(167,139,250,.4); transform:translateY(-3px); }
-
   .imgwrap img{ transition:transform 1.2s cubic-bezier(.22,1,.36,1); transform:scale(1.05); }
   .rv.on .imgwrap img{ transform:scale(1); }
 
@@ -255,6 +276,87 @@ tailwind.config = {
     .otw-word{ white-space:normal; text-align:center; padding:.4rem .6rem; }
   }
 
+  /* ═════════ v6 · hero logo — inline vector, addressable glyphs ═════════
+     The wordmark was an <img>, so it could only ever fade as one block. Inlined and
+     regrouped (mark · M a × e m a t i c s ·) every glyph becomes its own target.
+     Translate values are SVG user units, not px: the viewBox is 9191 wide against a
+     ~580px render, so ~1000 units reads as roughly 60 screen px. */
+  .lg{ display:block; width:100%; height:auto; overflow:visible;
+    filter:drop-shadow(0 20px 34px rgba(0,0,0,.38)); }
+  .lg-unit{ transform-box:fill-box; transform-origin:center; will-change:transform,opacity;
+    pointer-events:none; }
+  /* glyphs are hidden until the module has seeded their scattered pose — scoped to
+     html.js so a scripting-off reader still gets the logo */
+  .js .lg.is-pre .lg-unit{ opacity:0; }
+  .lg-hit rect{ cursor:default; }
+
+  /* ═════════ v6 · odometer figures ═════════
+     Replaces the textContent count-up. Each digit is a 0–9 strip repeated three times
+     inside a one-line window; rolling two full revolutions upward before landing is
+     what gives the trend direction its meaning. Static characters (+ : ) sit in the
+     same flex row at the same height so nothing drifts off the baseline. */
+  .odo{ --oh:1.06em; display:inline-flex; align-items:stretch; }
+  .odo-d{ display:block; height:var(--oh); overflow:hidden; }
+  .odo-strip{ display:block; will-change:transform; }
+  .odo-strip span{ display:block; height:var(--oh); line-height:var(--oh); }
+  .odo-s{ display:block; height:var(--oh); line-height:var(--oh); }
+  .odo-s.is-accent{ color:#A78BFA; }
+
+  /* ═════════ v6 · credential ledger ═════════
+     Twelve identical cards gave the reader no scan order — a wall to skip rather than
+     read. Three named rails of indexed hairline rows lets the eye enter anywhere and
+     costs less vertical space than the card grid did. */
+  .cred-rail-h{ font-family:'Sora',sans-serif; font-size:.7rem; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:#A78BFA;
+    padding-bottom:.8rem; border-bottom:1px solid rgba(167,139,250,.30); }
+  .cred-list{ margin:0; padding:0; list-style:none; }
+  .cred-row{ position:relative; display:flex; gap:.95rem; align-items:flex-start;
+    padding:.9rem .2rem; border-bottom:1px solid rgba(255,255,255,.09); }
+  .cred-row::after{ content:''; position:absolute; left:0; bottom:-1px; width:100%; height:1px;
+    background:#A78BFA; transform:scaleX(0); transform-origin:left;
+    transition:transform .45s cubic-bezier(.22,1,.36,1); }
+  .cred-row:hover::after{ transform:scaleX(1); }
+  .cred-i{ flex:none; font-family:'Sora',sans-serif; font-variant-numeric:tabular-nums;
+    font-size:.68rem; font-weight:700; line-height:1.7; color:rgba(255,255,255,.30);
+    transition:color .3s; }
+  .cred-t{ font-family:'Sora',sans-serif; font-weight:600; font-size:1rem; line-height:1.4;
+    color:rgba(255,255,255,.85);
+    transition:color .3s, transform .35s cubic-bezier(.22,1,.36,1); }
+  .cred-row:hover .cred-i{ color:#A78BFA; }
+  .cred-row:hover .cred-t{ color:#fff; transform:translateX(3px); }
+
+  /* ═════════ v6 · topic rails ═════════
+     The 4×3 grid asked the reader to scan twelve still tiles. Two counter-running rails
+     put the same twelve in opposed motion and read in a single glance. The pin is sized
+     so the heading and both rows fit inside one viewport — that constraint, not the
+     travel distance, is what sets --tw. */
+  .topic-scroll{ position:relative; height:260vh; }
+  .topic-sticky{ position:sticky; top:0; height:100vh; overflow-x:clip;
+    display:flex; flex-direction:column; justify-content:center;
+    gap:clamp(1.3rem,3.4vh,2.6rem); }
+  /* --tw is capped on BOTH axes: the vw term keeps six tiles readable on a wide screen,
+     the vh term is what guarantees heading + two rows clear 100vh on a short one */
+  .topic-rails{ --tw:min(clamp(9.5rem,19vw,17rem),31vh);
+    display:flex; flex-direction:column; gap:clamp(.5rem,1.1vh,.9rem); }
+  .topic-rail{ overflow-x:clip; overflow-y:visible; }
+  .topic-track{ display:flex; align-items:stretch; gap:clamp(.5rem,.9vw,.95rem);
+    width:max-content; padding:.45rem 0; will-change:transform; }
+  .topic-track .topic{ flex:none; width:var(--tw); display:flex; flex-direction:column; }
+  .topic-track .topic img{ flex:none; }
+  /* captions stretch so a two-line title can't make one tile taller than its row */
+  .topic-track .topic figcaption{ flex:1; display:flex; align-items:center;
+    font-size:.85rem; padding:.7rem .85rem; }
+  @media(max-width:767px){
+    .topic-scroll{ height:auto; }
+    .topic-sticky{ position:static; height:auto; overflow:visible; padding:5.5rem 0; }
+    .topic-rails{ --tw:clamp(9rem,44vw,13rem); }
+    .topic-rail{ overflow-x:auto; overflow-y:visible; scroll-snap-type:x proximity;
+      scrollbar-width:none; }
+    .topic-rail::-webkit-scrollbar{ display:none; }
+    .topic-track{ transform:none!important; padding-inline:1.5rem; }
+    .topic-track .topic{ scroll-snap-align:center; }
+  }
+
   /* consistent keyboard affordance across every interactive element */
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
     outline:2px solid #7C3AED; outline-offset:3px; border-radius:.4rem; }
@@ -284,6 +386,13 @@ tailwind.config = {
     .ctst-word{animation:none!important}
     .ctst-img{transition:none!important}
     .otw-chip{transition:none!important}
+    .js .lg.is-pre .lg-unit{opacity:1!important}
+    .cred-row::after{transition:none!important}
+    /* rails become two plain swipeable strips — no pin, no scroll-linked travel */
+    .topic-scroll{height:auto}
+    .topic-sticky{position:static;height:auto;overflow:visible;padding:5.5rem 0}
+    .topic-rail{overflow-x:auto;overflow-y:visible}
+    .topic-track{transform:none!important}
     html{scroll-behavior:auto}
   }
 </style>
@@ -369,9 +478,72 @@ tailwind.config = {
       <span>Mastery<span class="seq-sep">.</span></span>
       <span>Success<span class="seq-sep">.</span></span>
     </h1>
+    <!-- the mark is the hero's visual anchor, so it is live vector rather than an <img>:
+         the twelve units below assemble on load and scatter under a moving pointer -->
     <div class="hero-in hd-4 mt-8 relative max-w-[28rem] sm:max-w-[36rem]">
       <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
-      <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
+      <svg id="heroLogo" class="lg is-pre" viewBox="0 0 9191.67 1444.19" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maxematics">
+        <g class="lg-unit lg-mark" fill="#A78BFA" fill-rule="evenodd">
+          <path d="M 424.167 712.712 L 480.029 768.719 L 385.753 862.995 L 480.029 957.271 L 424.167 1013.279 L 329.745 919.003 L 235.469 1013.279 L 179.607 957.271 L 273.883 862.995 L 179.607 768.719 L 235.469 712.712 L 329.745 807.133 Z M 329.745 533.251 C 511.112 533.251 659.489 681.629 659.489 862.995 C 659.489 1044.362 511.112 1192.739 329.745 1192.739 C 148.378 1192.739 0 1044.362 0 862.995 C 0 681.629 148.378 533.251 329.745 533.251"/>
+          <path d="M 1344.05 526.067 L 998.178 526.067 L 998.178 446.893 L 1344.05 446.893 Z M 1210.627 328.132 L 1131.454 328.132 L 1131.454 407.305 L 1210.627 407.305 Z M 1210.627 565.507 L 1131.454 565.507 L 1131.454 644.681 L 1210.627 644.681 Z M 1171.04 64.366 C 1403.138 64.366 1593.154 254.237 1593.154 486.333 C 1593.154 718.576 1403.138 908.448 1171.04 908.448 C 938.797 908.448 748.927 718.576 748.927 486.333 C 748.927 254.237 938.943 64.366 1171.04 64.366"/>
+          <path d="M 1868.651 1070.753 L 1922.899 1070.753 L 1922.899 1162.097 L 2014.243 1162.097 L 2014.243 1216.345 L 1922.899 1216.345 L 1922.899 1307.688 L 1868.651 1307.688 L 1868.651 1216.345 L 1777.307 1216.345 L 1777.307 1162.097 L 1868.651 1162.097 Z M 1895.774 1444.19 C 2036.528 1444.19 2150.745 1329.975 2150.745 1189.221 C 2150.745 1048.468 2036.528 934.252 1895.774 934.252 C 1754.875 934.252 1640.805 1048.32 1640.805 1189.221 C 1640.805 1329.975 1754.875 1444.19 1895.774 1444.19"/>
+          <path d="M 2294.283 602.454 L 2531.218 602.454 L 2531.218 656.704 L 2294.283 656.704 Z M 2412.751 405.4 C 2288.858 405.4 2188.425 505.833 2188.425 629.579 C 2188.425 753.472 2288.858 853.759 2412.751 853.759 C 2536.496 853.759 2636.93 753.472 2636.93 629.579 C 2636.93 505.833 2536.496 405.4 2412.751 405.4"/>
+          <path d="M 490.145 15.981 C 555.684 15.981 608.905 69.204 608.905 134.742 C 608.905 200.28 555.684 253.503 490.145 253.503 C 424.606 253.503 371.384 200.28 371.384 134.742 C 371.384 69.204 424.606 15.981 490.145 15.981"/>
+          <path d="M 1967.471 0 C 2049.137 0 2115.41 66.271 2115.41 147.939 C 2115.41 229.75 2049.137 296.023 1967.471 296.023 C 1885.658 296.023 1819.387 229.75 1819.387 147.939 C 1819.387 66.271 1885.658 0 1967.471 0"/>
+          <path d="M 658.903 884.255 C 662.275 829.859 687.64 788.807 739.983 767.401 C 784.262 749.22 836.31 750.393 878.683 790.127 L 748.927 486.333 C 748.927 544.834 731.039 589.699 682.068 615.356 C 622.687 646.44 561.254 622.835 517.856 592.631 Z M 658.903 884.255"/>
+          <path d="M 1582.011 582.221 L 1277.925 894.664 C 1463.691 863.582 1640.805 995.979 1640.805 1189.221 L 1895.774 934.252 C 1698.573 934.252 1554.008 778.836 1582.158 582.221 Z M 1582.011 582.221"/>
+          <path d="M 2088.871 854.639 C 2038.727 900.529 1964.392 934.252 1895.774 934.252 L 2148.691 1156.232 C 2141.067 1093.333 2184.76 999.644 2225.959 953.313 C 2265.839 908.741 2351.757 853.905 2412.604 853.905 L 2188.425 629.579 C 2188.425 718.43 2150.011 798.63 2088.871 854.639"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 2966.92 1063.425 L 2966.92 515.925 L 3093.92 515.925 L 3093.92 751.675 L 3084.92 751.675 C 3084.92 639.675 3113.503 565.217 3169.17 527.05 C 3197.003 507.967 3231.42 498.425 3272.42 498.425 L 3279.42 498.425 C 3320.92 498.425 3355.503 507.967 3383.17 527.05 C 3438.503 565.217 3466.92 639.675 3466.92 751.675 L 3428.42 751.675 C 3428.42 639.675 3457.212 565.217 3513.045 527.05 C 3540.962 507.967 3575.42 498.425 3616.42 498.425 L 3623.42 498.425 C 3706.42 498.425 3763.087 537.008 3792.42 611.675 C 3807.087 649.008 3814.42 695.675 3814.42 751.675 L 3814.42 1063.425 L 3653.92 1063.425 L 3653.92 742.675 C 3653.92 712.842 3646.128 688.592 3630.545 669.925 C 3614.962 651.258 3592.92 641.925 3564.42 641.925 C 3535.587 641.925 3512.795 651.425 3496.045 670.425 C 3479.295 689.425 3470.92 714.508 3470.92 745.675 L 3470.92 1063.425 L 3310.42 1063.425 L 3310.42 742.675 C 3310.42 712.842 3302.628 688.592 3287.045 669.925 C 3271.462 651.258 3249.42 641.925 3220.92 641.925 C 3192.087 641.925 3169.295 651.425 3152.545 670.425 C 3135.795 689.425 3127.42 714.508 3127.42 745.675 L 3127.42 1063.425 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 4256.17 1063.425 L 4256.17 901.925 L 4229.67 901.925 L 4229.67 725.925 C 4229.67 697.758 4222.92 676.717 4209.42 662.8 C 4195.92 648.883 4174.587 641.925 4145.42 641.925 C 4130.753 641.925 4111.42 642.258 4087.42 642.925 C 4063.42 643.592 4038.67 644.508 4013.17 645.675 C 3987.67 646.842 3964.587 648.092 3943.92 649.425 L 3943.92 514.425 C 3959.587 513.092 3977.712 511.8 3998.295 510.55 C 4018.878 509.3 4040.212 508.383 4062.295 507.8 C 4084.378 507.217 4104.92 506.925 4123.92 506.925 C 4236.253 506.925 4313.462 538.008 4353.295 602.675 C 4373.212 635.008 4383.17 676.675 4383.17 727.675 L 4383.17 1063.425 Z M 4081.17 1077.425 C 4042.17 1077.425 4007.795 1070.467 3978.045 1056.55 C 3948.295 1042.633 3925.087 1022.55 3908.42 996.3 C 3891.753 970.05 3883.42 938.592 3883.42 901.925 C 3883.42 861.425 3893.795 828.383 3914.545 802.8 C 3935.295 777.217 3964.253 758.3 4001.42 746.05 C 4038.587 733.8 4081.67 727.675 4130.67 727.675 L 4247.17 727.675 L 4247.17 816.175 L 4129.67 816.175 C 4101.503 816.175 4079.837 823.133 4064.67 837.05 C 4049.503 850.967 4041.92 869.342 4041.92 892.175 C 4041.92 914.508 4049.503 932.55 4064.67 946.3 C 4079.837 960.05 4101.503 966.925 4129.67 966.925 C 4147.337 966.925 4163.378 963.758 4177.795 957.425 C 4192.212 951.092 4204.128 940.217 4213.545 924.8 C 4222.962 909.383 4228.337 888.092 4229.67 860.925 L 4267.67 900.425 C 4261.003 976.425 4230.837 1029.008 4178.17 1056.675 C 4151.837 1070.508 4119.503 1077.425 4081.17 1077.425 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#A78BFA" fill-rule="evenodd">
+          <path d="M 4920.521 528.815 C 4926.379 522.956 4935.876 522.956 4941.734 528.815 L 5011.03 598.111 C 5016.889 603.969 5016.889 613.466 5011.03 619.324 L 4532.319 1098.035 C 4526.461 1103.894 4516.964 1103.894 4511.106 1098.035 L 4441.81 1028.739 C 4435.951 1022.881 4435.951 1013.384 4441.81 1007.526 Z"/>
+          <path d="M 4441.81 619.324 C 4435.951 613.466 4435.951 603.969 4441.81 598.111 L 4511.106 528.815 C 4516.964 522.956 4526.461 522.956 4532.319 528.815 L 5011.03 1007.526 C 5016.889 1013.384 5016.889 1022.881 5011.03 1028.739 L 4941.734 1098.035 C 4935.876 1103.894 4926.379 1103.894 4920.521 1098.035 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 5329.92 1082.925 C 5283.253 1082.925 5242.17 1074.925 5206.67 1058.925 C 5171.17 1042.925 5141.503 1021.383 5117.67 994.3 C 5093.837 967.217 5075.753 936.842 5063.42 903.175 C 5051.087 869.508 5044.92 834.925 5044.92 799.425 L 5044.92 779.925 C 5044.92 743.258 5051.087 707.967 5063.42 674.05 C 5075.753 640.133 5093.712 609.883 5117.295 583.3 C 5140.878 556.717 5170.045 535.592 5204.795 519.925 C 5239.545 504.258 5279.253 496.425 5323.92 496.425 C 5382.92 496.425 5432.628 509.55 5473.045 535.8 C 5513.462 562.05 5544.212 596.467 5565.295 639.05 C 5586.378 681.633 5596.92 727.758 5596.92 777.425 L 5596.92 831.675 L 5112.42 831.675 L 5112.42 740.175 L 5500.67 740.175 L 5447.92 782.925 C 5447.92 716.925 5429.295 670.092 5392.795 645.425 C 5374.545 633.092 5351.587 626.925 5323.92 626.925 C 5268.92 626.925 5229.212 652.55 5209.045 701.05 C 5198.962 725.3 5193.92 755.092 5193.92 790.425 C 5193.92 822.925 5198.712 851.342 5208.295 875.675 C 5217.878 900.008 5232.67 918.883 5252.67 932.3 C 5272.67 945.717 5298.42 952.425 5329.92 952.425 C 5359.42 952.425 5383.587 946.842 5402.42 935.675 C 5421.253 924.508 5433.837 910.342 5440.17 893.175 L 5587.17 893.175 C 5579.337 930.342 5563.795 963.258 5540.545 991.925 C 5517.295 1020.592 5487.878 1042.925 5452.295 1058.925 C 5416.712 1074.925 5375.92 1082.925 5329.92 1082.925 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 5677.92 1063.425 L 5677.92 515.925 L 5804.92 515.925 L 5804.92 751.675 L 5795.92 751.675 C 5795.92 639.675 5824.503 565.217 5880.17 527.05 C 5908.003 507.967 5942.42 498.425 5983.42 498.425 L 5990.42 498.425 C 6031.92 498.425 6066.503 507.967 6094.17 527.05 C 6149.503 565.217 6177.92 639.675 6177.92 751.675 L 6139.42 751.675 C 6139.42 639.675 6168.212 565.217 6224.045 527.05 C 6251.962 507.967 6286.42 498.425 6327.42 498.425 L 6334.42 498.425 C 6417.42 498.425 6474.087 537.008 6503.42 611.675 C 6518.087 649.008 6525.42 695.675 6525.42 751.675 L 6525.42 1063.425 L 6364.92 1063.425 L 6364.92 742.675 C 6364.92 712.842 6357.128 688.592 6341.545 669.925 C 6325.962 651.258 6303.92 641.925 6275.42 641.925 C 6246.587 641.925 6223.795 651.425 6207.045 670.425 C 6190.295 689.425 6181.92 714.508 6181.92 745.675 L 6181.92 1063.425 L 6021.42 1063.425 L 6021.42 742.675 C 6021.42 712.842 6013.628 688.592 5998.045 669.925 C 5982.462 651.258 5960.42 641.925 5931.92 641.925 C 5903.087 641.925 5880.295 651.425 5863.545 670.425 C 5846.795 689.425 5838.42 714.508 5838.42 745.675 L 5838.42 1063.425 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 6967.17 1063.425 L 6967.17 901.925 L 6940.67 901.925 L 6940.67 725.925 C 6940.67 697.758 6933.92 676.717 6920.42 662.8 C 6906.92 648.883 6885.587 641.925 6856.42 641.925 C 6841.753 641.925 6822.42 642.258 6798.42 642.925 C 6774.42 643.592 6749.67 644.508 6724.17 645.675 C 6698.67 646.842 6675.587 648.092 6654.92 649.425 L 6654.92 514.425 C 6670.587 513.092 6688.712 511.8 6709.295 510.55 C 6729.878 509.3 6751.212 508.383 6773.295 507.8 C 6795.378 507.217 6815.92 506.925 6834.92 506.925 C 6947.253 506.925 7024.462 538.008 7064.295 602.675 C 7084.212 635.008 7094.17 676.675 7094.17 727.675 L 7094.17 1063.425 Z M 6792.17 1077.425 C 6753.17 1077.425 6718.795 1070.467 6689.045 1056.55 C 6659.295 1042.633 6636.087 1022.55 6619.42 996.3 C 6602.753 970.05 6594.42 938.592 6594.42 901.925 C 6594.42 861.425 6604.795 828.383 6625.545 802.8 C 6646.295 777.217 6675.253 758.3 6712.42 746.05 C 6749.587 733.8 6792.67 727.675 6841.67 727.675 L 6958.17 727.675 L 6958.17 816.175 L 6840.67 816.175 C 6812.503 816.175 6790.837 823.133 6775.67 837.05 C 6760.503 850.967 6752.92 869.342 6752.92 892.175 C 6752.92 914.508 6760.503 932.55 6775.67 946.3 C 6790.837 960.05 6812.503 966.925 6840.67 966.925 C 6858.337 966.925 6874.378 963.758 6888.795 957.425 C 6903.212 951.092 6915.128 940.217 6924.545 924.8 C 6933.962 909.383 6939.337 888.092 6940.67 860.925 L 6978.67 900.425 C 6972.003 976.425 6941.837 1029.008 6889.17 1056.675 C 6862.837 1070.508 6830.503 1077.425 6792.17 1077.425 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 7454.17 1070.925 C 7399.17 1070.925 7354.67 1064.008 7320.67 1050.175 C 7286.67 1036.342 7261.712 1013.217 7245.795 980.8 C 7229.878 948.383 7221.92 904.508 7221.92 849.175 L 7222.67 367.425 L 7371.67 367.425 L 7370.92 855.925 C 7370.92 881.592 7377.753 901.258 7391.42 914.925 C 7405.087 928.592 7424.753 935.425 7450.42 935.425 L 7530.92 935.425 L 7530.92 1070.925 Z M 7138.92 632.925 L 7138.92 515.925 L 7530.92 515.925 L 7530.92 632.925 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 7639.92 1063.425 L 7639.92 515.925 L 7800.42 515.925 L 7800.42 1063.425 Z M 7566.92 633.925 L 7566.92 515.925 L 7800.42 515.925 L 7800.42 633.925 Z M 7702.545 461.425 C 7672.462 461.425 7650.253 453.633 7635.92 438.05 C 7621.587 422.467 7614.42 402.508 7614.42 378.175 C 7614.42 353.842 7621.616 333.883 7636.009 318.3 C 7650.402 302.717 7672.456 294.925 7702.17 294.925 C 7732.503 294.925 7754.712 302.717 7768.795 318.3 C 7782.878 333.883 7789.92 353.842 7789.92 378.175 C 7789.92 402.508 7782.878 422.467 7768.795 438.05 C 7754.712 453.633 7732.628 461.425 7702.545 461.425 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 8169.17 1082.925 C 8121.67 1082.925 8080.462 1075.05 8045.545 1059.3 C 8010.628 1043.55 7981.545 1022.3 7958.295 995.55 C 7935.045 968.8 7917.67 938.592 7906.17 904.925 C 7894.67 871.258 7888.92 836.592 7888.92 800.925 L 7888.92 781.425 C 7888.92 743.925 7894.92 708.092 7906.92 673.925 C 7918.92 639.758 7936.712 609.383 7960.295 582.8 C 7983.878 556.217 8013.087 535.175 8047.92 519.675 C 8082.753 504.175 8123.003 496.425 8168.67 496.425 C 8217.837 496.425 8261.378 506.008 8299.295 525.175 C 8337.212 544.342 8367.503 570.842 8390.17 604.675 C 8412.837 638.508 8425.503 677.592 8428.17 721.925 L 8271.67 721.925 C 8269.003 697.092 8259.045 676.133 8241.795 659.05 C 8224.545 641.967 8200.17 633.425 8168.67 633.425 C 8141.67 633.425 8119.378 640.092 8101.795 653.425 C 8084.212 666.758 8071.087 685.175 8062.42 708.675 C 8053.753 732.175 8049.42 759.675 8049.42 791.175 C 8049.42 820.842 8053.378 847.467 8061.295 871.05 C 8069.212 894.633 8082.003 913.008 8099.67 926.175 C 8117.337 939.342 8140.503 945.925 8169.17 945.925 C 8212.17 945.925 8242.003 929.8 8259.67 902.3 C 8268.503 888.55 8274.003 872.592 8276.17 854.425 L 8432.67 854.425 C 8430.17 899.925 8417.253 939.758 8393.92 973.925 C 8370.587 1008.092 8339.628 1034.8 8301.045 1054.05 C 8262.462 1073.3 8218.503 1082.925 8169.17 1082.925 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#FFFFFF" fill-rule="evenodd">
+          <path d="M 8716.92 1080.925 C 8639.42 1080.925 8578.628 1064.8 8534.545 1032.55 C 8490.462 1000.3 8467.003 955.175 8464.17 897.175 L 8606.67 897.175 C 8609.003 914.842 8619.378 930.467 8637.795 944.05 C 8656.212 957.633 8683.587 964.425 8719.92 964.425 C 8748.087 964.425 8771.378 959.675 8789.795 950.175 C 8808.212 940.675 8817.42 926.842 8817.42 908.675 C 8817.42 892.675 8810.337 879.758 8796.17 869.925 C 8782.003 860.092 8757.003 853.425 8721.17 849.925 L 8678.17 845.425 C 8612.503 838.592 8563.17 820.3 8530.17 790.55 C 8497.17 760.8 8480.67 722.508 8480.67 675.675 C 8480.67 636.675 8490.337 604.258 8509.67 578.425 C 8529.003 552.592 8555.753 533.05 8589.92 519.8 C 8624.087 506.55 8663.17 499.925 8707.17 499.925 C 8777.67 499.925 8834.587 515.383 8877.92 546.3 C 8921.253 577.217 8944.087 622.008 8946.42 680.675 L 8803.92 680.675 C 8801.753 662.842 8792.545 647.675 8776.295 635.175 C 8760.045 622.675 8736.503 616.425 8705.67 616.425 C 8680.837 616.425 8661.128 621.092 8646.545 630.425 C 8631.962 639.758 8624.67 652.342 8624.67 668.175 C 8624.67 683.675 8631.003 695.425 8643.67 703.425 C 8656.337 711.425 8676.837 717.092 8705.17 720.425 L 8748.17 724.925 C 8815.503 731.925 8867.878 750.508 8905.295 780.675 C 8942.712 810.842 8961.42 851.008 8961.42 901.175 C 8961.42 938.008 8951.42 969.883 8931.42 996.8 C 8911.42 1023.717 8883.128 1044.467 8846.545 1059.05 C 8809.962 1073.633 8766.753 1080.925 8716.92 1080.925 Z"/>
+        </g>
+        <g class="lg-unit lg-glyph" fill="#A78BFA" fill-rule="evenodd">
+          <path d="M 9015.67 1063.425 L 9015.67 884.425 L 9191.67 884.425 L 9191.67 1063.425 Z"/>
+        </g>
+        <g class="lg-hit" fill="transparent" pointer-events="all" aria-hidden="true">
+          <rect data-hit="0" x="-34" y="-40" width="2705" height="1524"/>
+          <rect data-hit="1" x="2933" y="220" width="915" height="980"/>
+          <rect data-hit="2" x="3849" y="220" width="568" height="980"/>
+          <rect data-hit="3" x="4402" y="220" width="649" height="980"/>
+          <rect data-hit="4" x="5011" y="220" width="620" height="980"/>
+          <rect data-hit="5" x="5644" y="220" width="915" height="980"/>
+          <rect data-hit="6" x="6560" y="220" width="568" height="980"/>
+          <rect data-hit="7" x="7105" y="220" width="460" height="980"/>
+          <rect data-hit="8" x="7533" y="220" width="301" height="980"/>
+          <rect data-hit="9" x="7855" y="220" width="612" height="980"/>
+          <rect data-hit="10" x="8430" y="220" width="565" height="980"/>
+          <rect data-hit="11" x="8982" y="220" width="244" height="980"/>
+        </g>
+      </svg>
+      <script>setTimeout(function(){var s=document.getElementById('heroLogo');if(s)s.classList.remove('is-pre');},2600);</script>
     </div>
     <div class="hero-in hd-5 mt-10">
       <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
@@ -384,21 +556,23 @@ tailwind.config = {
   <!-- credential strip — straddles the hero's bottom edge -->
   <div class="absolute inset-x-0 bottom-0 translate-y-1/2 z-20 px-6 pointer-events-none">
     <div class="max-w-6xl mx-auto">
+      <!-- data-odo replaces the old data-count: every figure now rolls, including 2022
+           and 1:1, which were static while the two counters next to them animated -->
       <div class="cred-strip hero-in hd-6 grid grid-cols-2 md:grid-cols-4">
         <div class="cred-cell">
-          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="12">12</span></p>
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white" data-odo="12">12</p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Topics</p>
         </div>
         <div class="cred-cell">
-          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white"><span data-count="10">10</span><span class="text-violet-soft">+</span></p>
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white" data-odo="10+">10<span class="text-violet-soft">+</span></p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Weekly students</p>
         </div>
         <div class="cred-cell">
-          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white">2022</p>
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white" data-odo="2022">2022</p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Tutoring since</p>
         </div>
         <div class="cred-cell">
-          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white">1:1</p>
+          <p class="font-display font-bold text-3xl md:text-[2.4rem] leading-none tnum text-white" data-odo="1:1">1:1</p>
           <p class="text-[.68rem] uppercase tracking-[.16em] text-white/55 mt-2.5">Every session</p>
         </div>
       </div>
@@ -458,48 +632,85 @@ tailwind.config = {
       </div>
     </div>
 
-    <!-- credentials — flat card set, nothing ranked above anything else; the lab and
-         internship entries live here now instead of in two separate boxes above -->
-    <div class="mt-16">
-      <div class="rv rv-d1 grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Anne Frank Humanitarian Award</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Department Awards — Math, Science, History</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Cum Laude Society</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Tampa Prep Head’s List</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Writing Center Director &amp; Tutor</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">AP Scholar with Distinction</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">HOBY Youth Leadership Ambassador</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Best Overall Research — HC STEM Fair</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Varsity Rowing Captain</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">NJ State Police Crime Lab Intern, Hamilton NJ</p></div>
-        <div class="cred-card"><p class="font-display font-bold text-lg leading-snug">Pie &amp; Pi — Club Founder &amp; President, Content Creator</p></div>
+    <!-- credentials — the same twelve entries, grouped into three named rails.
+         As twelve identical cards they read as one undifferentiated wall; as indexed
+         hairline rows under a category header the reader can enter at whichever rail
+         matches what they came to check. Index runs 01–12 across all three. -->
+    <div class="mt-16 grid md:grid-cols-3 gap-x-9 lg:gap-x-12 gap-y-11">
+
+      <div>
+        <p class="rv cred-rail-h">Honors &amp; Awards</p>
+        <ul class="cred-list">
+          <li class="rv cred-row" style="--rvd:.04s"><span class="cred-i">01</span><span class="cred-t">Anne Frank Humanitarian Award</span></li>
+          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-i">02</span><span class="cred-t">Department Awards — Math, Science, History</span></li>
+          <li class="rv cred-row" style="--rvd:.16s"><span class="cred-i">03</span><span class="cred-t">Cum Laude Society</span></li>
+          <li class="rv cred-row" style="--rvd:.22s"><span class="cred-i">04</span><span class="cred-t">AP Scholar with Distinction</span></li>
+          <li class="rv cred-row" style="--rvd:.28s"><span class="cred-i">05</span><span class="cred-t">Tampa Prep Head’s List</span></li>
+        </ul>
       </div>
+
+      <div>
+        <p class="rv cred-rail-h" style="--rvd:.08s">Research &amp; Lab</p>
+        <ul class="cred-list">
+          <li class="rv cred-row" style="--rvd:.12s"><span class="cred-i">06</span><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
+          <li class="rv cred-row" style="--rvd:.18s"><span class="cred-i">07</span><span class="cred-t">NJ State Police Crime Lab Intern, Hamilton NJ</span></li>
+          <li class="rv cred-row" style="--rvd:.24s"><span class="cred-i">08</span><span class="cred-t">Best Overall Research — HC STEM Fair</span></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="rv cred-rail-h" style="--rvd:.16s">Leadership &amp; Service</p>
+        <ul class="cred-list">
+          <li class="rv cred-row" style="--rvd:.20s"><span class="cred-i">09</span><span class="cred-t">Writing Center Director &amp; Tutor</span></li>
+          <li class="rv cred-row" style="--rvd:.26s"><span class="cred-i">10</span><span class="cred-t">HOBY Youth Leadership Ambassador</span></li>
+          <li class="rv cred-row" style="--rvd:.32s"><span class="cred-i">11</span><span class="cred-t">Pie &amp; Pi — Club Founder &amp; President, Content Creator</span></li>
+          <li class="rv cred-row" style="--rvd:.38s"><span class="cred-i">12</span><span class="cred-t">Varsity Rowing Captain</span></li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- ═══════════ 3 · TOPICS ═══════════ -->
-<section id="topics" class="bg-paper py-24 md:py-28">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor, Many Topics<span class="h-dot">.</span></h2>
-    </div>
+<!-- Twelve topics on two counter-running rails, pinned so the heading and both rows sit
+     in one viewport together. Six per row: maths on the top rail, sciences/languages on
+     the bottom. The rails are the full twelve either way — the split is by subject family
+     so the opposing motion reads as two streams, not one list cut in half. -->
+<section id="topics" class="bg-paper">
+  <div class="topic-scroll" id="topicScroll">
+    <div class="topic-sticky">
 
-    <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 md:gap-4">
-      <figure class="rv topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
-      <figure class="rv rv-d2 topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
-      <figure class="rv rv-d3 topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
-      <figure class="rv topic"><img src="assets/topics/sat-act.jpg" alt="SAT/ACT/Desmos" loading="lazy"><figcaption>SAT/ACT/Desmos</figcaption></figure>
-      <figure class="rv rv-d1 topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
+      <div class="max-w-6xl mx-auto px-6 w-full">
+        <div class="max-w-2xl">
+          <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
+          <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor, Many Topics<span class="h-dot">.</span></h2>
+        </div>
+      </div>
+
+      <div class="topic-rails">
+        <div class="topic-rail">
+          <div class="topic-track" id="railA">
+            <figure class="topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/geometry.jpg" alt="Geometry" loading="lazy"><figcaption>Geometry</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/statistics.jpg" alt="Statistics" loading="lazy"><figcaption>Statistics</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/sat-act.jpg" alt="SAT/ACT/Desmos" loading="lazy"><figcaption>SAT/ACT/Desmos</figcaption></figure>
+          </div>
+        </div>
+        <div class="topic-rail">
+          <div class="topic-track" id="railB">
+            <figure class="topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/latin.jpg" alt="Latin 1 &amp; 2" loading="lazy"><figcaption>Latin 1 &amp; 2</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/writing.jpg" alt="Creative &amp; Technical Writing" loading="lazy"><figcaption>Creative &amp; Technical Writing</figcaption></figure>
+            <figure class="topic"><img src="assets/topics/history.jpg" alt="World &amp; US History" loading="lazy"><figcaption>World &amp; US History</figcaption></figure>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -582,15 +793,27 @@ tailwind.config = {
         <footer class="mt-3 text-sm text-white/55">— Gen. H Norman Schwarzkopf</footer>
       </blockquote>
       <div class="rv rv-d5 mt-9">
-        <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
+        <button type="button" id="scholOpen"
+           class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer"
+           aria-haspopup="dialog" aria-controls="scholDialog">
           Learn more &amp; apply
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <p class="mt-3 text-xs text-white/45">Full scholarship story &amp; application form open on the next page in the coded build.</p>
+        </button>
+        <p class="mt-3 text-xs text-white/45">Applications for the 2026–27 scholarship are now closed.</p>
       </div>
     </div>
   </div>
 </section>
+
+<dialog id="scholDialog" class="schol-dialog" aria-labelledby="scholDialogTitle">
+  <div class="schol-dialog-body">
+    <h3 id="scholDialogTitle">Thank you for your interest.</h3>
+    <p>Applications are now closed for the 2026-27 scholarship. Winner to be announced soon.</p>
+  </div>
+  <div class="schol-dialog-foot">
+    <button type="button" class="schol-dialog-close" id="scholClose">Got it</button>
+  </div>
+</dialog>
 
 <!-- ═══════════ TAMPA BAY — static banner ═══════════ -->
 <aside id="flyers" class="otw" aria-label="Look for Maxematics around Tampa Bay">
@@ -694,6 +917,7 @@ import { animate, scroll, inView } from "https://cdn.jsdelivr.net/npm/motion@12.
 import Lenis from "https://cdn.jsdelivr.net/npm/lenis@1.1.20/+esm";
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STATIC = location.search.includes('static');   // screenshot mode — park everything at rest
 const EASE = [0.22, 1, 0.36, 1];
 
 let lenis = null;
@@ -714,6 +938,27 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     else target.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+/* ─── Scholarship closed notice ─── */
+{
+  const dlg = document.getElementById('scholDialog');
+  const openBtn = document.getElementById('scholOpen');
+  const closeBtn = document.getElementById('scholClose');
+  if (dlg && openBtn){
+    const open = () => {
+      if (lenis) lenis.stop();
+      dlg.showModal();
+    };
+    const close = () => {
+      dlg.close();
+      if (lenis) lenis.start();
+    };
+    openBtn.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+    dlg.addEventListener('close', () => { if (lenis) lenis.start(); });
+  }
+}
 
 /* ─── Scroll-linked parallax ─── */
 if (!reduce){
@@ -749,14 +994,207 @@ if (!reduce){
   }
 }
 
-/* ─── Stat count-up ─── */
-document.querySelectorAll('[data-count]').forEach(el => {
-  const target = parseInt(el.getAttribute('data-count'), 10);
-  inView(el, () => {
-    if (reduce){ el.textContent = target; return; }
-    animate(0, target, { duration:1.4, ease:EASE, onUpdate:(v) => el.textContent = Math.round(v) });
-  }, { amount: 0.6 });
+/* ─── Hero logo: assemble on load, scatter under a moving pointer ───
+   Adapted from the Motion+ "Split Text: Scatter" example. That one splits a DOM
+   heading into chars with splitText(); here the twelve targets are real vector glyph
+   groups, so no text-splitting is needed and the mark itself can join in.
+
+   Three things differ from the source example on purpose:
+   · every unit springs back to rest, because a client's logo must not stay broken;
+   · hit-testing runs off a stationary rect layer rather than the glyphs. A displaced
+     glyph leaves its own hover target, which would fire leave→enter→leave forever;
+   · Motion is driven as a value animation, not an element animation. On an SVG element
+     it routes x / y / scale to the SVG *attributes* of those names, which a <g> ignores,
+     so the pose is composed here and written straight to style.transform. Inside a CSS
+     transform on an SVG element, 1px means one user unit. */
+{
+  const svg = document.getElementById('heroLogo');
+  if (svg){
+    const units = [...svg.querySelectorAll('.lg-unit')];
+    const hits  = [...svg.querySelectorAll('.lg-hit rect')];
+    const VB    = 9191.67;                       // viewBox width — see .lg comment
+    const u = () => VB / (svg.getBoundingClientRect().width || 1);   // screen px → user units
+
+    const REST  = { x:0, y:0, r:0, s:1, o:1 };
+    const write = (el, p) => {
+      el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px) rotate(${p.r.toFixed(2)}deg) scale(${p.s.toFixed(3)})`;
+      el.style.opacity = p.o.toFixed(3);
+    };
+
+    if (reduce || STATIC){
+      svg.classList.remove('is-pre');
+      units.forEach(el => write(el, REST));
+    } else {
+      // deterministic scatter: stable across reloads, organic to look at
+      const rnd = (i, s) => { const v = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return v - Math.floor(v); };
+      const pose    = units.map((_, i) => ({
+        x: (rnd(i,1) - .5) * 2600, y: (rnd(i,2) - .5) * 1500, r: (rnd(i,3) - .5) * 46, s:.55, o:0
+      }));
+      const running = units.map(() => null);
+
+      const poseTo = (i, to, opts) => {
+        const el = units[i];
+        if (running[i]) running[i].stop();
+        const from = { ...pose[i] };
+        const keys = Object.keys(to);
+        running[i] = animate(0, 1, { ...opts, onUpdate: (p) => {
+          keys.forEach(k => { pose[i][k] = from[k] + (to[k] - from[k]) * p; });
+          write(el, pose[i]);
+        }});
+      };
+
+      units.forEach((el, i) => write(el, pose[i]));
+      svg.classList.remove('is-pre');
+      units.forEach((_, i) => poseTo(i, REST, { type:'spring', visualDuration:.72, bounce:.26, delay:.5 + i * .045 }));
+
+      // pointer velocity, sampled globally so a fast pass carries real force
+      const vel = { x:0, y:0 };
+      let prevEvent = 0;
+      document.addEventListener('pointermove', (e) => {
+        const now = performance.now();
+        const dt = Math.max((now - prevEvent) / 1000, .008);
+        prevEvent = now;
+        vel.x = e.movementX / dt;
+        vel.y = e.movementY / dt;
+      }, { passive:true });
+
+      const push = { type:'spring', stiffness:130, damping:20 };
+      const home = { type:'spring', visualDuration:.62, bounce:.34 };
+
+      hits.forEach((hit, i) => {
+        if (!units[i]) return;
+        hit.addEventListener('pointerenter', () => {
+          const speed = Math.hypot(vel.x, vel.y);
+          // Below a crawl there is no meaningful direction to push along, so alternate
+          // glyphs up and down instead — a slow pass reads as a wave, a fast one as a
+          // sweep. The example has no floor at all, which makes it look inert on a
+          // careful pointer; a logo people are meant to notice can't be that shy.
+          const angle = speed > 40 ? Math.atan2(vel.y, vel.x) : (i % 2 ? -1 : 1) * Math.PI / 2.6;
+          const d = (Math.min(speed * .09, 70) + 16) * u();   // capped: the mark must not fly off
+          poseTo(i, { x:Math.cos(angle) * d, y:Math.sin(angle) * d, r:Math.cos(angle) * 7 }, push);
+        });
+        hit.addEventListener('pointerleave', () => poseTo(i, { x:0, y:0, r:0 }, home));
+      });
+      // safety sweep — a pointer that leaves the box mid-push never fires the per-glyph leave
+      svg.addEventListener('pointerleave', () => {
+        units.forEach((_, i) => poseTo(i, { x:0, y:0, r:0 }, { ...home, delay:i * .012 }));
+      });
+    }
+  }
+}
+
+/* ─── Credential figures: odometer roll ───
+   Adapted from the Motion+ "Number trend" example (AnimateNumber's `trend` prop).
+   AnimateNumber is licensed, so the mechanism is rebuilt here: each digit is a 0–9
+   strip repeated three times behind a one-line window, starting on the target digit in
+   set 1 and landing on the same digit in set 3. Two full revolutions upward is what
+   makes the direction legible — a plain count-up has no direction at all. */
+document.querySelectorAll('[data-odo]').forEach(cell => {
+  const value = cell.getAttribute('data-odo');
+  const chars = [...value];
+
+  const wrap = document.createElement('span');
+  wrap.className = 'odo';
+  wrap.setAttribute('aria-hidden', 'true');
+
+  const strips = [];
+  chars.forEach(ch => {
+    if (/\d/.test(ch)){
+      const d = document.createElement('span');
+      d.className = 'odo-d';
+      const strip = document.createElement('span');
+      strip.className = 'odo-strip';
+      for (let set = 0; set < 3; set++){
+        for (let n = 0; n < 10; n++){
+          const s = document.createElement('span');
+          s.textContent = n;
+          strip.appendChild(s);
+        }
+      }
+      d.appendChild(strip);
+      wrap.appendChild(d);
+      strips.push({ strip, digit: +ch });
+    } else {
+      const s = document.createElement('span');
+      s.className = 'odo-s' + (ch === '+' ? ' is-accent' : '');
+      s.textContent = ch;
+      wrap.appendChild(s);
+    }
+  });
+
+  const sr = document.createElement('span');
+  sr.className = 'sr-only';
+  sr.textContent = value;
+
+  cell.textContent = '';
+  cell.append(wrap, sr);
+
+  // resting pose = the target digit in set 1; the roll travels up two whole sets
+  strips.forEach(s => { s.strip.style.transform = `translateY(${-s.digit * 1.06}em)`; });
+
+  inView(cell, () => {
+    if (reduce || STATIC) return;   // already parked on the target digit
+    strips.forEach((s, i) => {
+      animate(s.strip,
+        { transform: [`translateY(${-s.digit * 1.06}em)`, `translateY(${-(20 + s.digit) * 1.06}em)`] },
+        { duration: 1.25, ease: EASE, delay: i * .09 });
+    });
+  }, { amount: .6 });
 });
+
+/* ─── Topics: two counter-running rails, pinned ───
+   Adapted from the Motion+ "Scroll Horizontal Gallery" example — same sticky-wrapper +
+   scroll-linked x, doubled into opposed rails. Each rail's six tiles are cloned to three
+   sets and the travel is exactly one set width, so neither end of either rail can ever
+   expose the container edge. Clones are built here rather than in markup so a
+   scripting-off reader still gets twelve real tiles. */
+{
+  const scroller = document.getElementById('topicScroll');
+  const railA = document.getElementById('railA');
+  const railB = document.getElementById('railB');
+  const pinned = () => !reduce && window.matchMedia('(min-width:768px)').matches;
+  let teardown = [];
+
+  const build = () => {
+    teardown.forEach(fn => fn && fn());
+    teardown = [];
+    [railA, railB].forEach(rail => {
+      rail.querySelectorAll('[data-clone]').forEach(n => n.remove());
+      rail.style.transform = '';
+    });
+    if (!scroller || !railA || !railB || !pinned()) return;
+
+    [railA, railB].forEach(rail => {
+      const originals = [...rail.children];
+      for (let set = 1; set < 3; set++){
+        originals.forEach(node => {
+          const clone = node.cloneNode(true);
+          clone.setAttribute('data-clone', set);
+          clone.setAttribute('aria-hidden', 'true');
+          rail.appendChild(clone);
+        });
+      }
+    });
+
+    // one set = total width minus the two gaps that bridge the three sets
+    const setW = rail => {
+      const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+      return (rail.scrollWidth + gap) / 3;
+    };
+    const wA = setW(railA), wB = setW(railB);
+
+    teardown.push(scroll(animate(railA, { x:[0, -wA] }, { ease:'linear' }),
+      { target: scroller, offset:['start start','end end'] }));
+    teardown.push(scroll(animate(railB, { x:[-wB, 0] }, { ease:'linear' }),
+      { target: scroller, offset:['start start','end end'] }));
+  };
+
+  if (scroller && railA && railB){
+    build();
+    let rz;
+    window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(build, 220); });
+  }
+}
 
 /* ─── Circular testimonials (restored from the v2 build) ─── */
 const CTST = [
