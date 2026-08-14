@@ -316,18 +316,19 @@ tailwind.config = {
      logomark cropped by the section edge, not a repeating tile. A tile reads as
      wallpaper and fights the type; a single cropped mark reads as a watermark. Opacity
      is deliberately at the bottom of the visible range — it should register only once
-     the reader stops looking at the copy. */
+     the reader stops looking at the copy.
+     Only tall sections qualify: owner ruling after the mark was cropped in the short
+     Difference band. The 88% cap is the backstop so that can't recur. */
   .mark-wash{ position:absolute; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
   /* sized off the viewport, NOT the section: a % height makes the mark grow with the
      section and the tall ones turn it into an unreadable blob. max-width:none is
      required — Tailwind preflight clamps images to 100% and would squash the aspect. */
   .mark-wash img{ position:absolute; display:block; width:auto; max-width:none;
-    height:clamp(20rem,42vw,42rem); top:50%; transform:translateY(-50%); }
+    height:min(clamp(20rem,42vw,42rem), 88%); top:50%; transform:translateY(-50%); }
   .mark-wash-r img{ right:-12%; }
   .mark-wash-l img{ left:-14%; }
-  .mark-wash-dark img{ opacity:.055; }
   .mark-wash-light img{ opacity:.07; }
-  @media(max-width:767px){ .mark-wash img{ height:clamp(14rem,60vw,22rem); } }
+  @media(max-width:767px){ .mark-wash img{ height:min(clamp(14rem,60vw,22rem), 88%); } }
 
   /* ═════════ v6 · topic rails ═════════
      The 4×3 grid asked the reader to scan twelve still tiles. Two counter-running rails
@@ -517,7 +518,6 @@ tailwind.config = {
 <!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
 <!-- pt clears the credential strip, which is taller on phones (2×2 instead of 1×4) -->
 <section id="difference" data-nav="dark" class="on-dark relative bg-ink text-white pt-56 sm:pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
-  <div class="mark-wash mark-wash-r mark-wash-dark" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
