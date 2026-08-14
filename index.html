@@ -328,6 +328,7 @@ tailwind.config = {
   .mark-wash-r img{ right:-12%; }
   .mark-wash-l img{ left:-14%; }
   .mark-wash-light img{ opacity:.07; }
+  .mark-wash-dark img{ opacity:.07; }
   @media(max-width:767px){ .mark-wash img{ height:min(clamp(14rem,60vw,22rem), 88%); } }
 
   /* ═════════ v6 · topic rails ═════════
@@ -540,6 +541,7 @@ tailwind.config = {
 
 <!-- ═══════════ 2 · MEET MAX — intro, philosophy, credentials ═══════════ -->
 <section id="max" data-nav="dark" class="on-dark bg-plum text-white py-24 md:py-32 relative overflow-hidden grid-faint">
+  <div class="mark-wash mark-wash-r mark-wash-dark" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-12 md:gap-14 items-center">
       <div class="md:col-span-5 rv imgwrap">
