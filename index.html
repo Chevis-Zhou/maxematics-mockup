@@ -311,15 +311,35 @@ tailwind.config = {
   .cred-row:hover .cred-i{ color:#A78BFA; }
   .cred-row:hover .cred-t{ color:#fff; transform:translateX(3px); }
 
+  /* ═════════ v6 · logomark wash ═════════
+     Same device as the Schwarzkopf portrait bleed, applied to the mark: ONE oversized
+     logomark cropped by the section edge, not a repeating tile. A tile reads as
+     wallpaper and fights the type; a single cropped mark reads as a watermark. Opacity
+     is deliberately at the bottom of the visible range — it should register only once
+     the reader stops looking at the copy. */
+  .mark-wash{ position:absolute; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  /* sized off the viewport, NOT the section: a % height makes the mark grow with the
+     section and the tall ones turn it into an unreadable blob. max-width:none is
+     required — Tailwind preflight clamps images to 100% and would squash the aspect. */
+  .mark-wash img{ position:absolute; display:block; width:auto; max-width:none;
+    height:clamp(20rem,42vw,42rem); top:50%; transform:translateY(-50%); }
+  .mark-wash-r img{ right:-12%; }
+  .mark-wash-l img{ left:-14%; }
+  .mark-wash-dark img{ opacity:.055; }
+  .mark-wash-light img{ opacity:.07; }
+  @media(max-width:767px){ .mark-wash img{ height:clamp(14rem,60vw,22rem); } }
+
   /* ═════════ v6 · topic rails ═════════
      The 4×3 grid asked the reader to scan twelve still tiles. Two counter-running rails
-     put the same twelve in opposed motion and read in a single glance. The pin is sized
-     so the heading and both rows fit inside one viewport — that constraint, not the
-     travel distance, is what sets --tw. */
-  .topic-scroll{ position:relative; height:260vh; }
-  .topic-sticky{ position:sticky; top:0; height:100vh; overflow-x:clip;
+     put the same twelve in opposed motion and read in a single glance.
+     The section used to pin (260vh wrapper + sticky 100vh), which froze the page for
+     160vh while the rails ran. Owner ruling: the rails must never hold the page. The
+     section is now normal flow — the rails are still scroll-linked, but to the section's
+     own pass through the viewport, so vertical scrolling is never captured. */
+  .topic-scroll{ position:relative; }
+  .topic-sticky{ position:relative; overflow-x:clip;
     display:flex; flex-direction:column; justify-content:center;
-    gap:clamp(1.3rem,3.4vh,2.6rem); }
+    gap:clamp(1.3rem,3.4vh,2.6rem); padding:clamp(4.5rem,10vh,7.5rem) 0; }
   /* --tw is capped on BOTH axes: the vw term keeps six tiles readable on a wide screen,
      the vh term is what guarantees heading + two rows clear 100vh on a short one */
   .topic-rails{ --tw:min(clamp(9.5rem,19vw,17rem),31vh);
@@ -333,8 +353,7 @@ tailwind.config = {
   .topic-track .topic figcaption{ flex:1; display:flex; align-items:center;
     font-size:.85rem; padding:.7rem .85rem; }
   @media(max-width:767px){
-    .topic-scroll{ height:auto; }
-    .topic-sticky{ position:static; height:auto; overflow:visible; padding:5.5rem 0; }
+    .topic-sticky{ overflow:visible; padding:5.5rem 0; }
     .topic-rails{ --tw:clamp(9rem,44vw,13rem); }
     .topic-rail{ overflow-x:auto; overflow-y:visible; scroll-snap-type:x proximity;
       scrollbar-width:none; }
@@ -373,9 +392,8 @@ tailwind.config = {
     .ctst-img{transition:none!important}
     .otw-chip{transition:none!important}
     .cred-row::after{transition:none!important}
-    /* rails become two plain swipeable strips — no pin, no scroll-linked travel */
-    .topic-scroll{height:auto}
-    .topic-sticky{position:static;height:auto;overflow:visible;padding:5.5rem 0}
+    /* rails become two plain swipeable strips — no scroll-linked travel */
+    .topic-sticky{overflow:visible;padding:5.5rem 0}
     .topic-rail{overflow-x:auto;overflow-y:visible}
     .topic-track{transform:none!important}
     html{scroll-behavior:auto}
@@ -467,12 +485,6 @@ tailwind.config = {
       <div class="absolute -inset-8 rounded-full bg-violet/20 blur-[70px]" aria-hidden="true"></div>
       <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="relative w-full h-auto drop-shadow-2xl">
     </div>
-    <div class="hero-in hd-5 mt-10">
-      <a href="#inquire" class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer">
-        Book a session
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-      </a>
-    </div>
   </div>
 
   <!-- credential strip — straddles the hero's bottom edge -->
@@ -505,6 +517,7 @@ tailwind.config = {
 <!-- ═══════════ 1b · THE MAXEMATICS DIFFERENCE ═══════════ -->
 <!-- pt clears the credential strip, which is taller on phones (2×2 instead of 1×4) -->
 <section id="difference" data-nav="dark" class="on-dark relative bg-ink text-white pt-56 sm:pt-32 md:pt-36 pb-24 md:pb-28 overflow-hidden grid-faint">
+  <div class="mark-wash mark-wash-r mark-wash-dark" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
@@ -538,9 +551,9 @@ tailwind.config = {
       </div>
       <div class="md:col-span-7">
         <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet “The Max” in Maxematics<span class="h-dot">.</span></h2>
+        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet the “Max” in Maxematics<span class="h-dot">.</span></h2>
         <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
-          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard,’ it will be. It doesn’t have to be that way.”</p>
+          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard,’ it will be. But it doesn’t have to be that way.”</p>
         </blockquote>
         <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed">
           Max started tutoring with the idea that academic success is found at the intersection of preparation
@@ -564,7 +577,7 @@ tailwind.config = {
         <p class="rv cred-rail-h">Honors &amp; Awards</p>
         <ul class="cred-list">
           <li class="rv cred-row" style="--rvd:.04s"><span class="cred-i">01</span><span class="cred-t">Anne Frank Humanitarian Award</span></li>
-          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-i">02</span><span class="cred-t">Department Awards — Math, Science, History</span></li>
+          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-i">02</span><span class="cred-t">Department Awards — Math, Science, &amp; History</span></li>
           <li class="rv cred-row" style="--rvd:.16s"><span class="cred-i">03</span><span class="cred-t">Cum Laude Society</span></li>
           <li class="rv cred-row" style="--rvd:.22s"><span class="cred-i">04</span><span class="cred-t">AP Scholar with Distinction</span></li>
           <li class="rv cred-row" style="--rvd:.28s"><span class="cred-i">05</span><span class="cred-t">Tampa Prep Head’s List</span></li>
@@ -638,8 +651,9 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 4 · TESTIMONIALS ═══════════ -->
-<section id="testimonials" class="bg-mist py-24 md:py-28 overflow-x-clip">
-  <div class="max-w-6xl mx-auto px-6">
+<section id="testimonials" class="relative bg-mist py-24 md:py-28 overflow-x-clip">
+  <div class="mark-wash mark-wash-l mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Word on the street</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">What People Are Saying<span class="h-dot">.</span></h2>
@@ -653,8 +667,9 @@ tailwind.config = {
 </section>
 
 <!-- ═══════════ 5 · TUTORING & RATES ═══════════ -->
-<section id="rates" class="bg-paper py-24 md:py-28">
-  <div class="max-w-6xl mx-auto px-6">
+<section id="rates" class="relative bg-paper py-24 md:py-28 overflow-hidden">
+  <div class="mark-wash mark-wash-r mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, Tailored Sessions<span class="h-dot">.</span></h2>
@@ -718,7 +733,7 @@ tailwind.config = {
         <button type="button" id="scholOpen"
            class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer"
            aria-haspopup="dialog" aria-controls="scholDialog">
-          Learn more &amp; apply
+          Learn more
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </button>
         <p class="mt-3 text-xs text-white/45">Applications for the 2026–27 scholarship are now closed.</p>
@@ -751,7 +766,7 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
     <div>
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start The Conversation<span class="h-dot">.</span></h2>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the Conversation<span class="h-dot">.</span></h2>
       <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
       <div class="rv rv-d3 mt-8 space-y-3">
         <a href="mailto:maxematics@icloud.com" class="inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
@@ -783,8 +798,8 @@ tailwind.config = {
 <!-- ═══════════ 9 · AFFILIATIONS & CERTIFICATIONS ═══════════ -->
 <section id="affiliations" class="bg-paper py-20 border-t border-ink/5">
   <div class="max-w-6xl mx-auto px-6">
-    <p class="rv text-center eyebrow text-xs font-semibold uppercase text-ink/45 mb-9">Affiliations, certifications &amp; recognition</p>
-    <div class="rv rv-d1 aff-carousel" id="affCarousel" role="region" aria-roledescription="carousel" aria-label="Affiliations, certifications and recognition"></div>
+    <p class="rv text-center eyebrow text-xs font-semibold uppercase text-ink/45 mb-9">Affiliations, certifications &amp; recognitions</p>
+    <div class="rv rv-d1 aff-carousel" id="affCarousel" role="region" aria-roledescription="carousel" aria-label="Affiliations, certifications and recognitions"></div>
     <noscript>
       <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
         <a href="https://www.autodesk.com/certification/overview" target="_blank" rel="noopener"><img src="assets/logo-autodesk-certification.png" alt="Autodesk Certification" class="h-11 w-auto object-contain"></a>
@@ -974,17 +989,24 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
   }, { amount: .6 });
 });
 
-/* ─── Topics: two counter-running rails, pinned ───
-   Adapted from the Motion+ "Scroll Horizontal Gallery" example — same sticky-wrapper +
-   scroll-linked x, doubled into opposed rails. Each rail's six tiles are cloned to three
-   sets and the travel is exactly one set width, so neither end of either rail can ever
-   expose the container edge. Clones are built here rather than in markup so a
-   scripting-off reader still gets twelve real tiles. */
+/* ─── Topics: two counter-running rails, in normal flow ───
+   Adapted from the Motion+ "Scroll Horizontal Gallery" example, doubled into opposed
+   rails. Each rail's six tiles are cloned to three sets so neither end can ever expose
+   the container edge. Clones are built here rather than in markup so a scripting-off
+   reader still gets twelve real tiles.
+
+   Two owner rulings shape the timing:
+   · no pin — the section scrolls normally and the rails are linked to its pass through
+     the viewport, so vertical scroll is never captured;
+   · half speed — travel is HALF a set width (was a full set over a 160vh pinned range),
+     across a range that is now taller, which lands the rails at well under half the
+     previous px-of-x per px-of-y. Both rails sit mid-content for the whole pass, so the
+     shorter travel costs nothing at the edges. */
 {
   const scroller = document.getElementById('topicScroll');
   const railA = document.getElementById('railA');
   const railB = document.getElementById('railB');
-  const pinned = () => !reduce && window.matchMedia('(min-width:768px)').matches;
+  const railsAnimated = () => !reduce && window.matchMedia('(min-width:768px)').matches;
   let teardown = [];
 
   const build = () => {
@@ -994,7 +1016,7 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
       rail.querySelectorAll('[data-clone]').forEach(n => n.remove());
       rail.style.transform = '';
     });
-    if (!scroller || !railA || !railB || !pinned()) return;
+    if (!scroller || !railA || !railB || !railsAnimated()) return;
 
     [railA, railB].forEach(rail => {
       const originals = [...rail.children];
@@ -1015,10 +1037,12 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
     };
     const wA = setW(railA), wB = setW(railB);
 
-    teardown.push(scroll(animate(railA, { x:[0, -wA] }, { ease:'linear' }),
-      { target: scroller, offset:['start start','end end'] }));
-    teardown.push(scroll(animate(railB, { x:[-wB, 0] }, { ease:'linear' }),
-      { target: scroller, offset:['start start','end end'] }));
+    // travel = half a set, centred on set 2 so both edges stay buried in clones
+    const OFFSET = ['start end', 'end start'];
+    teardown.push(scroll(animate(railA, { x:[-wA * .5, -wA] }, { ease:'linear' }),
+      { target: scroller, offset: OFFSET }));
+    teardown.push(scroll(animate(railB, { x:[-wB, -wB * .5] }, { ease:'linear' }),
+      { target: scroller, offset: OFFSET }));
   };
 
   if (scroller && railA && railB){
