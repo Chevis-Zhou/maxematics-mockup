@@ -330,6 +330,13 @@ tailwind.config = {
   .mark-wash-light img{ opacity:.07; }
   .mark-wash-dark img{ opacity:.07; }
   @media(max-width:767px){ .mark-wash img{ height:min(clamp(14rem,60vw,22rem), 88%); } }
+  /* mark-wash-fit: scoped to a single media element (a photo, not the section) —
+     centered and CONTAINED within its parent box, so it can never reach a text
+     column regardless of viewport width. Owner ruling: the wash may sit behind
+     photos/logos, never behind body copy. */
+  .mark-wash-fit img{ position:absolute; top:50%; left:50%; right:auto;
+    transform:translate(-50%,-50%); width:auto; height:auto;
+    max-width:82%; max-height:82%; }
 
   /* ═════════ v6 · topic rails ═════════
      The 4×3 grid asked the reader to scan twelve still tiles. Two counter-running rails
@@ -541,11 +548,11 @@ tailwind.config = {
 
 <!-- ═══════════ 2 · MEET MAX — intro, philosophy, credentials ═══════════ -->
 <section id="max" data-nav="dark" class="on-dark bg-plum text-white py-24 md:py-32 relative overflow-hidden grid-faint">
-  <div class="mark-wash mark-wash-r mark-wash-dark" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-12 md:gap-14 items-center">
-      <div class="md:col-span-5 rv imgwrap">
-        <div class="relative max-w-sm mx-auto md:mx-0" data-parallax="40">
+      <div class="md:col-span-5 rv imgwrap relative">
+        <div class="mark-wash mark-wash-dark mark-wash-fit" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
+        <div class="relative z-10 max-w-sm mx-auto md:mx-0" data-parallax="40">
           <div class="absolute -left-4 -top-4 w-full h-full rounded-[1.4rem] border border-violet-soft/30" aria-hidden="true"></div>
           <img src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.4rem] w-full object-cover shadow-2xl">
           <div class="absolute -bottom-5 -right-5 bg-violet text-white rounded-xl px-5 py-3 shadow-xl font-display font-semibold text-sm">Max Schwarzkopf</div>
@@ -654,7 +661,6 @@ tailwind.config = {
 
 <!-- ═══════════ 4 · TESTIMONIALS ═══════════ -->
 <section id="testimonials" class="relative bg-mist py-24 md:py-28 overflow-x-clip">
-  <div class="mark-wash mark-wash-l mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Word on the street</span></div>
@@ -662,16 +668,16 @@ tailwind.config = {
     </div>
 
     <!-- circular carousel — every voice, including the Prep & Me endorsement -->
-    <div class="rv rv-d1 mt-14 md:mt-16">
-      <div id="ctst" class="ctst"></div>
+    <div class="rv rv-d1 mt-14 md:mt-16 relative">
+      <div class="mark-wash mark-wash-l mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
+      <div id="ctst" class="ctst relative z-10"></div>
     </div>
   </div>
 </section>
 
 <!-- ═══════════ 5 · TUTORING & RATES ═══════════ -->
-<section id="rates" class="relative bg-paper py-24 md:py-28 overflow-hidden">
-  <div class="mark-wash mark-wash-r mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
-  <div class="max-w-6xl mx-auto px-6 relative z-10">
+<section id="rates" class="bg-paper py-24 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
     <div class="max-w-2xl">
       <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
       <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, Tailored Sessions<span class="h-dot">.</span></h2>
