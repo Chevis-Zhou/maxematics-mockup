@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ae-v="1">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -408,6 +408,63 @@ tailwind.config = {
     html{scroll-behavior:auto}
   }
 </style>
+<script type="application/json" data-ae-manifest>
+{
+  "v": 1,
+  "fields": {
+    "site.title": {
+      "type": "text",
+      "label": "Browser tab title",
+      "group": "Site",
+      "max": 70
+    },
+    "site.description": {
+      "type": "text",
+      "label": "Search-result description",
+      "group": "Site",
+      "max": 200,
+      "multiline": true
+    },
+    "testimonials.items": {
+      "type": "list",
+      "label": "Testimonials",
+      "group": "Testimonials",
+      "preview": "reload",
+      "note": "Rendered by the carousel script, so the editor cannot patch it in place — preview reloads.",
+      "minItems": 1,
+      "maxItems": 12,
+      "fields": {
+        "name": {
+          "type": "text",
+          "label": "Name",
+          "max": 48
+        },
+        "designation": {
+          "type": "text",
+          "label": "Role or subject",
+          "max": 48
+        },
+        "quote": {
+          "type": "text",
+          "label": "Quote",
+          "max": 420,
+          "multiline": true
+        },
+        "image": {
+          "type": "image",
+          "label": "Photo",
+          "ratio": "4:5",
+          "maxW": 900,
+          "altRequired": true
+        },
+        "pos": {
+          "type": "internal"
+        }
+      }
+    }
+  }
+}
+</script>
 </head>
 <body class="bg-paper text-ink antialiased">
 
@@ -529,17 +586,17 @@ tailwind.config = {
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="grid md:grid-cols-12 gap-10 md:gap-14">
       <div class="md:col-span-4">
-        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Why Maxematics</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance">The Maxematics Difference<span class="h-dot">.</span></h2>
+        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase" data-ae="difference.eyebrow" data-ae-type="text" data-ae-max="32">Why Maxematics</span></div>
+        <h2 class="rv rv-d1 font-display font-bold text-2xl md:text-[1.85rem] leading-snug tracking-tight balance" data-ae="difference.heading" data-ae-type="text" data-ae-max="60">The Maxematics Difference<span class="h-dot">.</span></h2>
       </div>
       <div class="md:col-span-8">
         <ul class="rv rv-d2 grid sm:grid-cols-2 gap-x-10">
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Every program tailored to the student</li>
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Custom worksheets &amp; practice exams</li>
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Virtual, or in a Tampa learning space</li>
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Study &amp; time management skills</li>
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10 sm:border-b-0"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Summer refreshers &amp; final exam prep</li>
-          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> SAT, ACT &amp; Desmos support</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10" data-ae="difference.points.0" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Every program tailored to the student</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10" data-ae="difference.points.1" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Custom worksheets &amp; practice exams</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10" data-ae="difference.points.2" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Virtual, or in a Tampa learning space</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10" data-ae="difference.points.3" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Study &amp; time management skills</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5 border-b border-white/10 sm:border-b-0" data-ae="difference.points.4" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> Summer refreshers &amp; final exam prep</li>
+          <li class="flex items-center gap-3.5 text-white/80 text-lg py-3.5" data-ae="difference.points.5" data-ae-type="text" data-ae-max="70"><span class="text-violet-soft text-[.6rem] leading-none">◆</span> SAT, ACT &amp; Desmos support</li>
         </ul>
       </div>
     </div>
@@ -554,24 +611,21 @@ tailwind.config = {
         <div class="mark-wash mark-wash-dark mark-wash-fit" aria-hidden="true"><img src="assets/logomark-wash-white.svg" alt=""></div>
         <div class="relative z-10 max-w-sm mx-auto md:mx-0" data-parallax="40">
           <div class="absolute -left-4 -top-4 w-full h-full rounded-[1.4rem] border border-violet-soft/30" aria-hidden="true"></div>
-          <img src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.4rem] w-full object-cover shadow-2xl">
-          <div class="absolute -bottom-5 -right-5 bg-violet text-white rounded-xl px-5 py-3 shadow-xl font-display font-semibold text-sm">Max Schwarzkopf</div>
+          <img data-ae="max.portrait" data-ae-type="image" data-ae-ratio="5:4" data-ae-max-w="1600" data-ae-alt-required="true" src="assets/max-4.png" alt="Max Schwarzkopf" class="relative rounded-[1.4rem] w-full object-cover shadow-2xl">
+          <div class="absolute -bottom-5 -right-5 bg-violet text-white rounded-xl px-5 py-3 shadow-xl font-display font-semibold text-sm" data-ae="max.nameplate" data-ae-type="text" data-ae-max="28">Max Schwarzkopf</div>
         </div>
       </div>
       <div class="md:col-span-7">
-        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Meet Max</span></div>
-        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Meet the “Max” in Maxematics<span class="h-dot">.</span></h2>
+        <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase" data-ae="max.eyebrow" data-ae-type="text" data-ae-max="32">Meet Max</span></div>
+        <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance" data-ae="max.heading" data-ae-type="text" data-ae-max="60">Meet the “Max” in Maxematics<span class="h-dot">.</span></h2>
         <blockquote class="rv rv-d2 mt-7 border-l-2 border-violet pl-6">
-          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance">“If you think of something as ‘hard,’ it will be. But it doesn’t have to be that way.”</p>
+          <p class="font-display text-xl md:text-2xl italic leading-relaxed text-white/90 balance" data-ae="max.quote" data-ae-type="text" data-ae-max="180" data-ae-multiline="true">“If you think of something as ‘hard,’ it will be. But it doesn’t have to be that way.”</p>
         </blockquote>
-        <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed">
-          Max started tutoring with the idea that academic success is found at the intersection of preparation
-          and attitude. While subject mastery is the obvious goal, Max aims to do that while also inspiring a
-          shift in thinking that makes learning fun.
+        <p class="rv rv-d3 mt-7 text-white/75 text-lg leading-relaxed" data-ae="max.bio1" data-ae-type="text" data-ae-max="500" data-ae-multiline="true">
+          Max started tutoring with the idea that academic success is found at the intersection of preparation and attitude. While subject mastery is the obvious goal, Max aims to do that while also inspiring a shift in thinking that makes learning fun.
         </p>
-        <p class="rv rv-d4 mt-5 text-white/75 text-lg leading-relaxed">
-          Beyond tutoring, Max is a STEM student, researcher, rower, escape room aficionado, foodie,
-          community contributor and campus leader.
+        <p class="rv rv-d4 mt-5 text-white/75 text-lg leading-relaxed" data-ae="max.bio2" data-ae-type="text" data-ae-max="400" data-ae-multiline="true">
+          Beyond tutoring, Max is a STEM student, researcher, rower, escape room aficionado, foodie, community contributor and campus leader.
         </p>
       </div>
     </div>
@@ -627,14 +681,14 @@ tailwind.config = {
 
       <div class="max-w-6xl mx-auto px-6 w-full">
         <div class="max-w-2xl">
-          <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Topics</span></div>
-          <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">One Tutor, Many Topics<span class="h-dot">.</span></h2>
+          <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase" data-ae="topics.eyebrow" data-ae-type="text" data-ae-max="32">Topics</span></div>
+          <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]" data-ae="topics.heading" data-ae-type="text" data-ae-max="60">One Tutor, Many Topics<span class="h-dot">.</span></h2>
         </div>
       </div>
 
       <div class="topic-rails">
         <div class="topic-rail">
-          <div class="topic-track" id="railA">
+          <div class="topic-track" id="railA" data-ae="topics.railA" data-ae-type="list" data-ae-min-items="3" data-ae-max-items="8">
             <figure class="topic"><img src="assets/topics/algebra.jpg" alt="Algebra 1 &amp; 2" loading="lazy"><figcaption>Algebra 1 &amp; 2</figcaption></figure>
             <figure class="topic"><img src="assets/topics/precalculus.jpg" alt="Precalculus" loading="lazy"><figcaption>Precalculus</figcaption></figure>
             <figure class="topic"><img src="assets/topics/calculus.jpg" alt="Calculus 1 &amp; 2" loading="lazy"><figcaption>Calculus 1 &amp; 2</figcaption></figure>
@@ -644,7 +698,7 @@ tailwind.config = {
           </div>
         </div>
         <div class="topic-rail">
-          <div class="topic-track" id="railB">
+          <div class="topic-track" id="railB" data-ae="topics.railB" data-ae-type="list" data-ae-min-items="3" data-ae-max-items="8">
             <figure class="topic"><img src="assets/topics/chemistry.jpg" alt="Chemistry" loading="lazy"><figcaption>Chemistry</figcaption></figure>
             <figure class="topic"><img src="assets/topics/biology.jpg" alt="Biology" loading="lazy"><figcaption>Biology</figcaption></figure>
             <figure class="topic"><img src="assets/topics/physics.jpg" alt="Physics" loading="lazy"><figcaption>Physics</figcaption></figure>
@@ -664,8 +718,8 @@ tailwind.config = {
   <div class="mark-wash mark-wash-l mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Word on the street</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">What People Are Saying<span class="h-dot">.</span></h2>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase" data-ae="testimonials.eyebrow" data-ae-type="text" data-ae-max="32">Word on the street</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]" data-ae="testimonials.heading" data-ae-type="text" data-ae-max="60">What People Are Saying<span class="h-dot">.</span></h2>
     </div>
 
     <!-- circular carousel — every voice, including the Prep & Me endorsement -->
@@ -680,8 +734,8 @@ tailwind.config = {
   <div class="mark-wash mark-wash-r mark-wash-light" aria-hidden="true"><img src="assets/logomark-wash-violet.svg" alt=""></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Rates</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]">Simple, Tailored Sessions<span class="h-dot">.</span></h2>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase" data-ae="rates.eyebrow" data-ae-type="text" data-ae-max="32">Rates</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08]" data-ae="rates.heading" data-ae-type="text" data-ae-max="60">Simple, Tailored Sessions<span class="h-dot">.</span></h2>
     </div>
     <div class="mt-12 grid lg:grid-cols-5 gap-6 items-stretch">
       <div class="rv lg:col-span-3 rounded-2xl bg-white border border-ink/10 overflow-hidden">
@@ -691,19 +745,19 @@ tailwind.config = {
             <th scope="col" class="px-8 py-4 font-display font-semibold text-[.7rem] uppercase tracking-[.14em] text-ink/50">Session</th>
             <th scope="col" class="px-8 py-4 font-display font-semibold text-[.7rem] uppercase tracking-[.14em] text-ink/50 text-right">Rate</th>
           </tr></thead>
-          <tbody>
+          <tbody data-ae="rates.rows" data-ae-type="list" data-ae-min-items="1" data-ae-max-items="6">
             <tr class="rate-row"><td class="font-medium">30 minutes</td><td class="text-right font-display font-bold text-xl tnum">$25</td></tr>
             <tr class="rate-row"><td class="font-medium">60 minutes</td><td class="text-right font-display font-bold text-xl tnum">$40</td></tr>
             <tr class="rate-row"><td class="font-medium">90 minutes</td><td class="text-right font-display font-bold text-xl tnum">$60</td></tr>
           </tbody>
         </table>
-        <p class="px-8 py-4 text-sm text-ink/55 border-t border-ink/8">Zelle, check, or cash accepted.</p>
+        <p class="px-8 py-4 text-sm text-ink/55 border-t border-ink/8" data-ae="rates.note" data-ae-type="text" data-ae-max="90">Zelle, check, or cash accepted.</p>
       </div>
       <div class="rv rv-d2 lg:col-span-2 rounded-2xl bg-ink text-white p-8 md:p-9 relative overflow-hidden">
         <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-violet/25 blur-[60px]" aria-hidden="true"></div>
         <div class="relative z-10">
-          <h3 class="font-display font-bold text-xl">Virtual session checklist</h3>
-          <ul class="mt-6 space-y-4">
+          <h3 class="font-display font-bold text-xl" data-ae="rates.checklistHeading" data-ae-type="text" data-ae-max="48">Virtual session checklist</h3>
+          <ul class="mt-6 space-y-4" data-ae="rates.checklist" data-ae-type="list" data-ae-min-items="1" data-ae-max-items="8">
             <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Tablet (preferred) or computer with internet</span></li>
             <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Access to Zoom</span></li>
             <li class="flex gap-3"><svg class="w-5 h-5 text-violet-soft shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white/75">Paper &amp; pencil</span></li>
@@ -724,28 +778,26 @@ tailwind.config = {
   <div class="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-ink/70 to-transparent z-[1] pointer-events-none" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="max-w-2xl">
-      <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase">Giving back</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">The Gen. H Norman Schwarzkopf Scholarship<span class="h-dot">.</span></h2>
-      <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed">
-        Max's grandfather spent his life in service — to his country, and to the young men and women who served
-        alongside him. What fewer people know is that he was also an educator, teaching calculus and mechanics at
-        West Point. The scholarship exists in his memory, honoring the value he placed on educating the next generation.
+      <div class="rv sec-idx text-white"><span class="rule"></span><span class="eyebrow text-white/55 text-xs font-semibold uppercase" data-ae="scholarship.eyebrow" data-ae-type="text" data-ae-max="32">Giving back</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance" data-ae="scholarship.heading" data-ae-type="text" data-ae-max="70">The Gen. H Norman Schwarzkopf Scholarship<span class="h-dot">.</span></h2>
+      <p class="rv rv-d2 mt-6 text-white/75 text-lg leading-relaxed" data-ae="scholarship.body1" data-ae-type="text" data-ae-max="600" data-ae-multiline="true">
+        Max's grandfather spent his life in service — to his country, and to the young men and women who served alongside him. What fewer people know is that he was also an educator, teaching calculus and mechanics at West Point. The scholarship exists in his memory, honoring the value he placed on educating the next generation.
       </p>
-      <p class="rv rv-d3 mt-4 text-white/65 leading-relaxed">
+      <p class="rv rv-d3 mt-4 text-white/65 leading-relaxed" data-ae="scholarship.body2" data-ae-type="text" data-ae-max="240" data-ae-multiline="true">
         A full scholastic year of tutoring is awarded to one student each year, in September.
       </p>
       <blockquote class="rv rv-d4 mt-8 border-l-2 border-violet pl-6">
-        <p class="text-white/90 text-xl italic font-display leading-relaxed balance">"You can't help someone else up a hill without getting a little closer to the top yourself."</p>
-        <footer class="mt-3 text-sm text-white/55">— Gen. H Norman Schwarzkopf</footer>
+        <p class="text-white/90 text-xl italic font-display leading-relaxed balance" data-ae="scholarship.quote" data-ae-type="text" data-ae-max="220" data-ae-multiline="true">"You can't help someone else up a hill without getting a little closer to the top yourself."</p>
+        <footer class="mt-3 text-sm text-white/55" data-ae="scholarship.quoteAttribution" data-ae-type="text" data-ae-max="60">— Gen. H Norman Schwarzkopf</footer>
       </blockquote>
       <div class="rv rv-d5 mt-9">
         <button type="button" id="scholOpen"
            class="inline-flex items-center gap-2 rounded-full bg-white text-ink font-semibold px-7 py-3.5 hover:bg-violet-soft transition-colors cursor-pointer"
-           aria-haspopup="dialog" aria-controls="scholDialog">
+           aria-haspopup="dialog" aria-controls="scholDialog" data-ae="scholarship.ctaLabel" data-ae-type="text" data-ae-max="24">
           Learn more
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </button>
-        <p class="mt-3 text-xs text-white/45">Applications for the 2026–27 scholarship are now closed.</p>
+        <p class="mt-3 text-xs text-white/45" data-ae="scholarship.status" data-ae-type="text" data-ae-max="90">Applications for the 2026–27 scholarship are now closed.</p>
       </div>
     </div>
   </div>
@@ -753,8 +805,8 @@ tailwind.config = {
 
 <dialog id="scholDialog" class="schol-dialog" aria-labelledby="scholDialogTitle">
   <div class="schol-dialog-body">
-    <h3 id="scholDialogTitle">Thank you for your interest.</h3>
-    <p>Applications are now closed for the 2026-27 scholarship. Winner to be announced soon.</p>
+    <h3 id="scholDialogTitle" data-ae="scholarship.dialogTitle" data-ae-type="text" data-ae-max="60">Thank you for your interest.</h3>
+    <p data-ae="scholarship.dialogBody" data-ae-type="text" data-ae-max="240" data-ae-multiline="true">Applications are now closed for the 2026-27 scholarship. Winner to be announced soon.</p>
   </div>
   <div class="schol-dialog-foot">
     <button type="button" class="schol-dialog-close" id="scholClose">Got it</button>
@@ -774,17 +826,17 @@ tailwind.config = {
 <section id="inquire" class="bg-mist py-24 md:py-28">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-start">
     <div>
-      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase">Contact</span></div>
-      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance">Start the Conversation<span class="h-dot">.</span></h2>
-      <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
+      <div class="rv sec-idx text-ink"><span class="rule"></span><span class="eyebrow text-ink/50 text-xs font-semibold uppercase" data-ae="contact.eyebrow" data-ae-type="text" data-ae-max="32">Contact</span></div>
+      <h2 class="rv rv-d1 font-display font-bold text-4xl md:text-5xl tracking-[-.025em] leading-[1.08] balance" data-ae="contact.heading" data-ae-type="text" data-ae-max="60">Start the Conversation<span class="h-dot">.</span></h2>
+      <p class="rv rv-d2 mt-6 text-ink/65 text-lg leading-relaxed" data-ae="contact.intro" data-ae-type="text" data-ae-max="400" data-ae-multiline="true">Tutoring inquiries, scholarship questions, and scheduling — send a note and Max will reply. Availability is limited, so a little detail about the student and the goal helps.</p>
       <div class="rv rv-d3 mt-8 space-y-3">
-        <a href="mailto:maxematics@icloud.com" class="inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
+        <a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="inline-flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
           <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-          <span class="font-medium">maxematics@icloud.com</span>
+          <span class="font-medium" data-ae-slot="label">maxematics@icloud.com</span>
         </a>
-        <a href="tel:+18134446199" class="flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
+        <a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="flex items-center gap-3 text-ink/75 hover:text-violet transition-colors cursor-pointer">
           <svg class="w-5 h-5 text-violet" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
-          <span class="font-medium">813.444.6199</span>
+          <span class="font-medium" data-ae-slot="label">813.444.6199</span>
         </a>
       </div>
     </div>
@@ -837,9 +889,9 @@ tailwind.config = {
       <a href="#inquire" class="hover:text-violet-soft transition-colors">Contact</a>
     </nav>
     <p class="text-sm text-white/50 text-center md:text-right">
-      <a href="mailto:maxematics@icloud.com" class="hover:text-violet-soft transition-colors">maxematics@icloud.com</a>
+      <a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="hover:text-violet-soft transition-colors">maxematics@icloud.com</a>
       <span class="text-white/25 mx-2">·</span>
-      <a href="tel:+18134446199" class="hover:text-violet-soft transition-colors">813.444.6199</a>
+      <a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="hover:text-violet-soft transition-colors">813.444.6199</a>
     </p>
   </div>
   <p class="mt-10 text-center text-xs text-white/35">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
@@ -1062,18 +1114,7 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
 }
 
 /* ─── Circular testimonials (restored from the v2 build) ─── */
-const CTST = [
-  { name:"Lakshmi Jayaram, Ph.D.", designation:"Executive Director, Prep & Me", src:"assets/testimonial-lakshmi.png", pos:"center 20%",
-    quote:"Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!" },
-  { name:"Eva T.",       designation:"SAT / ACT Prep", src:"assets/testimonial-eva.jpg", pos:"center 15%",
-    quote:"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max." },
-  { name:"Ker'Varis M.", designation:"Geometry", src:"assets/testimonial-kervaris.jpg", pos:"center 12%",
-    quote:"I was struggling in geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong." },
-  { name:"Alice H.",     designation:"Parent", src:"assets/testimonial-alice.jpg", pos:"center 22%",
-    quote:"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him." },
-  { name:"Connor J.",    designation:"Chemistry", src:"assets/testimonial-connor.jpg", pos:"center 18%",
-    quote:"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like chemistry." },
-];
+const CTST = [{"name":"Lakshmi Jayaram, Ph.D.","designation":"Executive Director, Prep & Me","quote":"Max is an exceptional tutor. He explains concepts in clear and methodical ways for students at any level — his students consistently expand their comprehension, improve their grades, and move on to the next level of math and science with confidence and enthusiasm. Max is simply one of the best!","image":{"src":"assets/testimonial-lakshmi.png","alt":"Lakshmi Jayaram, Ph.D."},"pos":"center 20%"},{"name":"Eva T.","designation":"SAT / ACT Prep","quote":"Max has helped me prepare for the SAT/ACT. He knows all the math and helped me figure out things I was otherwise guessing at — and he's such a nice guy and so comfortable to work with. If I had to recommend anyone to get your scores up, it would be Max.","image":{"src":"assets/testimonial-eva.jpg","alt":"Eva T."},"pos":"center 15%"},{"name":"Ker'Varis M.","designation":"Geometry","quote":"I was struggling in geometry and worried about completing the class. Since starting with Max I haven't gotten less than a 90% on any assignment or assessment. He makes math easy to understand and quickly figured out where I was going wrong.","image":{"src":"assets/testimonial-kervaris.jpg","alt":"Ker'Varis M."},"pos":"center 12%"},{"name":"Alice H.","designation":"Parent","quote":"Max has been great at filling in skills my daughter struggled with. He even provided sample worksheets and tests that focused on her weaknesses. My daughter loves working with him.","image":{"src":"assets/testimonial-alice.jpg","alt":"Alice H."},"pos":"center 22%"},{"name":"Connor J.","designation":"Chemistry","quote":"Chemistry was my arch enemy before I started working with Max. Once I understood the basics a lot better, everything just made more sense. I can't believe I'm writing this, but I've actually started to like chemistry.","image":{"src":"assets/testimonial-connor.jpg","alt":"Connor J."},"pos":"center 18%"}];
 const ctstRoot = document.getElementById('ctst');
 if (ctstRoot){
   const ARROW = (d) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -1104,7 +1145,7 @@ if (ctstRoot){
 
   CTST.forEach((t, i) => {
     const img = document.createElement('img');
-    img.src = t.src; img.alt = t.name; img.dataset.index = i; img.loading = 'lazy';
+    img.src = t.image.src; img.alt = t.name; img.dataset.index = i; img.loading = 'lazy';
     img.className = 'ctst-img' + (t.logo ? ' is-logo' : '');
     if (t.pos) img.style.objectPosition = t.pos;
     imgWrap.appendChild(img);
