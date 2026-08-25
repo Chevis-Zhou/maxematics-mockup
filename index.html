@@ -126,9 +126,11 @@ tailwind.config = {
     -webkit-mask-image:linear-gradient(105deg,#000 6%,rgba(0,0,0,.35) 48%,transparent 78%); }
   /* heavier axis pair — anchors the field as a coordinate plane, not wallpaper */
   .hero-axis{ position:absolute; inset:0; }
-  .hero-axis::before,.hero-axis::after{ content:''; position:absolute; background:rgba(167,139,250,.20); }
-  .hero-axis::before{ left:0; right:0; bottom:22%; height:1px; }
-  .hero-axis::after{ top:0; bottom:0; left:9%; width:1px; }
+  /* horizontal bar removed 2026-08-25 — it fell right under the wordmark and read as
+     an unintentional underline. The vertical axis stays; it sits at 9% and doesn't
+     collide with anything in the copy block. */
+  .hero-axis::after{ content:''; position:absolute; background:rgba(167,139,250,.20);
+    top:0; bottom:0; left:9%; width:1px; }
 
   /* plotted curve — masked reveal driven by a pure scaleX transform (no dashoffset repaint) */
   .curve{ position:absolute; right:0; bottom:14%; width:min(58vw,760px); height:auto; opacity:.85; }
@@ -344,13 +346,9 @@ tailwind.config = {
     background:#A78BFA; transform:scaleX(0); transform-origin:left;
     transition:transform .45s cubic-bezier(.22,1,.36,1); }
   .cred-row:hover::after{ transform:scaleX(1); }
-  .cred-i{ flex:none; font-family:'Sora',sans-serif; font-variant-numeric:tabular-nums;
-    font-size:.68rem; font-weight:700; line-height:1.7; color:rgba(255,255,255,.30);
-    transition:color .3s; }
   .cred-t{ font-family:'Sora',sans-serif; font-weight:600; font-size:1rem; line-height:1.4;
     color:rgba(255,255,255,.85);
     transition:color .3s, transform .35s cubic-bezier(.22,1,.36,1); }
-  .cred-row:hover .cred-i{ color:#A78BFA; }
   .cred-row:hover .cred-t{ color:#fff; transform:translateX(3px); }
 
   /* ═════════ v6 · logomark wash ═════════
@@ -556,9 +554,13 @@ tailwind.config = {
           <rect class="draw-rect" x="0" y="0" width="760" height="300" fill="#fff"/>
         </mask>
         <linearGradient id="curveFade" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#A78BFA" stop-opacity=".18"/>
+          <!-- true fade at the left tip, not just a dim start: 0 -> .18 over the
+               first 16% reads as the line emerging from nothing rather than being
+               cut off mid-stroke. -->
+          <stop offset="0"   stop-color="#A78BFA" stop-opacity="0"/>
+          <stop offset=".16" stop-color="#A78BFA" stop-opacity=".18"/>
           <stop offset=".55" stop-color="#A78BFA" stop-opacity=".7"/>
-          <stop offset="1" stop-color="#C4B5FD" stop-opacity="1"/>
+          <stop offset="1"   stop-color="#C4B5FD" stop-opacity="1"/>
         </linearGradient>
       </defs>
       <g mask="url(#curveDraw)">
@@ -681,36 +683,38 @@ tailwind.config = {
     <!-- credentials — the same twelve entries, grouped into three named rails.
          As twelve identical cards they read as one undifferentiated wall; as indexed
          hairline rows under a category header the reader can enter at whichever rail
-         matches what they came to check. Index runs 01–12 across all three. -->
+         matches what they came to check. The 01–12 index numbers were dropped
+         2026-08-25 — twelve items across three short rails don't need a running
+         count, and the numerals were competing with the entry text for attention. -->
     <div class="mt-16 grid md:grid-cols-3 gap-x-9 lg:gap-x-12 gap-y-11">
 
       <div>
         <p class="rv cred-rail-h">Honors &amp; Awards</p>
         <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.04s"><span class="cred-i">01</span><span class="cred-t">Anne Frank Humanitarian Award</span></li>
-          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-i">02</span><span class="cred-t">Department Awards — Math, Science, &amp; History</span></li>
-          <li class="rv cred-row" style="--rvd:.16s"><span class="cred-i">03</span><span class="cred-t">Cum Laude Society</span></li>
-          <li class="rv cred-row" style="--rvd:.22s"><span class="cred-i">04</span><span class="cred-t">AP Scholar with Distinction</span></li>
-          <li class="rv cred-row" style="--rvd:.28s"><span class="cred-i">05</span><span class="cred-t">Tampa Prep Head’s List</span></li>
+          <li class="rv cred-row" style="--rvd:.04s"><span class="cred-t">Anne Frank Humanitarian Award</span></li>
+          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-t">Department Awards — Math, Science, &amp; History</span></li>
+          <li class="rv cred-row" style="--rvd:.16s"><span class="cred-t">Cum Laude Society</span></li>
+          <li class="rv cred-row" style="--rvd:.22s"><span class="cred-t">AP Scholar with Distinction</span></li>
+          <li class="rv cred-row" style="--rvd:.28s"><span class="cred-t">Tampa Prep Head’s List</span></li>
         </ul>
       </div>
 
       <div>
         <p class="rv cred-rail-h" style="--rvd:.08s">Research &amp; Lab</p>
         <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.12s"><span class="cred-i">06</span><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
-          <li class="rv cred-row" style="--rvd:.18s"><span class="cred-i">07</span><span class="cred-t">NJ State Police Crime Lab Intern, DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
-          <li class="rv cred-row" style="--rvd:.24s"><span class="cred-i">08</span><span class="cred-t">Best Overall Research — HC STEM Fair</span></li>
+          <li class="rv cred-row" style="--rvd:.12s"><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
+          <li class="rv cred-row" style="--rvd:.18s"><span class="cred-t">NJ State Police Crime Lab Intern, DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
+          <li class="rv cred-row" style="--rvd:.24s"><span class="cred-t">Best Overall Research — HC STEM Fair</span></li>
         </ul>
       </div>
 
       <div>
         <p class="rv cred-rail-h" style="--rvd:.16s">Leadership &amp; Service</p>
         <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.20s"><span class="cred-i">09</span><span class="cred-t">Writing Center Director &amp; Tutor</span></li>
-          <li class="rv cred-row" style="--rvd:.26s"><span class="cred-i">10</span><span class="cred-t">HOBY Youth Leadership Ambassador</span></li>
-          <li class="rv cred-row" style="--rvd:.32s"><span class="cred-i">11</span><span class="cred-t">Pie &amp; Pi — Club Founder &amp; President, Content Creator</span></li>
-          <li class="rv cred-row" style="--rvd:.38s"><span class="cred-i">12</span><span class="cred-t">Varsity Rowing Team Captain</span></li>
+          <li class="rv cred-row" style="--rvd:.20s"><span class="cred-t">Writing Center Director &amp; Tutor</span></li>
+          <li class="rv cred-row" style="--rvd:.26s"><span class="cred-t">HOBY Youth Leadership Ambassador</span></li>
+          <li class="rv cred-row" style="--rvd:.32s"><span class="cred-t">Pie &amp; Pi — Club Founder &amp; President, Content Creator</span></li>
+          <li class="rv cred-row" style="--rvd:.38s"><span class="cred-t">Varsity Rowing Team Captain</span></li>
         </ul>
       </div>
 
