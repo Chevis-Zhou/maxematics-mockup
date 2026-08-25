@@ -927,27 +927,60 @@ tailwind.config = {
 </section>
 </main>
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer data-nav="dark" class="bg-ink text-white py-14">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
-    <a href="#top" class="flex items-center">
-      <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-7 w-auto">
-    </a>
-    <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-7 gap-y-2 text-sm text-white/60">
-      <a href="#max" class="hover:text-violet-soft transition-colors">Max</a>
-      <a href="#topics" class="hover:text-violet-soft transition-colors">Topics</a>
-      <a href="#rates" class="hover:text-violet-soft transition-colors">Rates</a>
-      <a href="#scholarship" class="hover:text-violet-soft transition-colors">Scholarship</a>
-      <a href="#inquire" class="hover:text-violet-soft transition-colors">Contact</a>
-    </nav>
-    <p class="text-sm text-white/50 text-center md:text-right">
-      <a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="hover:text-violet-soft transition-colors">maxematics@icloud.com</a>
-      <span class="text-white/25 mx-2">·</span>
-      <a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="hover:text-violet-soft transition-colors">813.444.6199</a>
-    </p>
+<!-- ═══════════ FOOTER ═══════════
+     Contained card rather than a full-bleed band: the affiliations strip above it is
+     paper, so a rounded ink slab reads as the page closing rather than another section
+     starting. The radial wash and the blurred hairline are the only light sources. -->
+<div class="bg-paper px-4 sm:px-6">
+<footer data-nav="dark" class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-[2rem] md:rounded-t-[3rem] border-t border-white/10 bg-ink bg-[radial-gradient(35%_128px_at_50%_0%,rgba(167,139,250,.18),transparent)] text-white px-6 sm:px-10 py-14 lg:py-16">
+  <div aria-hidden="true" class="pointer-events-none absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-soft/40 blur"></div>
+
+  <div class="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
+    <div class="rv space-y-4">
+      <a href="#top" class="inline-flex items-center">
+        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-7 w-auto">
+      </a>
+      <p class="max-w-xs text-sm text-white/55">One-on-one tutoring with Max Schwarzkopf — Tampa, FL and virtual.</p>
+      <p class="mt-8 text-sm text-white/40 md:mt-0">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
+    </div>
+
+    <div class="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
+      <div class="rv rv-d1">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Sessions</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#topics" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Topics</a></li>
+            <li><a href="#rates" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Rates</a></li>
+            <li><a href="#scholarship" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Scholarship</a></li>
+            <li><a href="#inquire" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Book a session</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rv rv-d2">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">About</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#max" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Meet Max</a></li>
+            <li><a href="#difference" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">The difference</a></li>
+            <li><a href="#testimonials" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Testimonials</a></li>
+            <li><a href="#affiliations" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Affiliations</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rv rv-d3">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Contact</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">maxematics@icloud.com</a></li>
+            <li><a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">813.444.6199</a></li>
+            <li class="text-white/45">Tampa, FL · in person or virtual</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="mt-10 text-center text-xs text-white/35">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
 </footer>
+</div>
 
 <script>
   if (location.search.includes('static')) {
