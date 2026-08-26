@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Maxematics — Private Tutoring · Max Schwarzkopf</title>
+<title>[v2] Maxematics — Private Tutoring · Max Schwarzkopf</title>
 <meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions across 14 topics, including SAT/ACT and Desmos support, virtual or in person.">
 <meta name="theme-color" content="#140E1F">
 <link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
@@ -487,8 +487,127 @@
   }
 }
 </script>
+<style>
+/* ═════════ v2 cinematic footer ═════════
+   Ported from a shadcn/GSAP component. GSAP is not used: the two things it was doing
+   here — a scroll-scrubbed parallax and a magnetic hover — are ~40 lines of rAF and a
+   transform, and this page ships no animation library. Every motion below is disabled
+   under prefers-reduced-motion, which the source component did not do. */
+
+/* The scroll spacer. Empty by design — it exists only to reserve the 100vh of scroll
+   distance that the curtain travels, and to give the nav band observer something in
+   normal flow to measure. */
+.fc-wrap { height: 100vh; height: 100svh; }
+
+/* <main> is the curtain: opaque and above the footer, so the footer is revealed as
+   main slides off rather than by moving anything. */
+main { position: relative; z-index: 1; background: #FAF8FF; }
+
+.fc-panel {
+  position: fixed; bottom: 0; left: 0; z-index: 0;
+  width: 100%; height: 100vh; height: 100svh;
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;
+}
+.fc-body { padding-top: 5rem; padding-bottom: 1.5rem; }
+
+/* Phones: no curtain. The effect needs a tall viewport to read, and a full-height
+   footer buries the phone number — which is the whole point of the footer on a phone. */
+@media (max-width: 767px) {
+  .fc-wrap { display: none; }
+  .fc-panel { position: static; height: auto; }
+  .fc-body { padding-top: 4rem; padding-bottom: 2.5rem; }
+}
+
+/* ── ambient light: violet only, per the page's single-accent rule ── */
+.fc-aurora {
+  position: absolute; left: 50%; top: 46%; z-index: 0; pointer-events: none;
+  height: 62vh; width: 86vw; max-width: 1100px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%; filter: blur(90px);
+  background: radial-gradient(circle at 50% 50%,
+    rgba(124,58,237,.30) 0%, rgba(91,33,182,.16) 42%, transparent 70%);
+  animation: fc-breathe 9s ease-in-out infinite alternate;
+}
+@keyframes fc-breathe {
+  from { transform: translate(-50%,-50%) scale(1);    opacity: .65; }
+  to   { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
+}
+
+/* ── giant background wordmark ──
+   Hairline stroke + a fill that fades out downward, so it reads as an embossed
+   watermark rather than a headline competing with "Ready to Begin?". */
+.fc-giant {
+  position: absolute; left: 50%; bottom: -7vh; z-index: 0;
+  transform: translateX(-50%) translateY(var(--fc-gy, 0)) scale(var(--fc-gs, 1));
+  transform-origin: 50% 100%;
+  opacity: var(--fc-go, 1);
+  white-space: nowrap; pointer-events: none; user-select: none;
+  font-family: 'Sora', sans-serif; font-weight: 800;
+  font-size: 13.5vw; line-height: .78; letter-spacing: -.055em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.042);
+  background: linear-gradient(180deg, rgba(255,255,255,.062) 0%, rgba(255,255,255,0) 58%);
+  -webkit-background-clip: text; background-clip: text;
+}
+
+/* ── metallic heading ── */
+.fc-metal {
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,.45) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  filter: drop-shadow(0 0 26px rgba(167,139,250,.18));
+}
+/* the violet question mark must not be eaten by the clipped gradient */
+.fc-metal .h-dot { -webkit-text-fill-color: #A78BFA; color: #A78BFA; }
+
+/* ── glass pill ── */
+.fc-pill {
+  background: linear-gradient(145deg, rgba(255,255,255,.055) 0%, rgba(255,255,255,.015) 100%);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 10px 30px -12px rgba(0,0,0,.7), inset 0 1px 1px rgba(255,255,255,.10);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: background .4s cubic-bezier(.16,1,.3,1), border-color .4s cubic-bezier(.16,1,.3,1),
+              box-shadow .4s cubic-bezier(.16,1,.3,1), color .3s ease;
+}
+.fc-pill:hover {
+  background: linear-gradient(145deg, rgba(167,139,250,.16) 0%, rgba(255,255,255,.03) 100%);
+  border-color: rgba(167,139,250,.42);
+  box-shadow: 0 20px 44px -14px rgba(0,0,0,.8), inset 0 1px 1px rgba(255,255,255,.18);
+  color: #fff;
+}
+
+/* ── scroll-scrubbed reveal (driven by --fc-q from the rAF loop) ── */
+.fc-rise { opacity: var(--fc-q, 1); transform: translateY(calc((1 - var(--fc-q, 1)) * 44px)); }
+.fc-rise-2 { --fc-q: var(--fc-q2, 1); }
+.fc-rise-3 { --fc-q: var(--fc-q3, 1); }
+.fc-rise-4 { --fc-q: var(--fc-q4, 1); }
+
+/* ── magnetic hover ── */
+.fc-mag { will-change: transform; }
+.fc-mag.fc-mag-on { transition: transform .45s cubic-bezier(.16,1,.3,1); }
+.fc-mag.fc-mag-off { transition: transform 1s cubic-bezier(.18,1.4,.4,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-aurora { animation: none; opacity: .8; }
+  .fc-giant  { transform: translateX(-50%) !important; opacity: 1 !important; }
+  .fc-rise   { opacity: 1 !important; transform: none !important; }
+  .fc-mag    { transform: none !important; transition: none !important; }
+}
+
+/* staging-only version switcher */
+.fc-switch { position: fixed; left: 50%; bottom: 1rem; z-index: 90; transform: translateX(-50%);
+  display: flex; gap: .25rem; padding: .25rem; border-radius: 9999px;
+  background: rgba(20,14,31,.72); border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; }
+.fc-switch a { padding: .45rem 1rem; border-radius: 9999px; color: rgba(255,255,255,.6); }
+.fc-switch a.on { background: #7C3AED; color: #fff; }
+</style>
 </head>
 <body class="bg-paper text-ink antialiased">
+<div class="fc-switch" aria-label="Mockup version"><a href="index.html">v1</a><a href="v2.html" class="on" aria-current="page">v2</a></div>
+
 
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
 
@@ -908,60 +1027,92 @@
 </section>
 </main>
 
-<!-- ═══════════ FOOTER ═══════════
-     Contained card rather than a full-bleed band: the affiliations strip above it is
-     paper, so a rounded ink slab reads as the page closing rather than another section
-     starting. The radial wash and the blurred hairline are the only light sources. -->
-<div class="bg-paper px-4 sm:px-6">
-<footer data-nav="dark" class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-[2rem] md:rounded-t-[3rem] border-t border-white/10 bg-ink bg-[radial-gradient(35%_128px_at_50%_0%,rgba(167,139,250,.18),transparent)] text-white px-6 sm:px-10 py-14 lg:py-16">
-  <div aria-hidden="true" class="pointer-events-none absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-soft/40 blur"></div>
+<!-- ═══════════ FOOTER (v2 — cinematic curtain) ═══════════
+     The page scrolls off a fixed footer rather than scrolling the footer into view.
 
-  <div class="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
-    <div class="rv space-y-4">
-      <a href="#top" class="inline-flex items-center">
-        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-7 w-auto">
+     Mechanism: #fcWrap is an empty 100vh spacer that reserves the scroll distance, and
+     the footer itself is fixed at z-index 0 with <main> opaque above it at z-index 1.
+     The source component did this with `clip-path` on a wrapper instead — that failed
+     outright in Chrome here: the fixed panel still hit-tested but neither it nor the
+     rest of the page below the fold composited at all. No clip-path is involved now.
+
+     #fcWrap also carries data-nav="dark" so the header's band observer reads the
+     footer correctly — the observer measures getBoundingClientRect(), and a fixed
+     element would report a permanent full-viewport hit and pin the nav dark forever.
+
+     Below md the whole effect is off (see .fc-wrap in the style block): a 100vh footer
+     buries the phone number on the one device where that is what the reader came for. -->
+<div id="fcWrap" data-nav="dark" class="fc-wrap" aria-hidden="true"></div>
+  <footer class="fc-panel bg-ink text-white grid-faint">
+
+    <div aria-hidden="true" class="fc-aurora"></div>
+    <div aria-hidden="true" id="fcGiant" class="fc-giant">maxematics</div>
+
+    <!-- ── main content ── -->
+    <div class="fc-body relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6">
+
+      <h2 id="fcHeading" class="fc-rise fc-metal text-center font-display text-4xl font-extrabold leading-[1.05] tracking-[-.035em] sm:text-5xl md:text-7xl">
+        Ready to Begin<span class="h-dot">?</span>
+      </h2>
+      <p id="fcSub" class="fc-rise fc-rise-2 mx-auto mt-5 max-w-md text-center text-sm text-white/50 sm:text-base">
+        One-on-one tutoring with Max Schwarzkopf — Tampa, FL and virtual.
+      </p>
+
+      <!-- contact, as the primary action: two glass pills, not a wall of text -->
+      <div id="fcPills" class="fc-rise fc-rise-3 mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="fc-pill fc-mag group flex w-full items-center justify-center gap-3 rounded-full px-7 py-4 text-sm font-semibold text-white/85 sm:w-auto md:text-base">
+          <svg class="h-4 w-4 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M4 19h16a1 1 0 001-1V6a1 1 0 00-1-1H4a1 1 0 00-1 1v12a1 1 0 001 1z"/></svg>
+          maxematics@icloud.com
+        </a>
+        <a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="fc-pill fc-mag group flex w-full items-center justify-center gap-3 rounded-full px-7 py-4 text-sm font-semibold text-white/85 sm:w-auto md:text-base">
+          <svg class="h-4 w-4 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.3a1 1 0 01.97.76l.9 3.6a1 1 0 01-.28.96L7.4 9.8a12 12 0 006.8 6.8l1.48-1.5a1 1 0 01.96-.27l3.6.9a1 1 0 01.76.97V19a2 2 0 01-2 2h-1C10.4 21 3 13.6 3 5z"/></svg>
+          813.444.6199
+        </a>
+      </div>
+
+      <!-- ── the v1 footer's link columns, kept intact ── -->
+      <nav id="fcLinks" aria-label="Footer" class="fc-rise fc-rise-4 mt-12 grid grid-cols-2 gap-x-8 gap-y-9 text-left sm:grid-cols-3 md:mt-14">
+        <div>
+          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">Sessions</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#topics" class="transition-colors duration-300 hover:text-violet-soft">Topics</a></li>
+            <li><a href="#rates" class="transition-colors duration-300 hover:text-violet-soft">Rates</a></li>
+            <li><a href="#scholarship" class="transition-colors duration-300 hover:text-violet-soft">Scholarship</a></li>
+            <li><a href="#inquire" class="transition-colors duration-300 hover:text-violet-soft">Book a session</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">About</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#max" class="transition-colors duration-300 hover:text-violet-soft">Meet Max</a></li>
+            <li><a href="#difference" class="transition-colors duration-300 hover:text-violet-soft">The difference</a></li>
+            <li><a href="#testimonials" class="transition-colors duration-300 hover:text-violet-soft">Testimonials</a></li>
+            <li><a href="#affiliations" class="transition-colors duration-300 hover:text-violet-soft">Affiliations</a></li>
+          </ul>
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">Where</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li>Tampa, FL — in person</li>
+            <li>Anywhere — virtual</li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- ── bottom bar ── -->
+    <div class="relative z-20 flex w-full flex-col items-center justify-between gap-5 px-6 pb-7 md:flex-row md:px-10">
+      <a href="#top" class="order-2 flex items-center md:order-1">
+        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-6 w-auto opacity-70 transition-opacity hover:opacity-100">
       </a>
-      <p class="max-w-xs text-sm text-white/55">One-on-one tutoring with Max Schwarzkopf — Tampa, FL and virtual.</p>
-      <p class="mt-8 text-sm text-white/40 md:mt-0">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
+      <p class="order-3 text-center text-[10px] font-semibold uppercase tracking-[.18em] text-white/35 md:order-2">
+        © 2026 Maxematics · Max Schwarzkopf · Tampa, FL
+      </p>
+      <button type="button" id="fcTop" class="fc-pill fc-mag group order-1 flex h-11 w-11 items-center justify-center rounded-full text-white/55 hover:text-white md:order-3" aria-label="Back to top">
+        <svg class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+      </button>
     </div>
-
-    <div class="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
-      <div class="rv rv-d1">
-        <div>
-          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Sessions</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li><a href="#topics" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Topics</a></li>
-            <li><a href="#rates" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Rates</a></li>
-            <li><a href="#scholarship" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Scholarship</a></li>
-            <li><a href="#inquire" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Book a session</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="rv rv-d2">
-        <div>
-          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">About</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li><a href="#max" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Meet Max</a></li>
-            <li><a href="#difference" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">The difference</a></li>
-            <li><a href="#testimonials" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Testimonials</a></li>
-            <li><a href="#affiliations" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Affiliations</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="rv rv-d3">
-        <div>
-          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Contact</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li><a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">maxematics@icloud.com</a></li>
-            <li><a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">813.444.6199</a></li>
-            <li class="text-white/45">Tampa, FL · in person or virtual</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-</div>
+  </footer>
 
 <script>
   if (location.search.includes('static')) {
@@ -1782,6 +1933,81 @@ if (nav){
   const schedule = () => (window.requestIdleCallback || (f => setTimeout(f, 200)))(boot, { timeout: 1500 });
   if (document.readyState === 'complete') schedule();
   else window.addEventListener('load', schedule, { once: true });
+})();
+</script>
+<script>
+/* v2 cinematic footer — scroll scrub + magnetic hover. No animation library. */
+(function () {
+  var wrap = document.getElementById('fcWrap');
+  if (!wrap) return;
+  var panel  = document.querySelector('.fc-panel');   // sibling of the spacer, not a child
+  if (!panel) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // ── scroll scrub ──
+  // p = how far the curtain has opened: 0 when the wrapper's top sits at the viewport
+  // bottom (footer fully hidden), 1 when it reaches the viewport top (fully revealed).
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    var vh = window.innerHeight;
+    var p  = 1 - (wrap.getBoundingClientRect().top / vh);
+    if (p < 0) p = 0; else if (p > 1) p = 1;
+
+    panel.style.setProperty('--fc-gy', ((1 - p) * 11).toFixed(3) + 'vh');
+    panel.style.setProperty('--fc-gs', (0.86 + 0.14 * p).toFixed(4));
+    panel.style.setProperty('--fc-go', p.toFixed(4));
+
+    // staggered content: each block starts 12% of the curtain later than the last
+    for (var i = 0; i < 4; i++) {
+      var q = (p - (0.18 + i * 0.12)) / 0.42;
+      if (q < 0) q = 0; else if (q > 1) q = 1;
+      panel.style.setProperty(i === 0 ? '--fc-q' : '--fc-q' + (i + 1), q.toFixed(4));
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+
+  if (reduce.matches || window.matchMedia('(max-width: 767px)').matches) {
+    // no curtain to scrub — show everything
+    ['--fc-q', '--fc-q2', '--fc-q3', '--fc-q4', '--fc-go'].forEach(function (v) { panel.style.setProperty(v, '1'); });
+    panel.style.setProperty('--fc-gy', '0vh');
+    panel.style.setProperty('--fc-gs', '1');
+  } else {
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    // rAF is paused while the document is hidden, so a tab opened in the background
+    // (or restored from bfcache) would come back with every .fc-rise block still at
+    // opacity 0 until the reader happened to scroll. Recompute synchronously on the
+    // events that mark a page becoming live again — frame(), not onScroll().
+    addEventListener('visibilitychange', function () { if (!document.hidden) frame(); });
+    addEventListener('pageshow', frame);
+    frame();
+  }
+
+  // ── magnetic hover ──
+  // Displacement is capped at 8px. The source component used 40% of cursor offset,
+  // which moves a link far enough to fight the pointer chasing it.
+  if (!reduce.matches && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    [].forEach.call(document.querySelectorAll('.fc-mag'), function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left - r.width / 2) * 0.28;
+        var y = (e.clientY - r.top - r.height / 2) * 0.28;
+        var m = 8;
+        x = Math.max(-m, Math.min(m, x));
+        y = Math.max(-m, Math.min(m, y));
+        el.classList.add('fc-mag-on'); el.classList.remove('fc-mag-off');
+        el.style.transform = 'translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px)';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.classList.add('fc-mag-off'); el.classList.remove('fc-mag-on');
+        el.style.transform = '';
+      });
+    });
+  }
+
+  var top = document.getElementById('fcTop');
+  if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
 </body>
