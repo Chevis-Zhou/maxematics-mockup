@@ -289,8 +289,12 @@
 
   /* ───────── Tampa banner — static strip, same chips as the old marquee ───────── */
   .otw{ background:#fff; overflow:hidden; border-block:1px solid rgba(20,14,31,.10);
-    padding:.9rem 1.5rem; }
-  .otw-row{ display:flex; align-items:center; justify-content:center; gap:.2rem; flex-wrap:wrap; }
+    padding:.9rem 0; }
+  /* The band bleeds full-width, but its contents sit on the same 72rem / px-6 measure as
+     every other section — otherwise the two chips float inboard of the page's left and
+     right edges and the band reads as a narrower, unrelated element. */
+  .otw-row{ display:flex; align-items:center; justify-content:space-between; gap:.2rem;
+    flex-wrap:wrap; max-width:72rem; margin-inline:auto; padding-inline:1.5rem; }
   .otw-word{ font-family:'Sora',sans-serif; font-weight:700; color:#140E1F;
     font-size:clamp(1rem,2.1vw,1.75rem); letter-spacing:-.01em;
     white-space:nowrap; padding:0 1.2rem; }
@@ -317,12 +321,18 @@
      Twelve identical cards gave the reader no scan order — a wall to skip rather than
      read. Three named rails of indexed hairline rows lets the eye enter anywhere and
      costs less vertical space than the card grid did. */
-  .cred-rail-h{ font-family:'Sora',sans-serif; font-size:.7rem; font-weight:700;
-    letter-spacing:.16em; text-transform:uppercase; color:#A78BFA;
-    padding-bottom:.8rem; border-bottom:1px solid rgba(167,139,250,.30); }
-  .cred-list{ margin:0; padding:0; list-style:none; }
+  /* One violet hairline across the whole block, rather than one per rail: with the
+     category headers gone there is nothing for three separate rules to caption, and a
+     single line reads as the top edge of one record. It also survives multi-column —
+     a per-column rule is not expressible when the browser decides the column breaks. */
+  .cred-cols{ border-top:1px solid rgba(167,139,250,.30); }
+  .cred-list{ margin:0; padding:0; list-style:none;
+    column-count:3; column-gap:3rem; }
+  @media(max-width:1023px){ .cred-list{ column-count:2; column-gap:2.25rem; } }
+  @media(max-width:767px){  .cred-list{ column-count:1; } }
   .cred-row{ position:relative; display:flex; gap:.95rem; align-items:flex-start;
-    padding:.9rem .2rem; border-bottom:1px solid rgba(255,255,255,.09); }
+    padding:.9rem .2rem; border-bottom:1px solid rgba(255,255,255,.09);
+    break-inside:avoid; -webkit-column-break-inside:avoid; }
   .cred-row::after{ content:''; position:absolute; left:0; bottom:-1px; width:100%; height:1px;
     background:#A78BFA; transform:scaleX(0); transform-origin:left;
     transition:transform .45s cubic-bezier(.22,1,.36,1); }
@@ -348,7 +358,10 @@
     height:min(clamp(20rem,42vw,42rem), 88%); top:50%; transform:translateY(-50%); }
   .mark-wash-r img{ right:-12%; }
   .mark-wash-l img{ left:-14%; }
-  .mark-wash-light img{ opacity:.07; }
+  /* Light sections carry violet-on-paper, which holds far more contrast than the
+     white-on-ink version at the same alpha. Halved 2026-08-25 (owner): the mark
+     should register after the copy, not alongside it. */
+  .mark-wash-light img{ opacity:.035; }
   .mark-wash-dark img{ opacity:.07; }
   @media(max-width:767px){ .mark-wash img{ height:min(clamp(14rem,60vw,22rem), 88%); } }
   /* mark-wash-fit: scoped to a single media element (a photo, not the section) —
@@ -661,44 +674,29 @@
       </div>
     </div>
 
-    <!-- credentials — the same twelve entries, grouped into three named rails.
-         As twelve identical cards they read as one undifferentiated wall; as indexed
-         hairline rows under a category header the reader can enter at whichever rail
-         matches what they came to check. The 01–12 index numbers were dropped
-         2026-08-25 — twelve items across three short rails don't need a running
-         count, and the numerals were competing with the entry text for attention. -->
-    <div class="mt-16 grid md:grid-cols-3 gap-x-9 lg:gap-x-12 gap-y-11">
-
-      <div>
-        <p class="rv cred-rail-h">Honors &amp; Awards</p>
-        <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.04s"><span class="cred-t">Anne Frank Humanitarian Award</span></li>
-          <li class="rv cred-row" style="--rvd:.10s"><span class="cred-t">Department Awards — Math, Science, &amp; History</span></li>
-          <li class="rv cred-row" style="--rvd:.16s"><span class="cred-t">Cum Laude Society</span></li>
-          <li class="rv cred-row" style="--rvd:.22s"><span class="cred-t">AP Scholar with Distinction</span></li>
-          <li class="rv cred-row" style="--rvd:.28s"><span class="cred-t">Tampa Prep Head’s List</span></li>
-        </ul>
-      </div>
-
-      <div>
-        <p class="rv cred-rail-h" style="--rvd:.08s">Research &amp; Lab</p>
-        <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.12s"><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
-          <li class="rv cred-row" style="--rvd:.18s"><span class="cred-t">NJ State Police Crime Lab Intern, DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
-          <li class="rv cred-row" style="--rvd:.24s"><span class="cred-t">Best Overall Research — HC STEM Fair</span></li>
-        </ul>
-      </div>
-
-      <div>
-        <p class="rv cred-rail-h" style="--rvd:.16s">Leadership &amp; Service</p>
-        <ul class="cred-list">
-          <li class="rv cred-row" style="--rvd:.20s"><span class="cred-t">Writing Center Director &amp; Tutor</span></li>
-          <li class="rv cred-row" style="--rvd:.26s"><span class="cred-t">HOBY Youth Leadership Ambassador</span></li>
-          <li class="rv cred-row" style="--rvd:.32s"><span class="cred-t">Pie &amp; Pi — Club Founder &amp; President, Content Creator</span></li>
-          <li class="rv cred-row" style="--rvd:.38s"><span class="cred-t">Varsity Rowing Team Captain</span></li>
-        </ul>
-      </div>
-
+    <!-- credentials — twelve entries, one list, three balanced columns.
+         The Honors / Research / Leadership rails were dropped 2026-08-25 (owner): three
+         headers over three, four and five items made the block read as three unequal
+         lists rather than one record. CSS multi-column balances the heights instead, so
+         the entries can differ in length by 3× without leaving a ragged column — and it
+         re-balances at every viewport width, which a hand-split grid cannot.
+         Order is chosen so the sequential fill lands ~even at the desktop width: the
+         three longest entries lead a column each. -->
+    <div class="mt-16 cred-cols">
+      <ul class="cred-list">
+        <li class="rv cred-row" style="--rvd:.04s"><span class="cred-t">NJ State Police Crime Lab Intern, DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
+        <li class="rv cred-row" style="--rvd:.08s"><span class="cred-t">Anne Frank Humanitarian Award</span></li>
+        <li class="rv cred-row" style="--rvd:.12s"><span class="cred-t">Cum Laude Society</span></li>
+        <li class="rv cred-row" style="--rvd:.16s"><span class="cred-t">Tampa Prep Head’s List</span></li>
+        <li class="rv cred-row" style="--rvd:.20s"><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
+        <li class="rv cred-row" style="--rvd:.24s"><span class="cred-t">Varsity Rowing Team Captain</span></li>
+        <li class="rv cred-row" style="--rvd:.28s"><span class="cred-t">AP Scholar with Distinction</span></li>
+        <li class="rv cred-row" style="--rvd:.32s"><span class="cred-t">Best Overall Research — HC STEM Fair</span></li>
+        <li class="rv cred-row" style="--rvd:.36s"><span class="cred-t">Pie &amp; Pi — Club Founder &amp; President, Content Creator</span></li>
+        <li class="rv cred-row" style="--rvd:.40s"><span class="cred-t">Writing Center Director &amp; Tutor</span></li>
+        <li class="rv cred-row" style="--rvd:.44s"><span class="cred-t">HOBY Youth Leadership Ambassador</span></li>
+        <li class="rv cred-row" style="--rvd:.48s"><span class="cred-t">Department Awards — Math, Science, &amp; History</span></li>
+      </ul>
     </div>
   </div>
 </section>
