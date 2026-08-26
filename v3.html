@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>[v2] Maxematics — Private Tutoring · Max Schwarzkopf</title>
+<title>[v3] Maxematics — Private Tutoring · Max Schwarzkopf</title>
 <meta name="description" content="Maxematics is Max Schwarzkopf's private tutoring practice in Tampa, FL — one-on-one sessions across 14 topics, including SAT/ACT and Desmos support, virtual or in person.">
 <meta name="theme-color" content="#140E1F">
 <link rel="icon" href="assets/favicon/maxematics-favicon-violet.svg" type="image/svg+xml">
@@ -501,114 +501,68 @@
 }
 </script>
 <style>
-/* ═════════ v2 cinematic footer ═════════
-   Ported from a shadcn/GSAP component. GSAP is not used: the two things it was doing
-   here — a scroll-scrubbed parallax and a magnetic hover — are ~40 lines of rAF and a
-   transform, and this page ships no animation library. Every motion below is disabled
-   under prefers-reduced-motion, which the source component did not do. */
+/* ═══════════ v3 — hero light bulb ═══════════
+   Injected after the page's own <style>, so these win on ties. Everything the
+   bulb looks like is here; v3-hero.js only transports the values to the GPU. */
 
-/* The scroll spacer. Empty by design — it exists only to reserve the 100vh of scroll
-   distance that the curtain travels, and to give the nav band observer something in
-   normal flow to measure. */
-.fc-wrap { height: 100vh; height: 100svh; }
+:root{
+  /* ── placement, as fractions of the hero box ── */
+  --bulb-x: .795;            /* centre, left→right */
+  --bulb-y: .505;             /* centre, top→bottom */
+  --bulb-scale: .73;         /* bulb height ÷ hero height */
 
-/* <main> is the curtain: opaque and above the footer, so the footer is revealed as
-   main slides off rather than by moving anything. */
-main { position: relative; z-index: 1; background: #FAF8FF; }
+  /* ── the object ── */
+  --bulb-spin: .085;         /* rad/s — one revolution every ~74s */
+  --bulb-tilt: -7;           /* deg; negative looks slightly down onto it */
+  --bulb-persp: .26;         /* 0 is orthographic and reads flat */
+  --bulb-nodes: 420;         /* vertices on the glass; the cage is derived from them */
+  --bulb-line: 1.05;         /* CSS px, before DPR */
+  --bulb-node-size: 2.7;
 
-.fc-panel {
-  position: fixed; bottom: 0; left: 0; z-index: 0;
-  width: 100%; height: 100vh; height: 100svh;
-  display: flex; flex-direction: column; justify-content: space-between;
-  overflow: hidden;
-}
-.fc-body { padding-top: 5rem; padding-bottom: 1.5rem; }
+  /* ── light ── */
+  --bulb-intensity: 1.1;       /* the one knob to dial the whole thing down */
+  --bulb-bloom-tight: .9;
+  --bulb-bloom-wide: .55;
+  --bulb-warmth: .16;        /* incandescence at the coil core only. 0 = pure violet */
+  --bulb-dust: 1;
 
-/* Phones: no curtain. The effect needs a tall viewport to read, and a full-height
-   footer buries the phone number — which is the whole point of the footer on a phone. */
-@media (max-width: 767px) {
-  .fc-wrap { display: none; }
-  .fc-panel { position: static; height: auto; }
-  .fc-body { padding-top: 4rem; padding-bottom: 2.5rem; }
-}
-
-/* ── ambient light: violet only, per the page's single-accent rule ── */
-.fc-aurora {
-  position: absolute; left: 50%; top: 46%; z-index: 0; pointer-events: none;
-  height: 62vh; width: 86vw; max-width: 1100px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%; filter: blur(90px);
-  background: radial-gradient(circle at 50% 50%,
-    rgba(124,58,237,.30) 0%, rgba(91,33,182,.16) 42%, transparent 70%);
-  animation: fc-breathe 9s ease-in-out infinite alternate;
-}
-@keyframes fc-breathe {
-  from { transform: translate(-50%,-50%) scale(1);    opacity: .65; }
-  to   { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
+  /* ── palette — single-accent discipline: violet is the only hue ── */
+  --bulb-glass: #6D28D9;     /* the body of the glass, lit from inside */
+  --bulb-edge:  #A78BFA;     /* cage lines and the silhouette rim */
+  --bulb-node:  #DDD6FE;     /* vertices */
+  --bulb-core:  #FFFFFF;     /* the coil, before warmth */
+  --bulb-halo:  #5B21B6;     /* what the bulb throws into the room */
 }
 
-/* ── giant background wordmark ──
-   Hairline stroke + a fill that fades out downward, so it reads as an embossed
-   watermark rather than a headline competing with "Ready to Begin?". */
-.fc-giant {
-  position: absolute; left: 50%; bottom: -7vh; z-index: 0;
-  transform: translateX(-50%) translateY(var(--fc-gy, 0)) scale(var(--fc-gs, 1));
-  transform-origin: 50% 100%;
-  opacity: var(--fc-go, 1);
-  white-space: nowrap; pointer-events: none; user-select: none;
-  font-family: 'Sora', sans-serif; font-weight: 800;
-  font-size: 13.5vw; line-height: .78; letter-spacing: -.055em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,.042);
-  background: linear-gradient(180deg, rgba(255,255,255,.062) 0%, rgba(255,255,255,0) 58%);
-  -webkit-background-clip: text; background-clip: text;
+/* The bulb sits ABOVE the plotted curve, not under it. Under it, the curve drew a
+   hard 2.5px line straight across the glass; above it — and screen-blended — the
+   curve passes behind the glow and is washed out by it, which is what a line
+   behind a light source actually does. */
+.hero-fx{ z-index:3; }
+
+/* The plotted curve now runs behind a light source, so it is treated like one:
+   dimmed overall, and dipped to a whisper across the span the bulb occupies. It
+   rises out of the lower left, disappears into the glare, and comes back out at
+   the "Success." point — which is what a line behind a bulb does. Both hover
+   points outside the glare keep their dots; the middle one is inside it. */
+/* Scoped to the widths where the bulb actually exists — the module gates itself
+   off under 768px, and dimming the curve on a phone that never gets a bulb would
+   just be taking something away. */
+@media (min-width: 768px){
+  .curve{ opacity:.55;
+    -webkit-mask-image:linear-gradient(90deg,#000 0 38%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.16) 74%,#000 90%);
+            mask-image:linear-gradient(90deg,#000 0 38%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.16) 74%,#000 90%); }
 }
 
-/* ── metallic heading ── */
-.fc-metal {
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,.45) 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  filter: drop-shadow(0 0 26px rgba(167,139,250,.18));
-}
-/* the violet question mark must not be eaten by the clipped gradient */
-.fc-metal .h-dot { -webkit-text-fill-color: #A78BFA; color: #A78BFA; }
-
-/* ── glass pill ── */
-.fc-pill {
-  background: linear-gradient(145deg, rgba(255,255,255,.055) 0%, rgba(255,255,255,.015) 100%);
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: 0 10px 30px -12px rgba(0,0,0,.7), inset 0 1px 1px rgba(255,255,255,.10);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  transition: background .4s cubic-bezier(.16,1,.3,1), border-color .4s cubic-bezier(.16,1,.3,1),
-              box-shadow .4s cubic-bezier(.16,1,.3,1), color .3s ease;
-}
-.fc-pill:hover {
-  background: linear-gradient(145deg, rgba(167,139,250,.16) 0%, rgba(255,255,255,.03) 100%);
-  border-color: rgba(167,139,250,.42);
-  box-shadow: 0 20px 44px -14px rgba(0,0,0,.8), inset 0 1px 1px rgba(255,255,255,.18);
-  color: #fff;
+/* Narrower desktops: the headline is whitespace-nowrap and grows with the
+   viewport, while the bulb is sized off the hero's HEIGHT — so below ~1280 the
+   two close on each other. The bulb steps back rather than crowding "Success."
+   (Read once at boot, like every token here; a live drag across the breakpoint
+   keeps the size it started with.) */
+@media (max-width: 1279px){
+  :root{ --bulb-x: .835; --bulb-scale: .68; }
 }
 
-/* ── scroll-scrubbed reveal (driven by --fc-q from the rAF loop) ── */
-.fc-rise { opacity: var(--fc-q, 1); transform: translateY(calc((1 - var(--fc-q, 1)) * 44px)); }
-.fc-rise-2 { --fc-q: var(--fc-q2, 1); }
-.fc-rise-3 { --fc-q: var(--fc-q3, 1); }
-.fc-rise-4 { --fc-q: var(--fc-q4, 1); }
-
-/* ── magnetic hover ── */
-.fc-mag { will-change: transform; }
-.fc-mag.fc-mag-on { transition: transform .45s cubic-bezier(.16,1,.3,1); }
-.fc-mag.fc-mag-off { transition: transform 1s cubic-bezier(.18,1.4,.4,1); }
-
-@media (prefers-reduced-motion: reduce) {
-  .fc-aurora { animation: none; opacity: .8; }
-  .fc-giant  { transform: translateX(-50%) !important; opacity: 1 !important; }
-  .fc-rise   { opacity: 1 !important; transform: none !important; }
-  .fc-mag    { transform: none !important; transition: none !important; }
-}
-
-/* staging-only version switcher */
 .fc-switch { position: fixed; left: 50%; bottom: 1rem; z-index: 90; transform: translateX(-50%);
   display: flex; gap: .25rem; padding: .25rem; border-radius: 9999px;
   background: rgba(20,14,31,.72); border: 1px solid rgba(255,255,255,.14);
@@ -619,7 +573,7 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
 </style>
 </head>
 <body class="bg-paper text-ink antialiased">
-<div class="fc-switch" aria-label="Mockup version"><a href="index.html">v1</a><a href="v2.html" class="on" aria-current="page">v2</a><a href="v3.html">v3</a><a href="v4.html">v4</a></div>
+<div class="fc-switch" aria-label="Mockup version"><a href="index.html">v1</a><a href="v2.html">v2</a><a href="v3.html" class="on" aria-current="page">v3</a><a href="v4.html">v4</a></div>
 
 
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-3 focus:left-3 focus:rounded-full focus:bg-violet focus:text-white focus:text-sm focus:font-semibold focus:px-5 focus:py-2.5">Skip to content</a>
@@ -1025,92 +979,60 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
 </section>
 </main>
 
-<!-- ═══════════ FOOTER (v2 — cinematic curtain) ═══════════
-     The page scrolls off a fixed footer rather than scrolling the footer into view.
+<!-- ═══════════ FOOTER ═══════════
+     Contained card rather than a full-bleed band: the affiliations strip above it is
+     paper, so a rounded ink slab reads as the page closing rather than another section
+     starting. The radial wash and the blurred hairline are the only light sources. -->
+<div class="bg-paper px-4 sm:px-6">
+<footer data-nav="dark" class="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-[2rem] md:rounded-t-[3rem] border-t border-white/10 bg-ink bg-[radial-gradient(35%_128px_at_50%_0%,rgba(167,139,250,.18),transparent)] text-white px-6 sm:px-10 py-14 lg:py-16">
+  <div aria-hidden="true" class="pointer-events-none absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-soft/40 blur"></div>
 
-     Mechanism: #fcWrap is an empty 100vh spacer that reserves the scroll distance, and
-     the footer itself is fixed at z-index 0 with <main> opaque above it at z-index 1.
-     The source component did this with `clip-path` on a wrapper instead — that failed
-     outright in Chrome here: the fixed panel still hit-tested but neither it nor the
-     rest of the page below the fold composited at all. No clip-path is involved now.
-
-     #fcWrap also carries data-nav="dark" so the header's band observer reads the
-     footer correctly — the observer measures getBoundingClientRect(), and a fixed
-     element would report a permanent full-viewport hit and pin the nav dark forever.
-
-     Below md the whole effect is off (see .fc-wrap in the style block): a 100vh footer
-     buries the phone number on the one device where that is what the reader came for. -->
-<div id="fcWrap" data-nav="dark" class="fc-wrap" aria-hidden="true"></div>
-  <footer class="fc-panel bg-ink text-white grid-faint">
-
-    <div aria-hidden="true" class="fc-aurora"></div>
-    <div aria-hidden="true" id="fcGiant" class="fc-giant">maxematics</div>
-
-    <!-- ── main content ── -->
-    <div class="fc-body relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6">
-
-      <h2 id="fcHeading" class="fc-rise fc-metal text-center font-display text-4xl font-extrabold leading-[1.05] tracking-[-.035em] sm:text-5xl md:text-7xl">
-        Ready to Begin<span class="h-dot">?</span>
-      </h2>
-      <p id="fcSub" class="fc-rise fc-rise-2 mx-auto mt-5 max-w-md text-center text-sm text-white/50 sm:text-base">
-        One-on-one tutoring with Max Schwarzkopf — Tampa, FL and virtual.
-      </p>
-
-      <!-- contact, as the primary action: two glass pills, not a wall of text -->
-      <div id="fcPills" class="fc-rise fc-rise-3 mt-9 flex flex-wrap items-center justify-center gap-3">
-        <a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="fc-pill fc-mag group flex w-full items-center justify-center gap-3 rounded-full px-7 py-4 text-sm font-semibold text-white/85 sm:w-auto md:text-base">
-          <svg class="h-4 w-4 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M4 19h16a1 1 0 001-1V6a1 1 0 00-1-1H4a1 1 0 00-1 1v12a1 1 0 001 1z"/></svg>
-          maxematics@icloud.com
-        </a>
-        <a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="fc-pill fc-mag group flex w-full items-center justify-center gap-3 rounded-full px-7 py-4 text-sm font-semibold text-white/85 sm:w-auto md:text-base">
-          <svg class="h-4 w-4 text-violet-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.3a1 1 0 01.97.76l.9 3.6a1 1 0 01-.28.96L7.4 9.8a12 12 0 006.8 6.8l1.48-1.5a1 1 0 01.96-.27l3.6.9a1 1 0 01.76.97V19a2 2 0 01-2 2h-1C10.4 21 3 13.6 3 5z"/></svg>
-          813.444.6199
-        </a>
-      </div>
-
-      <!-- ── the v1 footer's link columns, kept intact ── -->
-      <nav id="fcLinks" aria-label="Footer" class="fc-rise fc-rise-4 mt-12 grid grid-cols-2 gap-x-8 gap-y-9 text-left sm:grid-cols-3 md:mt-14">
-        <div>
-          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">Sessions</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li><a href="#topics" class="transition-colors duration-300 hover:text-violet-soft">Topics</a></li>
-            <li><a href="#rates" class="transition-colors duration-300 hover:text-violet-soft">Rates</a></li>
-            <li><a href="#scholarship" class="transition-colors duration-300 hover:text-violet-soft">Scholarship</a></li>
-            <li><a href="#inquire" class="transition-colors duration-300 hover:text-violet-soft">Book a session</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">About</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li><a href="#max" class="transition-colors duration-300 hover:text-violet-soft">Meet Max</a></li>
-            <li><a href="#difference" class="transition-colors duration-300 hover:text-violet-soft">The difference</a></li>
-            <li><a href="#testimonials" class="transition-colors duration-300 hover:text-violet-soft">Testimonials</a></li>
-            <li><a href="#affiliations" class="transition-colors duration-300 hover:text-violet-soft">Affiliations</a></li>
-          </ul>
-        </div>
-        <div class="col-span-2 sm:col-span-1">
-          <h3 class="eyebrow text-[11px] font-semibold uppercase text-white/40">Where</h3>
-          <ul class="mt-4 space-y-2 text-sm text-white/60">
-            <li>Tampa, FL — in person</li>
-            <li>Anywhere — virtual</li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-
-    <!-- ── bottom bar ── -->
-    <div class="relative z-20 flex w-full flex-col items-center justify-between gap-5 px-6 pb-7 md:flex-row md:px-10">
-      <a href="#top" class="order-2 flex items-center md:order-1">
-        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-6 w-auto opacity-70 transition-opacity hover:opacity-100">
+  <div class="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
+    <div class="rv space-y-4">
+      <a href="#top" class="inline-flex items-center">
+        <img src="assets/logo-horizontal-hero.svg" alt="Maxematics" class="h-7 w-auto">
       </a>
-      <p class="order-3 text-center text-[10px] font-semibold uppercase tracking-[.18em] text-white/35 md:order-2">
-        © 2026 Maxematics · Max Schwarzkopf · Tampa, FL
-      </p>
-      <button type="button" id="fcTop" class="fc-pill fc-mag group order-1 flex h-11 w-11 items-center justify-center rounded-full text-white/55 hover:text-white md:order-3" aria-label="Back to top">
-        <svg class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-      </button>
+      <p class="max-w-xs text-sm text-white/55">One-on-one tutoring with Max Schwarzkopf — Tampa, FL and virtual.</p>
+      <p class="mt-8 text-sm text-white/40 md:mt-0">© 2026 Maxematics · Max Schwarzkopf · Tampa, FL</p>
     </div>
-  </footer>
+
+    <div class="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
+      <div class="rv rv-d1">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Sessions</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#topics" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Topics</a></li>
+            <li><a href="#rates" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Rates</a></li>
+            <li><a href="#scholarship" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Scholarship</a></li>
+            <li><a href="#inquire" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Book a session</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rv rv-d2">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">About</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a href="#max" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Meet Max</a></li>
+            <li><a href="#difference" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">The difference</a></li>
+            <li><a href="#testimonials" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Testimonials</a></li>
+            <li><a href="#affiliations" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">Affiliations</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rv rv-d3">
+        <div>
+          <h3 class="eyebrow text-xs font-semibold uppercase text-white/45">Contact</h3>
+          <ul class="mt-4 space-y-2 text-sm text-white/60">
+            <li><a data-ae="contact.email" data-ae-type="link" data-ae-schemes="mailto" data-ae-max="60" href="mailto:maxematics@icloud.com" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">maxematics@icloud.com</a></li>
+            <li><a data-ae="contact.phone" data-ae-type="link" data-ae-schemes="tel" data-ae-max="60" href="tel:+18134446199" class="inline-flex items-center transition-colors duration-300 hover:text-violet-soft">813.444.6199</a></li>
+            <li class="text-white/45">Tampa, FL · in person or virtual</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
 
 <script>
   if (location.search.includes('static')) {
@@ -1542,38 +1464,50 @@ if (nav){
 }
 </script>
 
-<!-- ═══════════ Hero line field — OGL ═══════════
-     Three parallax layers of bowed lanes with light travelling along them, then a
-     real bloom pass: bright-pass → horizontal blur → vertical blur → composite.
-     The bloom is why this is a library and not another hand-rolled context. Four
-     draws and two render targets of FBO plumbing is the part raw WebGL2 makes
-     tedious and OGL makes ordinary; the field shader itself would have been the
-     same either way. OGL is ~39 KB gzipped over the wire for the whole library —
-     more than the ~25 KB core figure, still an order under a CDN three.js.
-
-     Loaded with a dynamic import inside the idle callback, so the bytes are not
-     even requested until the hero has painted, and a CDN failure is a caught
-     rejection that leaves the base layer exactly as it is. -->
+<!-- ═══════════ Hero light bulb — OGL ═══════════
+     v3's replacement for the travelling line field. Source: mockup/v3-hero.js —
+     edit it there, not here; this block is generated. -->
 <script type="module">
+/* ═══════════ Hero light bulb — OGL ═══════════
+   v3's replacement for the travelling line field. Same contract as the thing it
+   replaces: a WebGL2 overlay that screen-blends over a hero which is already
+   complete without it, loaded after first paint, and self-removing on any of the
+   half-dozen ways it can fail to earn its keep.
+
+   What changed is the subject. The field was atmosphere; this is an object — a
+   low-poly bulb built as real geometry, not as a shader trick:
+
+     · one signed-distance silhouette, evaluated in JS to place vertices on a
+       surface of revolution and again in GLSL to fill the glass with light, so
+       the wireframe and the glow can never drift out of register
+     · an adaptive radius graph over those vertices for the triangulated cage
+     · rings for the screw cap, a real 3D coil for the filament
+     · every line drawn as an expanded quad with a Gaussian cross-section, because
+       gl.lineWidth is capped at 1 on every desktop driver and 1px diagonals in an
+       FBO get no MSAA — the quads are what make the cage read as light rather
+       than as aliased wire
+     · a two-level bloom pyramid (tight + wide) and an ACES-ish tonemap, so the
+       coil blows out photographically instead of clipping to a flat white bar
+
+   Single-accent discipline holds: violet is the only hue. --bulb-warmth adds a
+   trace of incandescent amber at the coil core only, where the value is already
+   past white. Set it to 0 for pure violet. */
 (() => {
-  const host   = document.querySelector('.hero-bg');
-  const canvas = document.getElementById('heroFx');
+  const host    = document.querySelector('.hero-bg');
+  const canvas  = document.getElementById('heroFx');
   const section = host && host.closest('section');
   if (!host || !canvas || !section) return;
 
-  /* ─── degradation gates ───
-     Every one of these falls through to the DOM base layer that is already
-     painted. Nothing below is on the critical render path, nothing here is the
-     LCP element, and nothing here can shift layout. */
+  /* ─── degradation gates — unchanged, and for the same reasons ─── */
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const small  = matchMedia('(max-width: 767px)').matches;   // hover isn't the input model, and fill rate is scarce
+  const small  = matchMedia('(max-width: 767px)').matches;
   const weak   = (navigator.hardwareConcurrency || 8) <= 4 ||
                  (navigator.deviceMemory && navigator.deviceMemory <= 4);
   if (reduce || small || weak || location.search.includes('static')) { canvas.remove(); return; }
   if (!document.createElement('canvas').getContext('webgl2')) { canvas.remove(); return; }
 
   /* ─── motif tokens, read from :root ───
-     The look is CSS-owned. This module only transports the values to the GPU. */
+     The look is CSS-owned; this module only transports the values to the GPU. */
   const css = getComputedStyle(document.documentElement);
   const num = (name, fallback) => {
     const v = parseFloat(css.getPropertyValue(name));
@@ -1585,177 +1519,532 @@ if (nav){
     return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255];
   };
   const TOK = {
-    density:   num('--fx-line-density', 24),
-    speed:     num('--fx-drift-speed', 0.34),
-    angle:     num('--fx-streak-angle', -12) * Math.PI / 180,
-    curve:     num('--fx-lane-curve', 0.075),
-    bloom:     num('--fx-bloom', 1.15),
-    pointer:   num('--fx-pointer', 1),
-    intensity: num('--fx-intensity', 0.85),
-    core: rgb('--fx-violet-core', '5B21B6'),
-    mid:  rgb('--fx-violet-mid',  '7C3AED'),
-    hi:   rgb('--fx-violet-hi',   'C4B5FD')
+    x:      num('--bulb-x', 0.795),        // centre, as a fraction of the hero box
+    y:      num('--bulb-y', 0.47),
+    scale:  num('--bulb-scale', 0.80),     // bulb height ÷ hero height
+    spin:   num('--bulb-spin', 0.085),     // rad/s about the vertical axis
+    tilt:   num('--bulb-tilt', -7) * Math.PI / 180,
+    persp:  num('--bulb-persp', 0.26),
+    nodes:  num('--bulb-nodes', 320),
+    line:   num('--bulb-line', 1.35),      // CSS px, before DPR
+    node:   num('--bulb-node-size', 3.1),
+    intensity:  num('--bulb-intensity', 1),
+    bloomTight: num('--bulb-bloom-tight', 1.05),
+    bloomWide:  num('--bulb-bloom-wide', 0.95),
+    warmth: num('--bulb-warmth', 0.16),
+    dust:   num('--bulb-dust', 1),
+    pointer: num('--fx-pointer', 1),
+    cGlass: rgb('--bulb-glass', '6D28D9'),
+    cEdge:  rgb('--bulb-edge',  'A78BFA'),
+    cNode:  rgb('--bulb-node',  'DDD6FE'),
+    cCore:  rgb('--bulb-core',  'FFFFFF'),
+    cHalo:  rgb('--bulb-halo',  '5B21B6')
   };
 
-  // GLSL ES 1.00 throughout, not 3.00: WebGL2 accepts it, and it keeps one source
-  // that would still compile if the renderer ever falls back to WebGL1.
-  const VERT = `
+  /* ═════════ 1 · the silhouette ═════════
+     Bulb units: the glass apex is y=+1, the contact tip y=-1, the widest radius
+     0.5. Three primitives under two smooth unions — the smin between the glass
+     sphere and the cap box IS the neck, which is why it curves like a bulb's
+     instead of like two shapes that happen to touch.
+     GLSL keeps a line-for-line copy of this in BG; they must be edited together. */
+  const smin = (a, b, k) => { const h = Math.min(1, Math.max(0, 0.5 + 0.5 * (b - a) / k)); return b + (a - b) * h - k * h * (1 - h); };
+  const sdBox = (px, py, cx, cy, bx, by, r) => {
+    const qx = Math.abs(px - cx) - bx + r, qy = Math.abs(py - cy) - by + r;
+    return Math.min(Math.max(qx, qy), 0) + Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) - r;
+  };
+  const sdBulb = (x, y) => {
+    let d = Math.hypot(x, (y - 0.42) * 0.862) - 0.50;
+    d = smin(d, sdBox(x, y, 0, -0.585, 0.198, 0.325, 0.055), 0.26);
+    d = smin(d, sdBox(x, y, 0, -0.945, 0.098, 0.058, 0.05), 0.05);
+    return d;
+  };
+  const radiusAt = (y) => {
+    if (sdBulb(0, y) > 0) return 0;
+    let lo = 0, hi = 0.8;
+    for (let i = 0; i < 26; i++) { const m = (lo + hi) * 0.5; if (sdBulb(m, y) < 0) lo = m; else hi = m; }
+    return lo;
+  };
+
+  /* ═════════ 2 · geometry ═════════ */
+  const TAU = Math.PI * 2;
+  // deterministic: the bulb must be the same object on every load, or a screenshot
+  // taken for review is of a page nobody else will ever see
+  let rndState = 20260825 >>> 0;
+  const rand = () => (rndState = (rndState * 1664525 + 1013904223) >>> 0) / 4294967296;
+
+  const SEG = [];   // {a,b,na,nb,seed,kind}   kind 0 glass · 1 cap · 2 coil · 3 stem
+  const PTS = [];   // {p,n,seed,kind}         kind 0 surface node · 1 interior mote
+  const pushSeg = (a, b, na, nb, kind) => SEG.push({ a, b, na: na || a, nb: nb || b, s: rand(), k: kind });
+  const ring = (y, r, n, kind, ny) => {
+    for (let i = 0; i < n; i++) {
+      const a0 = i / n * TAU, a1 = (i + 1) / n * TAU;
+      const nA = [Math.cos(a0), ny || 0, Math.sin(a0)], nB = [Math.cos(a1), ny || 0, Math.sin(a1)];
+      pushSeg([r * Math.cos(a0), y, r * Math.sin(a0)], [r * Math.cos(a1), y, r * Math.sin(a1)], nA, nB, kind);
+    }
+  };
+  const strip = (pts, kind) => {
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      const n = [a[0] || 0.001, 0, a[2] || 0.001];
+      const l = Math.hypot(n[0], n[2]) || 1;
+      pushSeg(a, b, [n[0] / l, 0, n[2] / l], [n[0] / l, 0, n[2] / l], kind);
+    }
+  };
+
+  /* ── 2a · glass cage ──
+     Vertices are area-weighted along the profile so the mesh is even from the
+     dome to the shoulder instead of piling up where the bulb is narrow. Below
+     the shoulder the density falls to zero: that is where the glass ends and the
+     metal begins, and the cap gets rings, not a net. */
+  const M = 512, py = new Float64Array(M + 1), pr = new Float64Array(M + 1), cdf = new Float64Array(M + 1);
+  for (let i = 0; i <= M; i++) { py[i] = -1 + 2 * i / M; pr[i] = radiusAt(py[i]); }
+  for (let i = 1; i <= M; i++) {
+    const ds = Math.hypot(py[i] - py[i - 1], pr[i] - pr[i - 1]);
+    const mid = (py[i] + py[i - 1]) * 0.5;
+    cdf[i] = cdf[i - 1] + (mid > -0.285 ? (pr[i] + pr[i - 1]) * 0.5 * ds : 0);
+  }
+  const yAt = (u) => {
+    const t = u * cdf[M];
+    let lo = 0, hi = M;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; if (cdf[m] < t) lo = m; else hi = m; }
+    const f = (t - cdf[lo]) / Math.max(1e-9, cdf[hi] - cdf[lo]);
+    return py[lo] + (py[hi] - py[lo]) * f;
+  };
+  const normalAt = (y, th) => {
+    const h = 0.005, y1 = Math.min(1, y + h), y0 = Math.max(-1, y - h);
+    const dr = (radiusAt(y1) - radiusAt(y0)) / (y1 - y0);
+    let nr = 1, ny = -dr; const l = Math.hypot(nr, ny); nr /= l; ny /= l;
+    return [nr * Math.cos(th), ny, nr * Math.sin(th)];
+  };
+
+  const N = Math.max(120, Math.round(TOK.nodes));
+  const GA = Math.PI * (3 - Math.sqrt(5));
+  const V = [];
+  for (let i = 0; i < N; i++) {
+    const u = Math.min(0.99999, Math.max(0, (i + 0.5) / N + (rand() - 0.5) * 0.6 / N));
+    const y = yAt(u), r = radiusAt(y), th = i * GA + (rand() - 0.5) * 0.95;
+    V.push({ p: [r * Math.cos(th), y, r * Math.sin(th)], n: normalAt(y, th), s: rand() });
+  }
+
+  // adaptive radius graph: each vertex takes its own neighbourhood scale from its
+  // 4th-nearest neighbour, so the dome (sparse) and the shoulder (dense) both get
+  // a net with the same character. Candidates are added shortest-first under a
+  // degree cap, which is what keeps it triangulated instead of hub-and-spoke.
+  {
+    const d3 = (a, b) => Math.hypot(a.p[0] - b.p[0], a.p[1] - b.p[1], a.p[2] - b.p[2]);
+    const scale = new Float64Array(N), buf = new Float64Array(N);
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) buf[j] = i === j ? 1e9 : d3(V[i], V[j]);
+      scale[i] = Array.prototype.slice.call(buf).sort((a, b) => a - b)[3] * 1.28;
+    }
+    const cand = [];
+    for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
+      const d = d3(V[i], V[j]);
+      if (d < (scale[i] + scale[j]) * 0.5) cand.push([d, i, j]);
+    }
+    cand.sort((a, b) => a[0] - b[0]);
+    const deg = new Int32Array(N);
+    const linked = new Set();
+    const key = (i, j) => i < j ? i * N + j : j * N + i;
+    for (let c = 0; c < cand.length; c++) {
+      const i = cand[c][1], j = cand[c][2];
+      if (deg[i] >= 6 || deg[j] >= 6) continue;
+      deg[i]++; deg[j]++; linked.add(key(i, j));
+      pushSeg(V[i].p, V[j].p, V[i].n, V[j].n, 0);
+    }
+    for (let i = 0; i < N; i++) {
+      let guard = 0;
+      while (deg[i] < 4 && guard++ < 4) {
+        let best = -1, bd = 1e9;
+        for (let j = 0; j < N; j++) {
+          if (j === i || linked.has(key(i, j)) || deg[j] >= 7) continue;
+          const d = d3(V[i], V[j]);
+          if (d < bd) { bd = d; best = j; }
+        }
+        if (best < 0) break;
+        deg[i]++; deg[best]++; linked.add(key(i, best));
+        pushSeg(V[i].p, V[best].p, V[i].n, V[best].n, 0);
+      }
+    }
+    for (let i = 0; i < N; i++) PTS.push({ p: V[i].p, n: V[i].n, s: V[i].s, k: 0 });
+  }
+
+  /* ── 2b · the screw cap ──
+     Stacked rings, which is what an E26 base actually looks like and what the
+     reference reads as at a glance. A sparse set of verticals stops it from
+     reading as a stack of unconnected hoops. */
+  for (let i = 0; i <= 11; i++) {
+    const y = -0.295 - i * 0.056, r = radiusAt(y);
+    if (r > 0.02) ring(y, r, 36, 1, 0);
+  }
+  for (let s = 0; s < 5; s++) {
+    const th = s / 5 * TAU + 0.2, pts = [];
+    for (let i = 0; i <= 11; i++) {
+      const y = -0.295 - i * 0.056, r = radiusAt(y);
+      pts.push([r * Math.cos(th), y, r * Math.sin(th)]);
+    }
+    strip(pts, 1);
+  }
+
+  /* ── 2c · the light source ──
+     Stem tube → press → two support wires → a real helical coil. The coil is
+     modelled in 3D rather than drawn as a bright squiggle because it has to stay
+     convincing through a full revolution: its silhouette changes, and that change
+     is most of what sells the bulb as an object. */
+  const STEM_R = 0.036;
+  for (let s = 0; s < 6; s++) {
+    const th = s / 6 * TAU, c = Math.cos(th), si = Math.sin(th), pts = [];
+    for (let i = 0; i <= 4; i++) { const y = -0.34 + i * (0.56 / 4); pts.push([STEM_R * c, y, STEM_R * si]); }
+    strip(pts, 3);
+  }
+  for (let i = 0; i <= 3; i++) ring(-0.30 + i * 0.17, STEM_R, 12, 3, 0);
+  for (let s = 0; s < 8; s++) {                                     // the press flare
+    const th = s / 8 * TAU;
+    pushSeg([STEM_R * Math.cos(th), 0.22, STEM_R * Math.sin(th)],
+            [0.082 * Math.cos(th), 0.275, 0.082 * Math.sin(th)], null, null, 3);
+  }
+  ring(0.275, 0.082, 16, 3, 0);
+  for (const sgn of [-1, 1]) {
+    strip([[sgn * 0.05, 0.26], [sgn * 0.10, 0.32], [sgn * 0.14, 0.39], [sgn * 0.158, 0.44], [sgn * 0.162, 0.47]]
+          .map(p => [p[0], p[1], 0]), 3);
+  }
+  {
+    const TURNS = 10, CR = 0.032, STEPS = 190, coil = [];
+    for (let i = 0; i <= STEPS; i++) {
+      const u = i / STEPS, a = u * TAU * TURNS;
+      coil.push([-0.162 + 0.324 * u,
+                 0.47 + 0.072 * Math.sin(u * Math.PI) + CR * Math.cos(a),
+                 CR * Math.sin(a)]);
+    }
+    strip(coil, 2);
+  }
+
+  /* ── 2d · motes ──
+     Dust suspended inside the glass, catching the coil. Anchored, with a small
+     Lissajous drift, so they can never wander through the wall. */
+  for (let i = 0; i < 74; i++) {
+    const y = -0.10 + rand() * 1.0, r = radiusAt(y) * 0.86 * Math.sqrt(rand()), th = rand() * TAU;
+    PTS.push({ p: [r * Math.cos(th), y, r * Math.sin(th)], n: [0, 1, 0], s: rand(), k: 1 });
+  }
+
+  /* ═════════ 3 · buffers ═════════ */
+  const S = SEG.length;
+  const aA = new Float32Array(S * 4 * 3), aB = new Float32Array(S * 4 * 3);
+  const aNA = new Float32Array(S * 4 * 3), aNB = new Float32Array(S * 4 * 3);
+  const aSide = new Float32Array(S * 4), aAlong = new Float32Array(S * 4);
+  const aSeed = new Float32Array(S * 4), aKind = new Float32Array(S * 4);
+  const idx = new Uint32Array(S * 6);
+  const CORNER = [[-1, 0], [1, 0], [-1, 1], [1, 1]];
+  for (let e = 0; e < S; e++) {
+    const g = SEG[e];
+    for (let c = 0; c < 4; c++) {
+      const v = e * 4 + c;
+      for (let k = 0; k < 3; k++) {
+        aA[v * 3 + k] = g.a[k] || 0; aB[v * 3 + k] = g.b[k] || 0;
+        aNA[v * 3 + k] = g.na[k] || 0; aNB[v * 3 + k] = g.nb[k] || 0;
+      }
+      aSide[v] = CORNER[c][0]; aAlong[v] = CORNER[c][1];
+      aSeed[v] = g.s; aKind[v] = g.k;
+    }
+    const o = e * 4;
+    idx.set([o, o + 1, o + 2, o + 2, o + 1, o + 3], e * 6);
+  }
+  const Q = PTS.length;
+  const pP = new Float32Array(Q * 3), pN = new Float32Array(Q * 3);
+  const pS = new Float32Array(Q), pK = new Float32Array(Q);
+  for (let i = 0; i < Q; i++) {
+    for (let k = 0; k < 3; k++) { pP[i * 3 + k] = PTS[i].p[k] || 0; pN[i * 3 + k] = PTS[i].n[k] || 0; }
+    pS[i] = PTS[i].s; pK[i] = PTS[i].k;
+  }
+
+  /* ═════════ 4 · shaders ═════════
+     GLSL ES 1.00 throughout, not 3.00: WebGL2 accepts it, and it keeps one source
+     that would still compile against a WebGL1 fallback. */
+  const ORIENT = `
+    uniform float uTime, uRot, uTilt, uPersp, uScaleY, uAspect;
+    uniform vec2  uRes, uCentre, uPtr;
+    uniform float uPtrAmt;
+    mat3 rotY(float a){ float c=cos(a), s=sin(a); return mat3(c,0.0,-s, 0.0,1.0,0.0, s,0.0,c); }
+    mat3 rotX(float a){ float c=cos(a), s=sin(a); return mat3(1.0,0.0,0.0, 0.0,c,s, 0.0,-s,c); }
+    mat3 orient(){ return rotX(uTilt + uPtr.y*0.085*uPtrAmt) * rotY(uRot + uPtr.x*0.14*uPtrAmt); }
+    // screen position in pixels, origin at the centre of the canvas
+    vec2 project(vec3 q){
+      float w = 1.0 / (1.0 - q.z * uPersp);
+      return (uCentre + vec2(q.x*w*uScaleY*uAspect, q.y*w*uScaleY)) * uRes * 0.5;
+    }
+  `;
+
+  const LINE_V = ORIENT + `
+    attribute vec3 aA, aB, aNA, aNB;
+    attribute float aSide, aAlong, aSeed, aKind;
+    uniform float uLineW;
+    varying vec2  vLocal;
+    varying float vLen, vHw, vFront, vLam, vFres, vSeed, vKind, vWave;
+
+    void main(){
+      mat3 R = orient();
+      // never perfectly still, never visibly wobbling
+      float br = sin(uTime*0.85 + aSeed*17.0)*0.006 + sin(uTime*0.33 + aSeed*5.1)*0.004;
+      vec3 pa = R * (aA + aNA * br);
+      vec3 pb = R * (aB + aNB * br);
+      vec3 nm = R * normalize(mix(aNA, aNB, aAlong) + vec3(0.0, 1e-5, 0.0));
+
+      vec2 sa = project(pa), sb = project(pb);
+      float zc = (pa.z + pb.z) * 0.5;
+      vFront = smoothstep(-0.5, 0.5, zc);
+
+      float hw = uLineW * mix(0.66, 1.20, vFront) * (aKind > 1.5 && aKind < 2.5 ? 1.30 : 1.0);
+      vHw = hw;
+
+      vec2 d = sb - sa;
+      float len = length(d);
+      vec2 dir = len > 0.0001 ? d / len : vec2(1.0, 0.0);
+      vec2 perp = vec2(-dir.y, dir.x);
+      // the quad is 1.6x the nominal half-width in both axes so the Gaussian tail
+      // is not clipped, and extends past both ends so the caps stay round
+      vec2 sp = mix(sa, sb, aAlong) + dir * ((aAlong*2.0 - 1.0) * hw * 1.6) + perp * (aSide * hw * 1.6);
+
+      vLocal = vec2(dot(sp - sa, dir), dot(sp - sa, perp));
+      vLen   = len;
+      vLam   = max(0.0, dot(nm, normalize(vec3(-0.42, 0.50, 0.76))));
+      vFres  = pow(1.0 - abs(nm.z), 2.4);
+      vSeed  = aSeed; vKind = aKind;
+      vWave  = mix(aA.y, aB.y, aAlong);
+
+      gl_Position = vec4(sp * 2.0 / uRes, 0.0, 1.0);
+    }
+  `;
+
+  const LINE_F = `
+    precision highp float;
+    varying vec2  vLocal;
+    varying float vLen, vHw, vFront, vLam, vFres, vSeed, vKind, vWave;
+    uniform float uTime, uIntensity, uWarmth;
+    uniform vec3  uGlass, uEdge, uCore;
+
+    void main(){
+      // true distance to the segment, so joints and caps are round
+      float ax = max(0.0, max(-vLocal.x, vLocal.x - vLen));
+      float d  = length(vec2(ax, vLocal.y)) / max(0.35, vHw);
+      float a  = exp(-d * d * 2.90);
+      if (a < 0.004) discard;
+
+      vec3 warm = mix(uCore, vec3(1.0, 0.80, 0.55), uWarmth);
+      vec3 col; float amp;
+
+      if (vKind > 1.5 && vKind < 2.5){
+        // the coil. Incandescent flicker is slow and irregular, not a strobe:
+        // two detuned sines beating gives that for the price of one.
+        float flick = 0.94 + 0.06 * sin(uTime*3.1) * sin(uTime*7.9 + 1.3);
+        amp = mix(2.4, 4.4, vFront) * flick;
+        col = warm;
+      } else if (vKind > 2.5){
+        // stem and supports — cold glass at the press, glowing where the coil sits
+        float hot = smoothstep(-0.15, 0.52, vWave);
+        amp = mix(0.10, 1.15, hot) * mix(0.42, 1.0, vFront);
+        col = mix(uEdge, warm, hot);
+      } else {
+        float shade = mix(0.13, 1.0, vFront);   // depth
+        shade *= 0.40 + 0.60 * vLam;            // form
+        shade *= 1.0 + vFres * 1.55;            // silhouette — glass is brightest edge-on
+        // charge rising through the cage: a thin band in world-y, jittered per
+        // segment so it is a swell and not a scanline
+        float wave = pow(fract(vWave * 0.80 - uTime * 0.19 + vSeed * 0.16), 30.0) * 2.6;
+        wave *= vKind > 0.5 ? 0.30 : 1.0;
+        amp = shade * 0.80 + wave * mix(0.22, 1.0, vFront);
+        col = mix(uGlass, uEdge, smoothstep(0.24, 1.05, shade));
+        if (vKind > 0.5){ col = mix(col, uEdge, 0.26); amp *= 0.62; }   // metal cap: harder, quieter
+      }
+      gl_FragColor = vec4(col * amp * uIntensity * a, 1.0);
+    }
+  `;
+
+  const NODE_V = ORIENT + `
+    attribute vec3 aP, aN;
+    attribute float aSeed, aKind;
+    uniform float uNodeSize;
+    varying float vFront, vLam, vTw, vKind;
+    void main(){
+      mat3 R = orient();
+      vec3 p = aP;
+      if (aKind > 0.5){
+        p += vec3(sin(uTime*0.31 + aSeed*11.0), sin(uTime*0.26 + aSeed*7.3), sin(uTime*0.35 + aSeed*5.7)) * 0.032;
+      } else {
+        p += aN * (sin(uTime*0.85 + aSeed*17.0)*0.006 + sin(uTime*0.33 + aSeed*5.1)*0.004);
+      }
+      vec3 q = R * p;
+      vec3 n = R * aN;
+      vFront = smoothstep(-0.5, 0.5, q.z);
+      vLam   = max(0.0, dot(n, normalize(vec3(-0.42, 0.50, 0.76))));
+      vTw    = 0.42 + 0.58 * pow(0.5 + 0.5*sin(uTime*1.25 + aSeed*41.0), 2.0);
+      vKind  = aKind;
+      gl_PointSize = uNodeSize * mix(0.5, 1.3, vFront) * (0.7 + 0.55*vTw) * (aKind > 0.5 ? 0.62 : 1.0);
+      gl_Position = vec4(project(q) * 2.0 / uRes, 0.0, 1.0);
+    }
+  `;
+
+  const NODE_F = `
+    precision highp float;
+    varying float vFront, vLam, vTw, vKind;
+    uniform float uIntensity;
+    uniform vec3  uNode, uCore;
+    void main(){
+      float r = length(gl_PointCoord - 0.5) * 2.0;
+      if (r > 1.0) discard;
+      float core = exp(-r*r*7.5);
+      float halo = exp(-r*2.8) * 0.30;
+      float amp  = (core + halo) * vTw * mix(0.22, 1.0, vFront);
+      amp *= vKind > 0.5 ? 0.62 : (0.45 + 0.55*vLam);
+      gl_FragColor = vec4(mix(uNode, uCore, core*0.65) * amp * uIntensity, 1.0);
+    }
+  `;
+
+  /* the volume pass: everything that is light rather than wire — the glass fill,
+     the rim, the room glow, and the dust. Reads the same silhouette the geometry
+     was built from, so the fill stops exactly where the cage does. */
+  const BG_F = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform vec2  uRes, uCentre, uPtr;
+    uniform float uTime, uScaleY, uAspect, uIntensity, uWarmth, uDust, uPtrAmt;
+    uniform vec3  uGlass, uEdge, uCore, uHalo;
+
+    float smin(float a, float b, float k){
+      float h = clamp(0.5 + 0.5*(b-a)/k, 0.0, 1.0);
+      return mix(b, a, h) - k*h*(1.0-h);
+    }
+    float sdBox(vec2 p, vec2 c, vec2 b, float r){
+      vec2 q = abs(p-c) - b + r;
+      return min(max(q.x,q.y),0.0) + length(max(q,0.0)) - r;
+    }
+    // line-for-line the JS sdBulb — edit both or neither
+    float sdBulb(vec2 p){
+      float d = length(vec2(p.x, (p.y-0.42)*0.862)) - 0.50;
+      d = smin(d, sdBox(p, vec2(0.0,-0.585), vec2(0.198,0.325), 0.055), 0.26);
+      d = smin(d, sdBox(p, vec2(0.0,-0.945), vec2(0.098,0.058), 0.05), 0.05);
+      return d;
+    }
+    float hash21(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+
+    // one drifting layer of specks; the tight falloff is what lets a single cell
+    // lookup stand in for a 3x3 neighbourhood without the seams showing
+    float specks(vec2 p, float scale, float t, float seed){
+      vec2 q = p * scale; q.y -= t;
+      vec2 c = floor(q), f = fract(q);
+      float h = hash21(c + seed);
+      vec2 o = vec2(h, hash21(c + seed + 7.31));
+      float tw = 0.35 + 0.65 * pow(0.5 + 0.5*sin(uTime*1.1 + h*63.0), 3.0);
+      return exp(-dot(f-o, f-o) * 950.0) * tw;
+    }
+
+    void main(){
+      vec2 ndc = vUv * 2.0 - 1.0;
+      vec2 bp  = vec2((ndc.x - uCentre.x) / (uScaleY * uAspect), (ndc.y - uCentre.y) / uScaleY);
+      vec2 ap  = vec2(vUv.x * (uRes.x / uRes.y), vUv.y);
+
+      float d  = sdBulb(bp);
+      float in_ = 1.0 - smoothstep(-0.035, 0.012, d);
+      vec3  warm = mix(uCore, vec3(1.0, 0.80, 0.55), uWarmth);
+      vec3  col = vec3(0.0);
+
+      // the glass, lit from the coil outward: two lobes, because one exponential
+      // is either a hard dot or a flat wash and never both
+      float fl = length((bp - vec2(0.0, 0.46)) * vec2(1.0, 1.14));
+      float lit = smoothstep(-0.24, -0.02, bp.y);      // the cap is metal: it is lit ON, not lit FROM
+      float inner = (exp(-fl*13.0) * 0.78 + exp(-fl*3.1) * 0.56) * lit;
+      col += mix(uGlass, warm, smoothstep(0.30, 1.10, inner)) * inner * in_;
+
+      // rim: a crisp band on the silhouette plus a soft shoulder just outside it
+      float rim = exp(-abs(d)*95.0)*0.58 + exp(-abs(d)*23.0)*0.11;
+      col += uEdge * rim * (0.75 + 0.45*smoothstep(-0.5, 0.9, bp.y));
+
+      // a fixed specular on the upper-left of the dome. The bulb turns; the room
+      // does not, so this must not rotate with it.
+      vec2 sp = (bp - vec2(-0.20, 0.62)) * vec2(1.85, 0.72);
+      col += vec3(1.0) * exp(-dot(sp,sp)*10.0) * in_ * lit * 0.15;
+      vec2 sq = (bp - vec2(0.24, 0.10)) * vec2(2.4, 0.9);
+      col += uEdge * exp(-dot(sq,sq)*13.0) * in_ * lit * 0.07;
+
+      // the light the bulb throws into the room
+      float h = length((bp - vec2(0.0, 0.44)) * vec2(0.80, 1.0));
+      col += uHalo * exp(-h*1.62) * (0.30 + 0.13*uPtrAmt);
+
+      // dust — three depths, drifting up at different rates
+      float dust = specks(ap, 7.0,  uTime*0.016, 1.0) * 0.55
+                 + specks(ap, 13.0, uTime*0.026, 5.0) * 0.34
+                 + specks(ap, 22.0, uTime*0.040, 9.0) * 0.20;
+      col += mix(uEdge, uCore, 0.35) * dust * uDust * 0.75;
+
+      // out-of-focus points read as rings, not blobs — a blob is just haze
+      for (int i = 0; i < 4; i++){
+        float fi = float(i);
+        vec2 bc = vec2(0.62 + 0.36*hash21(vec2(fi, 3.0)), 0.15 + 0.72*hash21(vec2(fi, 9.0)));
+        bc.y += sin(uTime*0.07 + fi*2.1) * 0.02;
+        bc.x = bc.x * (uRes.x/uRes.y);
+        float rr = 0.030 + 0.026*hash21(vec2(fi, 17.0));
+        float dd = length(ap - bc);
+        float bk = smoothstep(rr, rr*0.90, dd) * (0.30 + 0.70*smoothstep(rr*0.55, rr*0.95, dd));
+        col += uGlass * bk * 0.032 * uDust;
+      }
+
+      // nothing is allowed to creep in behind the headline
+      col *= smoothstep(0.24, 0.52, vUv.x);
+      gl_FragColor = vec4(col * uIntensity, 1.0);
+    }
+  `;
+
+  const VERT_FS = `
     attribute vec2 position;
     attribute vec2 uv;
     varying vec2 vUv;
     void main(){ vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }
   `;
 
-  const FIELD = `
-    precision highp float;
-    varying vec2 vUv;
-
-    uniform vec2  uRes;
-    uniform float uTime;
-    uniform float uDensity;
-    uniform float uSpeed;
-    uniform float uAngle;
-    uniform float uCurve;
-    uniform float uIntensity;
-    uniform vec2  uPointer;
-    uniform float uPointerAmt;
-
-    float hash(float n){ return fract(sin(n * 12.9898) * 43758.5453123); }
-
-    // Two sines beating against each other. Cheaper than a noise texture and, at
-    // this amplitude, indistinguishable from one — the lanes only need to stop
-    // being perfectly straight, not to look turbulent.
-    float bend(float x, float t, float seed){
-      return sin(x * 0.75 + t * 0.21 + seed) * 0.62
-           + sin(x * 1.63 - t * 0.13 + seed * 2.1) * 0.28;
-    }
-
-    // Lanes are parallel, not perspectival, on purpose: the hero's grammar is a
-    // coordinate plane, and a vanishing point would fight the ruled field under
-    // it. Depth comes from three layers at different scales, speeds and gains.
-    float layer(vec2 q, float scale, float seed, float t, float parallax){
-      // bow BEFORE quantising, so a whole rail curves instead of stair-stepping
-      float y = q.y + bend(q.x, t, seed) * uCurve * parallax;
-
-      float ly = y * scale + seed * 13.0;
-      float li = floor(ly);
-      float lf = fract(ly) - 0.5;
-
-      float act = hash(li + seed + 31.7);
-      if (act < 0.30) return 0.0;          // leave gaps — a field, not a barcode
-
-      float dep = hash(li + seed);         // 0 far .. 1 near, within the layer
-      float hw  = mix(0.026, 0.095, dep);  // half-width, in lane units
-
-      float core = 1.0 - smoothstep(0.0, hw, abs(lf));
-      float glow = exp(-abs(lf) / (hw * 3.4)) * 0.45;
-      float line = core + glow;
-
-      float period = mix(2.0, 3.6, hash(li + seed + 5.1));
-      float spd    = mix(0.22, 0.72, dep);
-      float head   = fract((q.x - t * spd) / period + hash(li + seed + 7.3));
-
-      // two terms, not one: a sharp head that reads as the light itself, plus a
-      // much softer body behind it. A single pow() gives a scratch, not a comet.
-      float streak = pow(head, 16.0) + pow(head, 5.0) * 0.30;
-      // and a very short over-bright cap right at the head — this is the only
-      // thing that survives the bright-pass, so it is what actually blooms
-      float cap = smoothstep(0.972, 1.0, head) * 2.1;
-
-      // the lane is faintly present between passes, so the field reads as an
-      // extension of .hero-rule rather than as sparks drawn on top of it
-      return (line * (0.045 + streak * 1.30) + core * cap) * mix(0.32, 1.0, dep);
-    }
-
-    void main(){
-      vec2 uv = vUv;
-      vec2 p  = (uv - 0.5) * vec2(uRes.x / uRes.y, 1.0);
-
-      // cursor lens: a soft dipole that bows nearby lanes apart and lifts them.
-      // Damped in JS, so it trails the pointer instead of snapping to it.
-      vec2  d    = p - uPointer;
-      float lens = exp(-dot(d, d) * 4.5) * uPointerAmt;
-
-      float ca = cos(uAngle), sa = sin(uAngle);
-      vec2  q  = vec2(p.x * ca - p.y * sa, p.x * sa + p.y * ca);
-      q.y += lens * 0.09 * (d.y / (length(d) + 0.15));
-
-      float t = uTime * uSpeed;
-      float v = layer(q, uDensity,        0.0, t,        1.00)
-              + layer(q, uDensity * 0.62, 4.7, t * 0.74, 0.72) * 0.82
-              + layer(q, uDensity * 0.34, 9.1, t * 0.52, 0.45) * 0.55;
-
-      v *= 1.0 + lens * 2.0;
-
-      // where the field is allowed to exist: the open right, top-weighted,
-      // echoing .hero-light. Left stays clear of the headline, bottom clear of
-      // the credential strip.
-      float mx   = smoothstep(0.06, 0.58, uv.x);
-      float my   = smoothstep(0.00, 0.52, uv.y);
-      float rad  = 1.0 - smoothstep(0.18, 1.10, distance(uv, vec2(0.90, 0.84)));
-      float mask = mx * my * (0.30 + 0.70 * rad);
-
-      float o = clamp(v * mask * uIntensity, 0.0, 2.4);
-      gl_FragColor = vec4(o, o, o, 1.0);
-    }
-  `;
-
-  // One program, run twice: horizontal with the bright-pass on, vertical with it
-  // off. Separable, so nine taps per axis cost what a 9x9 kernel would not.
-  const BLUR = `
+  // One separable blur, run four times: twice at half resolution with the
+  // bright-pass on the first, then twice more into an eighth-res target. Two
+  // levels because one is either a tight sparkle or a wide wash — the coil needs
+  // both, and chaining the wide level off the tight one costs almost nothing.
+  const BLUR_F = `
     precision highp float;
     varying vec2 vUv;
     uniform sampler2D tMap;
-    uniform vec2  uTexel;
-    uniform vec2  uDir;
-    uniform float uThreshold;
-
-    float bright(float c){ return max(0.0, c - uThreshold); }
-
+    uniform vec2  uTexel, uDir;
+    uniform float uThreshold, uSpread;
+    vec3 bright(vec3 c){ return max(vec3(0.0), c - vec3(uThreshold)); }
     void main(){
-      vec2 o = uTexel * uDir;
-      float s = bright(texture2D(tMap, vUv).r) * 0.2270270270;
-      s += bright(texture2D(tMap, vUv + o * 1.3846153846).r) * 0.3162162162;
-      s += bright(texture2D(tMap, vUv - o * 1.3846153846).r) * 0.3162162162;
-      s += bright(texture2D(tMap, vUv + o * 3.2307692308).r) * 0.0702702703;
-      s += bright(texture2D(tMap, vUv - o * 3.2307692308).r) * 0.0702702703;
-      gl_FragColor = vec4(s, s, s, 1.0);
+      vec2 o = uTexel * uDir * uSpread;
+      vec3 s = bright(texture2D(tMap, vUv).rgb) * 0.2270270270;
+      s += bright(texture2D(tMap, vUv + o*1.3846153846).rgb) * 0.3162162162;
+      s += bright(texture2D(tMap, vUv - o*1.3846153846).rgb) * 0.3162162162;
+      s += bright(texture2D(tMap, vUv + o*3.2307692308).rgb) * 0.0702702703;
+      s += bright(texture2D(tMap, vUv - o*3.2307692308).rgb) * 0.0702702703;
+      gl_FragColor = vec4(s, 1.0);
     }
   `;
 
-  const COMPOSITE = `
+  const COMP_F = `
     precision highp float;
     varying vec2 vUv;
-    uniform sampler2D tField;
-    uniform sampler2D tBloom;
-    uniform float uBloom;
-    uniform vec3  uCore;
-    uniform vec3  uMid;
-    uniform vec3  uHi;
-
+    uniform sampler2D tScene, tTight, tWide;
+    uniform float uTight, uWide;
     void main(){
-      float f = texture2D(tField, vUv).r;
-      float b = texture2D(tBloom, vUv).r * uBloom;
-      float v = clamp(f + b, 0.0, 1.6);
-
-      // colour is applied last, after the blur: a single-hue motif reads cleaner
-      // when the bloom carries intensity rather than a smeared colour of its own
-      vec3 col = mix(uCore, uMid, smoothstep(0.02, 0.42, v));
-      col      = mix(col,   uHi,  smoothstep(0.50, 1.05, v));
-      gl_FragColor = vec4(col * v, 1.0);
+      vec3 c = texture2D(tScene, vUv).rgb
+             + texture2D(tTight, vUv).rgb * uTight
+             + texture2D(tWide,  vUv).rgb * uWide;
+      // ACES-ish shoulder: the coil has to blow out the way film blows out, or
+      // the whole bloom budget just clips to a flat white bar
+      c = (c * (2.51*c + 0.03)) / (c * (2.43*c + 0.59) + 0.14);
+      gl_FragColor = vec4(clamp(c, 0.0, 1.0), 1.0);
     }
   `;
 
-  const DPR_CAP = 1.5;     // a soft, low-contrast field buys nothing above this
-  const BLOOM_DIV = 2;     // bloom chain runs at half resolution
-
+  /* ═════════ 5 · runtime ═════════ */
+  const DPR_CAP = 1.75;        // thin quads want the resolution; the watchdog covers the cost
   let raf = 0, running = false, onScreen = true, shown = false, dead = false;
   let winStart = 0, winFrames = 0, windows = 0, bad = 0;
-  let renderer, gl, fieldMesh, blurMesh, compMesh, rtField, rtA, rtB;
+  let renderer, gl, lineMesh, nodeMesh, bgMesh, blurMesh, compMesh;
+  let rtScene, rtA, rtB, rtC, rtD;
   const t0 = performance.now();
-
-  // pointer state, damped: target is where the cursor is, current is where the
-  // light has got to. A light source that snaps to the cursor reads as a bug.
   const ptr = { tx: 0, ty: 0, x: 0, y: 0, ta: 0, a: 0 };
 
   function die(){
@@ -1770,22 +2059,35 @@ if (nav){
   }
 
   function makeTargets(RenderTarget, w, h){
-    // render targets cannot be resized in place, so they are rebuilt — and the old
-    // FBO *and* its texture are released. Dropping only the framebuffer leaks a
-    // full-viewport RGBA texture on every rebuild.
-    [rtField, rtA, rtB].forEach(rt => {
+    // targets cannot be resized in place. Release the texture as well as the FBO —
+    // dropping only the framebuffer leaks a full-viewport RGBA texture per rebuild.
+    [rtScene, rtA, rtB, rtC, rtD].forEach(rt => {
       if (!rt) return;
       try { gl.deleteFramebuffer(rt.buffer); } catch (e) {}
       try { gl.deleteTexture(rt.texture.texture); } catch (e) {}
     });
-    const opts = { depth: false, stencil: false, minFilter: gl.LINEAR, magFilter: gl.LINEAR };
-    rtField = new RenderTarget(gl, { ...opts, width: w, height: h });
-    rtA     = new RenderTarget(gl, { ...opts, width: Math.max(1, w / BLOOM_DIV | 0), height: Math.max(1, h / BLOOM_DIV | 0) });
-    rtB     = new RenderTarget(gl, { ...opts, width: Math.max(1, w / BLOOM_DIV | 0), height: Math.max(1, h / BLOOM_DIV | 0) });
-    blurMesh.program.uniforms.uTexel.value = [1 / rtA.width, 1 / rtA.height];
-    compMesh.program.uniforms.tField.value = rtField.texture;
-    compMesh.program.uniforms.tBloom.value = rtB.texture;
-    fieldMesh.program.uniforms.uRes.value = [w, h];
+    const o = { depth: false, stencil: false, minFilter: gl.LINEAR, magFilter: gl.LINEAR };
+    const half = (n, k) => Math.max(1, n / k | 0);
+    rtScene = new RenderTarget(gl, { ...o, width: w, height: h });
+    rtA = new RenderTarget(gl, { ...o, width: half(w, 2), height: half(h, 2) });
+    rtB = new RenderTarget(gl, { ...o, width: half(w, 2), height: half(h, 2) });
+    rtC = new RenderTarget(gl, { ...o, width: half(w, 8), height: half(h, 8) });
+    rtD = new RenderTarget(gl, { ...o, width: half(w, 8), height: half(h, 8) });
+    compMesh.program.uniforms.tScene.value = rtScene.texture;
+    compMesh.program.uniforms.tTight.value = rtB.texture;
+    compMesh.program.uniforms.tWide.value  = rtD.texture;
+
+    const res = [w, h], aspect = h / w;
+    const dpr = renderer.dpr;
+    [lineMesh, nodeMesh, bgMesh].forEach(m => {
+      const u = m.program.uniforms;
+      u.uRes.value = res;
+      u.uAspect.value = aspect;
+      u.uCentre.value = [TOK.x * 2 - 1, 1 - TOK.y * 2];
+      u.uScaleY.value = TOK.scale;
+    });
+    lineMesh.program.uniforms.uLineW.value = TOK.line * dpr;
+    nodeMesh.program.uniforms.uNodeSize.value = TOK.node * dpr;
   }
 
   let sized = '';
@@ -1802,32 +2104,49 @@ if (nav){
   function frame(now){
     raf = requestAnimationFrame(frame);
 
-    // critical damping by hand — cheaper than a spring and stable at any frame rate
+    // critical damping by hand — a light source that snaps to the cursor reads as a bug
     ptr.x += (ptr.tx - ptr.x) * 0.075;
     ptr.y += (ptr.ty - ptr.y) * 0.075;
     ptr.a += (ptr.ta - ptr.a) * 0.045;
-    const fu = fieldMesh.program.uniforms;
-    fu.uTime.value = (now - t0) / 1000;
-    fu.uPointer.value = [ptr.x, ptr.y];
-    fu.uPointerAmt.value = ptr.a * TOK.pointer;
+    const t = (now - t0) / 1000;
+    [lineMesh, nodeMesh, bgMesh].forEach(m => {
+      const u = m.program.uniforms;
+      u.uTime.value = t;
+      u.uRot.value = t * TOK.spin;
+      u.uPtr.value = [ptr.x, ptr.y];
+      u.uPtrAmt.value = ptr.a * TOK.pointer;
+    });
 
-    const bu = blurMesh.program.uniforms;
-    renderer.render({ scene: fieldMesh, target: rtField, clear: true });
-    bu.tMap.value = rtField.texture;  bu.uDir.value = [1, 0]; bu.uThreshold.value = 0.42;
+    renderer.render({ scene: bgMesh,   target: rtScene, clear: true  });
+    renderer.render({ scene: lineMesh, target: rtScene, clear: false });
+    renderer.render({ scene: nodeMesh, target: rtScene, clear: false });
+
+    const b = blurMesh.program.uniforms;
+    b.tMap.value = rtScene.texture; b.uTexel.value = [1/rtScene.width, 1/rtScene.height];
+    b.uDir.value = [1, 0]; b.uThreshold.value = 0.34; b.uSpread.value = 1.0;
     renderer.render({ scene: blurMesh, target: rtA, clear: true });
-    bu.tMap.value = rtA.texture;      bu.uDir.value = [0, 1]; bu.uThreshold.value = 0.0;
+    b.tMap.value = rtA.texture; b.uTexel.value = [1/rtA.width, 1/rtA.height];
+    b.uDir.value = [0, 1]; b.uThreshold.value = 0.0;
     renderer.render({ scene: blurMesh, target: rtB, clear: true });
+    // 4x downsample on the way to the wide level: the taps have to widen with it
+    // or the reduction aliases into a shimmer that no amount of blur removes
+    b.tMap.value = rtB.texture; b.uTexel.value = [1/rtB.width, 1/rtB.height];
+    b.uDir.value = [1, 0]; b.uSpread.value = 2.4;
+    renderer.render({ scene: blurMesh, target: rtC, clear: true });
+    b.tMap.value = rtC.texture; b.uTexel.value = [1/rtC.width, 1/rtC.height];
+    b.uDir.value = [0, 1]; b.uSpread.value = 2.4;
+    renderer.render({ scene: blurMesh, target: rtD, clear: true });
+
     renderer.render({ scene: compMesh, clear: true });
 
     if (!shown) { shown = true; requestAnimationFrame(() => canvas.classList.add('on')); }
 
     /* ─── frame-rate watchdog ───
        The readers here are admissions officers and scholarship committees, often
-       on institutional hardware. If this field cannot hold ~34fps across two
-       consecutive two-second windows, it removes itself rather than making the
-       page feel cheap. Two windows, not one: a font swap or an image decode
-       landing inside a single window is a hitch, not a verdict. The first
-       window is skipped outright — shader warm-up is not representative. */
+       on institutional hardware. Below ~34fps across two consecutive two-second
+       windows this removes itself rather than making the page feel cheap. Two
+       windows, not one: a font swap landing inside one window is a hitch, not a
+       verdict. The first window is skipped — shader warm-up is not representative. */
     if (now - winStart > 2000) {
       const fps = winFrames * 1000 / (now - winStart);
       bad = (windows > 0 && fps < 34) ? bad + 1 : 0;
@@ -1843,15 +2162,9 @@ if (nav){
     winStart = performance.now(); winFrames = 0; windows = 0; bad = 0;
     raf = requestAnimationFrame(frame);
   }
-  function stop(){
-    running = false;
-    cancelAnimationFrame(raf);
-  }
+  function stop(){ running = false; cancelAnimationFrame(raf); }
   const sync = () => (onScreen && !document.hidden) ? start() : stop();
 
-  /* ─── lazy boot, after first paint ───
-     Only affordable because this is an overlay: the hero is already complete and
-     legible before a single byte of OGL is requested. */
   async function boot(){
     let OGL;
     try {
@@ -1860,7 +2173,7 @@ if (nav){
       canvas.remove();          // CDN unreachable — the base layer is the page
       return;
     }
-    const { Renderer, Program, Mesh, Triangle, RenderTarget } = OGL;
+    const { Renderer, Program, Mesh, Geometry, Triangle, RenderTarget } = OGL;
 
     renderer = new Renderer({
       canvas, alpha: false, antialias: false, depth: false, stencil: false,
@@ -1868,47 +2181,69 @@ if (nav){
     });
     gl = renderer.gl;
     gl.clearColor(0, 0, 0, 1);
+    if (S * 4 > 65535 && !gl.getExtension('OES_element_index_uint') && !renderer.isWebgl2) { canvas.remove(); return; }
 
-    const geometry = new Triangle(gl);
-    const mk = (fragment, uniforms) => new Mesh(gl, {
-      geometry,
-      program: new Program(gl, { vertex: VERT, fragment, uniforms, depthTest: false, depthWrite: false })
+    const orientU = () => ({
+      uTime: { value: 0 }, uRot: { value: 0 }, uTilt: { value: TOK.tilt },
+      uPersp: { value: TOK.persp }, uScaleY: { value: TOK.scale }, uAspect: { value: 1 },
+      uRes: { value: [1, 1] }, uCentre: { value: [0, 0] },
+      uPtr: { value: [0, 0] }, uPtrAmt: { value: 0 }
     });
 
-    fieldMesh = mk(FIELD, {
-      uRes:        { value: [1, 1] },
-      uTime:       { value: 0 },
-      uDensity:    { value: TOK.density },
-      uSpeed:      { value: TOK.speed },
-      uAngle:      { value: TOK.angle },
-      uCurve:      { value: TOK.curve },
-      uIntensity:  { value: TOK.intensity },
-      uPointer:    { value: [0, 0] },
-      uPointerAmt: { value: 0 }
+    const lineGeo = new Geometry(gl, {
+      aA:     { size: 3, data: aA },   aB:  { size: 3, data: aB },
+      aNA:    { size: 3, data: aNA },  aNB: { size: 3, data: aNB },
+      aSide:  { size: 1, data: aSide }, aAlong: { size: 1, data: aAlong },
+      aSeed:  { size: 1, data: aSeed }, aKind:  { size: 1, data: aKind },
+      index:  { data: idx }
     });
-    blurMesh = mk(BLUR, {
-      tMap:       { value: null },
-      uTexel:     { value: [1, 1] },
-      uDir:       { value: [1, 0] },
-      uThreshold: { value: 0.42 }
+    const linePrg = new Program(gl, {
+      vertex: LINE_V, fragment: LINE_F, depthTest: false, depthWrite: false, cullFace: false,
+      uniforms: { ...orientU(), uLineW: { value: 2 }, uIntensity: { value: TOK.intensity },
+                  uWarmth: { value: TOK.warmth }, uGlass: { value: TOK.cGlass },
+                  uEdge: { value: TOK.cEdge }, uCore: { value: TOK.cCore } }
     });
-    compMesh = mk(COMPOSITE, {
-      tField: { value: null },
-      tBloom: { value: null },
-      uBloom: { value: TOK.bloom },
-      uCore:  { value: TOK.core },
-      uMid:   { value: TOK.mid },
-      uHi:    { value: TOK.hi }
+    linePrg.setBlendFunc(gl.ONE, gl.ONE);
+    lineMesh = new Mesh(gl, { geometry: lineGeo, program: linePrg });
+
+    const nodeGeo = new Geometry(gl, {
+      aP: { size: 3, data: pP }, aN: { size: 3, data: pN },
+      aSeed: { size: 1, data: pS }, aKind: { size: 1, data: pK }
     });
+    const nodePrg = new Program(gl, {
+      vertex: NODE_V, fragment: NODE_F, depthTest: false, depthWrite: false, cullFace: false,
+      uniforms: { ...orientU(), uNodeSize: { value: 4 }, uIntensity: { value: TOK.intensity },
+                  uNode: { value: TOK.cNode }, uCore: { value: TOK.cCore } }
+    });
+    nodePrg.setBlendFunc(gl.ONE, gl.ONE);
+    nodeMesh = new Mesh(gl, { geometry: nodeGeo, program: nodePrg, mode: gl.POINTS });
+
+    const tri = new Triangle(gl);
+    const fs = (fragment, uniforms) => new Mesh(gl, {
+      geometry: tri,
+      program: new Program(gl, { vertex: VERT_FS, fragment, uniforms, depthTest: false, depthWrite: false })
+    });
+
+    bgMesh = fs(BG_F, { ...orientU(), uIntensity: { value: TOK.intensity },
+      uWarmth: { value: TOK.warmth }, uDust: { value: TOK.dust },
+      uGlass: { value: TOK.cGlass }, uEdge: { value: TOK.cEdge },
+      uCore: { value: TOK.cCore }, uHalo: { value: TOK.cHalo } });
+    // the volume pass carries no orientation of its own — the silhouette of a
+    // surface of revolution is the same from every angle, which is the whole
+    // reason the fill can be analytic. It still takes the orientation uniforms so
+    // the per-frame update can treat all three meshes alike; GLSL drops the ones
+    // it never reads.
+
+    blurMesh = fs(BLUR_F, { tMap: { value: null }, uTexel: { value: [1, 1] },
+      uDir: { value: [1, 0] }, uThreshold: { value: 0.34 }, uSpread: { value: 1 } });
+    compMesh = fs(COMP_F, { tScene: { value: null }, tTight: { value: null }, tWide: { value: null },
+      uTight: { value: TOK.bloomTight }, uWide: { value: TOK.bloomWide } });
 
     resize(RenderTarget);
 
-    // no GPU work while the hero is scrolled away or the tab is in the background
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); },
       { rootMargin: '120px' }).observe(host);
     document.addEventListener('visibilitychange', sync);
-    // debounced: a drag-resize fires this every frame, and each undebounced call
-    // would tear down and reallocate three render targets
     let rzTimer = 0;
     new ResizeObserver(() => {
       clearTimeout(rzTimer);
@@ -1919,8 +2254,8 @@ if (nav){
     // .hero-bg is pointer-events:none, so the section is what actually sees the cursor
     section.addEventListener('pointermove', (e) => {
       const r = host.getBoundingClientRect();
-      ptr.tx = ((e.clientX - r.left) / r.width - 0.5) * (r.width / r.height);
-      ptr.ty = 0.5 - (e.clientY - r.top) / r.height;   // uv is y-up
+      ptr.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ptr.ty = 0.5 - (e.clientY - r.top) / r.height;
       ptr.ta = 1;
     }, { passive: true });
     section.addEventListener('pointerleave', () => { ptr.ta = 0; }, { passive: true });
@@ -1931,81 +2266,6 @@ if (nav){
   const schedule = () => (window.requestIdleCallback || (f => setTimeout(f, 200)))(boot, { timeout: 1500 });
   if (document.readyState === 'complete') schedule();
   else window.addEventListener('load', schedule, { once: true });
-})();
-</script>
-<script>
-/* v2 cinematic footer — scroll scrub + magnetic hover. No animation library. */
-(function () {
-  var wrap = document.getElementById('fcWrap');
-  if (!wrap) return;
-  var panel  = document.querySelector('.fc-panel');   // sibling of the spacer, not a child
-  if (!panel) return;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  // ── scroll scrub ──
-  // p = how far the curtain has opened: 0 when the wrapper's top sits at the viewport
-  // bottom (footer fully hidden), 1 when it reaches the viewport top (fully revealed).
-  var ticking = false;
-  function frame() {
-    ticking = false;
-    var vh = window.innerHeight;
-    var p  = 1 - (wrap.getBoundingClientRect().top / vh);
-    if (p < 0) p = 0; else if (p > 1) p = 1;
-
-    panel.style.setProperty('--fc-gy', ((1 - p) * 11).toFixed(3) + 'vh');
-    panel.style.setProperty('--fc-gs', (0.86 + 0.14 * p).toFixed(4));
-    panel.style.setProperty('--fc-go', p.toFixed(4));
-
-    // staggered content: each block starts 12% of the curtain later than the last
-    for (var i = 0; i < 4; i++) {
-      var q = (p - (0.18 + i * 0.12)) / 0.42;
-      if (q < 0) q = 0; else if (q > 1) q = 1;
-      panel.style.setProperty(i === 0 ? '--fc-q' : '--fc-q' + (i + 1), q.toFixed(4));
-    }
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
-
-  if (reduce.matches || window.matchMedia('(max-width: 767px)').matches) {
-    // no curtain to scrub — show everything
-    ['--fc-q', '--fc-q2', '--fc-q3', '--fc-q4', '--fc-go'].forEach(function (v) { panel.style.setProperty(v, '1'); });
-    panel.style.setProperty('--fc-gy', '0vh');
-    panel.style.setProperty('--fc-gs', '1');
-  } else {
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
-    // rAF is paused while the document is hidden, so a tab opened in the background
-    // (or restored from bfcache) would come back with every .fc-rise block still at
-    // opacity 0 until the reader happened to scroll. Recompute synchronously on the
-    // events that mark a page becoming live again — frame(), not onScroll().
-    addEventListener('visibilitychange', function () { if (!document.hidden) frame(); });
-    addEventListener('pageshow', frame);
-    frame();
-  }
-
-  // ── magnetic hover ──
-  // Displacement is capped at 8px. The source component used 40% of cursor offset,
-  // which moves a link far enough to fight the pointer chasing it.
-  if (!reduce.matches && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    [].forEach.call(document.querySelectorAll('.fc-mag'), function (el) {
-      el.addEventListener('mousemove', function (e) {
-        var r = el.getBoundingClientRect();
-        var x = (e.clientX - r.left - r.width / 2) * 0.28;
-        var y = (e.clientY - r.top - r.height / 2) * 0.28;
-        var m = 8;
-        x = Math.max(-m, Math.min(m, x));
-        y = Math.max(-m, Math.min(m, y));
-        el.classList.add('fc-mag-on'); el.classList.remove('fc-mag-off');
-        el.style.transform = 'translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px)';
-      });
-      el.addEventListener('mouseleave', function () {
-        el.classList.add('fc-mag-off'); el.classList.remove('fc-mag-on');
-        el.style.transform = '';
-      });
-    });
-  }
-
-  var top = document.getElementById('fcTop');
-  if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
 </body>
