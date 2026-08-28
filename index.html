@@ -1840,10 +1840,8 @@ if (nav){
        · the dot field twinkles continuously instead of only fading in once, so a
          cursor resting inside the card still has something to look at */
   const cards = [...document.querySelectorAll('.v5-spot')];
-  // Same canvas as always. Do not gate on `(hover: hover)` — Chromium on hybrid
-  // Windows laptops often reports hover:none, which used to skip the effect
-  // entirely. Phones get the same field on touch; there is no second visual.
-  if (!cards.length) return;
+  // Hover-only. Touch / coarse pointers / `(hover: none)` keep the static card.
+  if (!cards.length || !matchMedia('(hover: hover)').matches) return;
 
   const GAP = 13, DOT = 3, RADIUS = 340;
   const COLOR = ['167,139,250', '124,58,237'];
