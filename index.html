@@ -294,15 +294,22 @@
      every other section — otherwise the two chips float inboard of the page's left and
      right edges and the band reads as a narrower, unrelated element. */
   .otw-row{ display:flex; align-items:center; justify-content:space-between; gap:.2rem;
-    flex-wrap:wrap; max-width:72rem; margin-inline:auto; padding-inline:1.5rem; }
+    flex-wrap:nowrap; max-width:72rem; margin-inline:auto; padding-inline:1.5rem; }
   .otw-word{ font-family:'Sora',sans-serif; font-weight:700; color:#140E1F;
     font-size:clamp(1rem,2.1vw,1.75rem); letter-spacing:-.01em;
     white-space:nowrap; padding:0 1.2rem; }
   .otw-chip{ flex:none; width:clamp(9rem,15vw,16.5rem); height:clamp(2.4rem,4.2vw,4.4rem);
     border-radius:999px; overflow:hidden; background:#F1ECFB; }
-  .otw-chip img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .otw-chip img{ width:100%; height:100%; object-fit:cover; object-position:center 40%; display:block; }
+  /* Phone: the wide capsules cannot sit on one line with the title, and wrapping
+     them under space-between left-aligns a leftover chip. Circles flanking the
+     title keep the same sandwich as desktop without the leftover. */
   @media(max-width:639px){
-    .otw-word{ white-space:normal; text-align:center; padding:.4rem .6rem; }
+    .otw{ padding:.7rem 0; }
+    .otw-row{ justify-content:center; gap:.55rem; padding-inline:1.15rem; }
+    .otw-chip{ width:3.15rem; height:3.15rem; }
+    .otw-word{ flex:0 1 12.5rem; min-width:0; white-space:normal; text-align:center;
+      padding:0; font-size:1.02rem; line-height:1.2; letter-spacing:-.02em; }
   }
 
   /* ═════════ v6 · odometer figures ═════════
@@ -592,15 +599,20 @@
 /* ═════════ card spotlight — unchanged from v4 ═════════
    Vanilla port of the CardSpotlight / CanvasRevealEffect pair: a cursor-tracked
    radial mask over a tinted layer, with a dot matrix twinkling underneath it. */
-.spot-host{ position:relative; }
+.spot-host{ position:relative; cursor:default; }
 .spot-layer{ position:absolute; inset:0; z-index:0; pointer-events:none;
   border-radius:inherit; overflow:hidden;
   opacity:0; transition:opacity .34s ease;
   background-color:rgba(124,58,237,.20);
+  background-image:
+    radial-gradient(circle, rgba(167,139,250,.82) 1.15px, transparent 1.55px),
+    radial-gradient(circle, rgba(124,58,237,.5) 1px, transparent 1.4px);
+  background-size:13px 13px, 26px 26px;
+  background-position:4px 4px, 10px 10px;
   -webkit-mask-image:radial-gradient(var(--spot-r,320px) circle at var(--spot-x,50%) var(--spot-y,50%), #000 0%, rgba(0,0,0,.62) 46%, transparent 78%);
           mask-image:radial-gradient(var(--spot-r,320px) circle at var(--spot-x,50%) var(--spot-y,50%), #000 0%, rgba(0,0,0,.62) 46%, transparent 78%); }
 .spot-host.is-lit .spot-layer{ opacity:1; }
-.spot-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.spot-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
 
 /* the credential strip is inside a pointer-events:none wrapper, and its cells are
    static — both have to be undone or the spotlight is either unreachable or
@@ -625,6 +637,11 @@
    right edge is safe because the plate's outer edges are ramped to black, so the
    clip has nothing to show. */
 @media (max-width:1023px){ :root{ --bulb-h:58vh; --bulb-right:-4%; --bulb-opacity:.55; } }
+/* Title only: keep the bulb where it hangs. Scale the nowrap headline off the
+   column left of the glass so "Success." cannot reach it. */
+@media (min-width:1024px){
+  #top h1{ font-size:clamp(1.5rem, calc((94vw - var(--bulb-h) * .63 - 10.5rem) / 17.8), 3.25rem); }
+}
 
 /* Phones get the bulb too — v4's shader gated itself off here and left the hero
    with nothing in it. Centred behind the copy and dialled back, because at this
@@ -972,10 +989,10 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
          three longest entries lead a column each. -->
     <div class="mt-16 cred-cols">
       <ul class="cred-list">
-        <li class="rv cred-row" style="--rvd:.04s"><span class="cred-t">NJ State Police Crime Lab Intern, DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
+        <li class="rv cred-row" style="--rvd:.04s"><span class="cred-t">NJ State Police Crime Lab Intern — DNA, Drug Analysis, Forensic Anthropology, Trace Evidence, Ballistics</span></li>
         <li class="rv cred-row" style="--rvd:.08s"><span class="cred-t">Anne Frank Humanitarian Award</span></li>
         <li class="rv cred-row" style="--rvd:.12s"><span class="cred-t">Cum Laude Society</span></li>
-        <li class="rv cred-row" style="--rvd:.16s"><span class="cred-t">Tampa Prep Head’s List</span></li>
+        <li class="rv cred-row" style="--rvd:.16s"><span class="cred-t">National Merit Scholar Semifinalist</span></li>
         <li class="rv cred-row" style="--rvd:.20s"><span class="cred-t">Reddy Lab, Engineering/Research Assistant, USF Morsani College of Medicine</span></li>
         <li class="rv cred-row" style="--rvd:.24s"><span class="cred-t">Varsity Rowing Team Captain</span></li>
         <li class="rv cred-row" style="--rvd:.28s"><span class="cred-t">AP Scholar with Distinction</span></li>
@@ -1159,18 +1176,26 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
         </a>
       </div>
     </div>
-    <form class="rv rv-d2 bg-white rounded-2xl border border-ink/10 p-8 md:p-9 space-y-5" onsubmit="return false" aria-label="Inquiry form (visual mockup)">
-      <div class="grid sm:grid-cols-2 gap-5">
-        <div><label for="f-name" class="block text-sm font-semibold mb-2">Name</label><input id="f-name" type="text" placeholder="Your name" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
-        <div><label for="f-email" class="block text-sm font-semibold mb-2">Email</label><input id="f-email" type="email" placeholder="you@example.com" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
+    <form id="inquireForm" class="rv rv-d2 relative bg-white rounded-2xl border border-ink/10 p-8 md:p-9 space-y-5" aria-label="Inquiry form">
+      <div id="inquireFields" class="space-y-5">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div><label for="f-name" class="block text-sm font-semibold mb-2">Name</label><input id="f-name" name="name" type="text" required autocomplete="name" placeholder="Your name" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
+          <div><label for="f-email" class="block text-sm font-semibold mb-2">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition"></div>
+        </div>
+        <div><label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
+          <select id="f-subject" name="interested_in" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition text-ink/80 cursor-pointer">
+            <option>Tutoring</option><option>SAT/ACT/Desmos</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
+          </select>
+        </div>
+        <div><label for="f-msg" class="block text-sm font-semibold mb-2">Message</label><textarea id="f-msg" name="message" rows="4" required placeholder="Tell Max about the student and the goal…" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition resize-none"></textarea></div>
+        <p id="inquireErr" class="hidden text-sm text-red-700" role="alert"></p>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        <button type="submit" id="inquireSubmit" class="w-full rounded-lg bg-violet text-white font-semibold py-4 hover:bg-violet-deep transition-colors cursor-pointer">Send inquiry</button>
       </div>
-      <div><label for="f-subject" class="block text-sm font-semibold mb-2">I'm interested in</label>
-        <select id="f-subject" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition text-ink/80 cursor-pointer">
-          <option>Tutoring</option><option>SAT/ACT/Desmos</option><option>The Schwarzkopf Scholarship</option><option>Something else</option>
-        </select>
+      <div id="inquireOk" class="hidden py-10 text-center" role="status" aria-live="polite">
+        <p class="font-display font-bold text-2xl tracking-[-.02em]">Message sent<span class="h-dot">.</span></p>
+        <p class="mt-3 text-ink/65">Thanks — Max will get back to you shortly.</p>
       </div>
-      <div><label for="f-msg" class="block text-sm font-semibold mb-2">Message</label><textarea id="f-msg" rows="4" placeholder="Tell Max about the student and the goal…" class="w-full rounded-lg border border-ink/15 bg-paper px-4 py-3 outline-none focus:border-violet focus:ring-2 focus:ring-violet/20 transition resize-none"></textarea></div>
-      <button type="submit" class="w-full rounded-lg bg-violet text-white font-semibold py-4 hover:bg-violet-deep transition-colors cursor-pointer">Send inquiry</button>
     </form>
   </div>
 </section>
@@ -1238,22 +1263,21 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
       </div>
 
       <!-- ── brand mark + where ── -->
-      <div id="fcMeta" class="fc-rise fc-rise-4 mt-12 flex flex-col items-center gap-5 md:mt-14">
+      <div id="fcMeta" class="fc-rise fc-rise-4 mt-12 flex flex-col items-center gap-3 md:mt-14">
         <img src="assets/logomark-wash-white.svg" alt="" aria-hidden="true"
              width="1826" height="1000" class="h-8 w-auto opacity-25">
         <p class="text-center text-[11px] font-semibold uppercase tracking-[.18em] text-white/35">
           Tampa, FL — in person &nbsp;·&nbsp; Anywhere — virtual
         </p>
+        <p class="text-center text-[10px] font-semibold uppercase tracking-[.18em] text-white/35">
+          © 2026 Maxematics · Max Schwarzkopf · Tampa, FL
+        </p>
       </div>
     </div>
 
     <!-- ── bottom bar ── -->
-    <div class="relative z-20 flex w-full flex-col items-center justify-between gap-5 px-6 pb-7 md:flex-row md:px-10">
-      <div class="order-2 hidden h-11 w-11 md:order-1 md:block" aria-hidden="true"></div>
-      <p class="order-3 text-center text-[10px] font-semibold uppercase tracking-[.18em] text-white/35 md:order-2">
-        © 2026 Maxematics · Max Schwarzkopf · Tampa, FL
-      </p>
-      <button type="button" id="fcTop" class="fc-pill fc-mag group order-1 flex h-11 w-11 items-center justify-center rounded-full text-white/55 hover:text-white md:order-3" aria-label="Back to top">
+    <div class="relative z-20 flex w-full justify-end px-6 pb-7 md:px-10">
+      <button type="button" id="fcTop" class="fc-pill fc-mag group flex h-11 w-11 items-center justify-center rounded-full text-white/55 hover:text-white" aria-label="Back to top">
         <svg class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
       </button>
     </div>
@@ -1319,6 +1343,63 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 }
 
+/* ─── Inquiry form → maxematics@icloud.com via FormSubmit ─── */
+{
+  const form = document.getElementById('inquireForm');
+  const fields = document.getElementById('inquireFields');
+  const ok = document.getElementById('inquireOk');
+  const err = document.getElementById('inquireErr');
+  const btn = document.getElementById('inquireSubmit');
+  if (form && fields && ok && btn){
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (err) { err.classList.add('hidden'); err.textContent = ''; }
+      const honey = form.querySelector('[name="_gotcha"]');
+      if (honey && honey.value) return;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      const body = new FormData(form);
+      body.append('_subject', 'Maxematics inquiry');
+      body.append('_template', 'table');
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/maxematics@icloud.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === 'false' || data.success === false){
+          throw new Error(data.message || 'Send failed');
+        }
+        fields.classList.add('hidden');
+        ok.classList.remove('hidden');
+        form.setAttribute('aria-label', 'Inquiry sent');
+      } catch (ex) {
+        const name = document.getElementById('f-name')?.value || '';
+        const email = document.getElementById('f-email')?.value || '';
+        const subject = document.getElementById('f-subject')?.value || '';
+        const msg = document.getElementById('f-msg')?.value || '';
+        const lines = [
+          'Name: ' + name,
+          'Email: ' + email,
+          'Interested in: ' + subject,
+          '',
+          msg
+        ];
+        window.location.href = 'mailto:maxematics@icloud.com'
+          + '?subject=' + encodeURIComponent('Maxematics inquiry')
+          + '&body=' + encodeURIComponent(lines.join('\n'));
+        if (err){
+          err.textContent = 'Couldn’t send from the page — your email app should open with the message ready.';
+          err.classList.remove('hidden');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Send inquiry';
+      }
+    });
+  }
+}
+
 /* ─── Scroll-linked parallax ─── */
 if (!reduce){
   document.querySelectorAll('[data-parallax]').forEach(el => {
@@ -1350,6 +1431,19 @@ if (!reduce){
       hit.addEventListener('pointerenter', () => set(i, true));
       hit.addEventListener('pointerleave', () => set(i, false));
     });
+    const strip = document.querySelector('.cred-strip');
+    const syncHits = () => {
+      if (!strip) return;
+      const sr = strip.getBoundingClientRect();
+      hits.forEach(hit => {
+        const r = hit.getBoundingClientRect();
+        const overlap = r.bottom > sr.top && r.top < sr.bottom && r.right > sr.left && r.left < sr.right;
+        hit.style.pointerEvents = overlap ? 'none' : '';
+      });
+    };
+    syncHits();
+    window.addEventListener('resize', syncHits);
+    window.addEventListener('scroll', syncHits, { passive: true });
   }
 }
 
@@ -1421,10 +1515,8 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
    Two owner rulings shape the timing:
    · no pin — the section scrolls normally and the rails are linked to its pass through
      the viewport, so vertical scroll is never captured;
-   · half speed — travel is HALF a set width (was a full set over a 160vh pinned range),
-     across a range that is now taller, which lands the rails at well under half the
-     previous px-of-x per px-of-y. Both rails sit mid-content for the whole pass, so the
-     shorter travel costs nothing at the edges. */
+   · travel is 0.8 of a set width, centred on the middle clone so both edges stay buried.
+     Was 0.5 — too slow to bring the outer tiles through the viewport on a desktop pass. */
 {
   const scroller = document.getElementById('topicScroll');
   const railA = document.getElementById('railA');
@@ -1460,11 +1552,11 @@ document.querySelectorAll('[data-odo]').forEach(cell => {
     };
     const wA = setW(railA), wB = setW(railB);
 
-    // travel = half a set, centred on set 2 so both edges stay buried in clones
+    // travel = 0.8 of a set, centred on set 2 so both edges stay buried in clones
     const OFFSET = ['start end', 'end start'];
-    teardown.push(scroll(animate(railA, { x:[-wA * .5, -wA] }, { ease:'linear' }),
+    teardown.push(scroll(animate(railA, { x:[-wA * .35, -wA * 1.15] }, { ease:'linear' }),
       { target: scroller, offset: OFFSET }));
-    teardown.push(scroll(animate(railB, { x:[-wB, -wB * .5] }, { ease:'linear' }),
+    teardown.push(scroll(animate(railB, { x:[-wB * 1.15, -wB * .35] }, { ease:'linear' }),
       { target: scroller, offset: OFFSET }));
   };
 
@@ -1604,7 +1696,7 @@ const AFF = [
   { src:'assets/logo-nta-tutor.webp',              alt:'National Tutoring Association',       url:'https://www.ntatutor.com/' },
   { src:'assets/logo-maa-math.png',               alt:'Mathematical Association of America', url:'https://maa.org/' },
   { src:'assets/logo-us-rowing.webp',              alt:'US Rowing',                           url:'https://usrowing.org/' },
-  { src:'assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.instagram.com/tampa_prep' },
+  { src:'assets/logo-tampa-prep-school.png',      alt:'Tampa Preparatory School',            url:'https://www.tampaprep.org/' },
 ];
 const affCarousel = document.getElementById('affCarousel');
 let affTimers = [], affCount = 0;
@@ -1746,7 +1838,10 @@ if (nav){
        · the dot field twinkles continuously instead of only fading in once, so a
          cursor resting inside the card still has something to look at */
   const cards = [...document.querySelectorAll('.v5-spot')];
-  if (!cards.length || !matchMedia('(hover: hover)').matches) return;
+  // Do not gate on `(hover: hover)` — Chromium on many Windows laptops (touch +
+  // trackpad) reports hover:none, which killed the stars while leaving the
+  // 64px plot-hit discs (circle cursor) to receive the pointer instead.
+  if (!cards.length) return;
 
   const GAP = 13, DOT = 3, RADIUS = 340;
   const COLOR = ['167,139,250', '124,58,237'];
@@ -1818,9 +1913,9 @@ if (nav){
     };
 
     card.addEventListener('pointerenter', () => {
-      if (!build()) return;
       lit = true;
       card.classList.add('is-lit');
+      if (!ctx || !build()) return;
       t0 = performance.now();
       // reduced motion gets the field, once, with no twinkle and no rAF
       if (reduce) { draw(2); return; }
