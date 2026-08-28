@@ -1190,6 +1190,7 @@ main { position: relative; z-index: 1; background: #FAF8FF; }
       <div id="inquireOk" class="hidden py-10 text-center" role="status" aria-live="polite">
         <p class="font-display font-bold text-2xl tracking-[-.02em]">Message sent<span class="h-dot">.</span></p>
         <p class="mt-3 text-ink/65">Thanks — Max will get back to you shortly.</p>
+        <p class="mt-6"><button type="button" id="inquireAgain" class="bg-transparent border-0 p-0 text-violet font-medium underline underline-offset-4 hover:text-violet-deep cursor-pointer">Send another form</button></p>
       </div>
     </form>
   </div>
@@ -1345,8 +1346,22 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const ok = document.getElementById('inquireOk');
   const err = document.getElementById('inquireErr');
   const btn = document.getElementById('inquireSubmit');
+  const again = document.getElementById('inquireAgain');
   const ENDPOINT = 'https://form.taxi/s/efrp818l';
   if (form && fields && ok && btn){
+    let resetTimer = 0;
+    const showForm = () => {
+      clearTimeout(resetTimer);
+      resetTimer = 0;
+      form.reset();
+      fields.classList.remove('hidden');
+      ok.classList.add('hidden');
+      if (err) { err.classList.add('hidden'); err.textContent = ''; }
+      btn.disabled = false;
+      btn.textContent = 'Send inquiry';
+      form.setAttribute('aria-label', 'Inquiry form');
+    };
+    again?.addEventListener('click', showForm);
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (err) { err.classList.add('hidden'); err.textContent = ''; }
@@ -1373,6 +1388,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         fields.classList.add('hidden');
         ok.classList.remove('hidden');
         form.setAttribute('aria-label', 'Inquiry sent');
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(showForm, 15000);
       } catch (ex) {
         if (err){
           err.textContent = 'Couldn’t send just now. Please try again, or email maxematics@icloud.com.';
@@ -1674,7 +1691,7 @@ const AFF = [
   { src:'assets/logo-cum-laude-society.webp',      alt:'Cum Laude Society',                   url:'https://cumlaudesociety.org/' },
   { src:'assets/logo-anne-frank-humanitarian.webp',alt:'Florida Holocaust Museum — Anne Frank Humanitarian Award', url:'https://www.thefhm.org/' },
   { src:'assets/logo-reddy-lab.webp',              alt:'Reddy Lab',                           url:'https://www.reddy-lab.com/' },
-  { src:'assets/logo-instagram-post-award.webp',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
+  { src:'assets/logo-instagram-post-award.png',   alt:'Award recognition',                   url:'https://www.instagram.com/p/DOwNhn5E9Cx/' },
   { src:'assets/logo-pie-and-pi-club.webp',        alt:'Pie & Pi Club',                       url:'https://www.instagram.com/pieandpi' },
   { src:'assets/logo-hoby-leadership.png',        alt:'HOBY Leadership',                     url:'https://hoby.org/' },
   { src:'assets/logo-prep-and-me.png',            alt:'Prep & Me',                           url:'https://prepandme.org/' },
