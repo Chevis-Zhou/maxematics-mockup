@@ -599,20 +599,15 @@
 /* ═════════ card spotlight — unchanged from v4 ═════════
    Vanilla port of the CardSpotlight / CanvasRevealEffect pair: a cursor-tracked
    radial mask over a tinted layer, with a dot matrix twinkling underneath it. */
-.spot-host{ position:relative; cursor:default; }
+.spot-host{ position:relative; }
 .spot-layer{ position:absolute; inset:0; z-index:0; pointer-events:none;
   border-radius:inherit; overflow:hidden;
   opacity:0; transition:opacity .34s ease;
   background-color:rgba(124,58,237,.20);
-  background-image:
-    radial-gradient(circle, rgba(167,139,250,.82) 1.15px, transparent 1.55px),
-    radial-gradient(circle, rgba(124,58,237,.5) 1px, transparent 1.4px);
-  background-size:13px 13px, 26px 26px;
-  background-position:4px 4px, 10px 10px;
   -webkit-mask-image:radial-gradient(var(--spot-r,320px) circle at var(--spot-x,50%) var(--spot-y,50%), #000 0%, rgba(0,0,0,.62) 46%, transparent 78%);
           mask-image:radial-gradient(var(--spot-r,320px) circle at var(--spot-x,50%) var(--spot-y,50%), #000 0%, rgba(0,0,0,.62) 46%, transparent 78%); }
 .spot-host.is-lit .spot-layer{ opacity:1; }
-.spot-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+.spot-dots{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 
 /* the credential strip is inside a pointer-events:none wrapper, and its cells are
    static — both have to be undone or the spotlight is either unreachable or
@@ -1343,13 +1338,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
 }
 
-/* ─── Inquiry form → maxematics@icloud.com via FormSubmit ─── */
+/* ─── Inquiry form → maxematics@icloud.com (Form.taxi, in-page) ─── */
 {
   const form = document.getElementById('inquireForm');
   const fields = document.getElementById('inquireFields');
   const ok = document.getElementById('inquireOk');
   const err = document.getElementById('inquireErr');
   const btn = document.getElementById('inquireSubmit');
+  const ENDPOINT = 'https://form.taxi/s/efrp818l';
   if (form && fields && ok && btn){
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1358,39 +1354,28 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       if (honey && honey.value) return;
       btn.disabled = true;
       btn.textContent = 'Sending…';
-      const body = new FormData(form);
-      body.append('_subject', 'Maxematics inquiry');
-      body.append('_template', 'table');
+      const payload = {
+        name: document.getElementById('f-name')?.value || '',
+        email: document.getElementById('f-email')?.value || '',
+        interested_in: document.getElementById('f-subject')?.value || '',
+        message: document.getElementById('f-msg')?.value || ''
+      };
       try {
-        const res = await fetch('https://formsubmit.co/ajax/maxematics@icloud.com', {
+        const res = await fetch(ENDPOINT, {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
         const data = await res.json().catch(() => ({}));
-        if (!res.ok || data.success === 'false' || data.success === false){
-          throw new Error(data.message || 'Send failed');
+        if (!res.ok || data.success !== true){
+          throw new Error(data.error_msg || data.message || 'Send failed');
         }
         fields.classList.add('hidden');
         ok.classList.remove('hidden');
         form.setAttribute('aria-label', 'Inquiry sent');
       } catch (ex) {
-        const name = document.getElementById('f-name')?.value || '';
-        const email = document.getElementById('f-email')?.value || '';
-        const subject = document.getElementById('f-subject')?.value || '';
-        const msg = document.getElementById('f-msg')?.value || '';
-        const lines = [
-          'Name: ' + name,
-          'Email: ' + email,
-          'Interested in: ' + subject,
-          '',
-          msg
-        ];
-        window.location.href = 'mailto:maxematics@icloud.com'
-          + '?subject=' + encodeURIComponent('Maxematics inquiry')
-          + '&body=' + encodeURIComponent(lines.join('\n'));
         if (err){
-          err.textContent = 'Couldn’t send from the page — your email app should open with the message ready.';
+          err.textContent = 'Couldn’t send just now. Please try again, or email maxematics@icloud.com.';
           err.classList.remove('hidden');
         }
         btn.disabled = false;
@@ -1838,9 +1823,9 @@ if (nav){
        · the dot field twinkles continuously instead of only fading in once, so a
          cursor resting inside the card still has something to look at */
   const cards = [...document.querySelectorAll('.v5-spot')];
-  // Do not gate on `(hover: hover)` — Chromium on many Windows laptops (touch +
-  // trackpad) reports hover:none, which killed the stars while leaving the
-  // 64px plot-hit discs (circle cursor) to receive the pointer instead.
+  // Same canvas as always. Do not gate on `(hover: hover)` — Chromium on hybrid
+  // Windows laptops often reports hover:none, which used to skip the effect
+  // entirely. Phones get the same field on touch; there is no second visual.
   if (!cards.length) return;
 
   const GAP = 13, DOT = 3, RADIUS = 340;
@@ -1913,9 +1898,9 @@ if (nav){
     };
 
     card.addEventListener('pointerenter', () => {
+      if (!ctx || !build()) return;
       lit = true;
       card.classList.add('is-lit');
-      if (!ctx || !build()) return;
       t0 = performance.now();
       // reduced motion gets the field, once, with no twinkle and no rAF
       if (reduce) { draw(2); return; }
